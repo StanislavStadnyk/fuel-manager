@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Tabs, Tab, Panel } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 
 import { ModalAddRecord } from './modals/index';
 

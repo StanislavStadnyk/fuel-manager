@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import { Alert } from 'react-bootstrap';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 import { connect } from 'react-redux';
 
@@ -9,7 +9,14 @@ import * as NoticesActionCreators from '../redux/actions/notices';
 import * as ApiServiceActionCreators from '../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
 
-import { ModalAddDirectory, ModalAddNotice } from './modals/index';
+// import { ModalAddDirectory, ModalAddNotice } from './modals/index';
+
+//import { Switch, Route, Link } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage';
+import StationsPage from './pages/StationsPage';
+
+import { SUB_PATH } from '../constants';
 
 class App extends Component {
 	
@@ -26,7 +33,6 @@ class App extends Component {
 
 		getAllDirectoriesAction();
 		getAllNoticesAction();
-		selectedDirectoryAction(+params.id);
 	}
 
 	render() {
@@ -37,15 +43,20 @@ class App extends Component {
 		return (
 			<div className="container">
 				{/* Heaader */}
-				<h1><Link to="/">Fuel Manager</Link></h1>
+				<h1><Link to={`${SUB_PATH}/`}>Fuel Manager</Link></h1>
 				<ul className="nav nav-tabs mb-15">
-					<li><Link to="/profile">Profile</Link></li>
-					<li><Link to="/stations">Stations</Link></li>
+					<li><Link to={`${SUB_PATH}/profile`}>Profile</Link></li>
+					<li><Link to={`${SUB_PATH}/stations`}>Stations</Link></li>
 				</ul>
 
 
 				{/* добавили вывод потомков */}
 				{this.props.children}
+				{/* <Switch>
+					<Route exact path='/' component={HomePage}/>
+					<Route path='/profile' component={ProfilePage}/>
+					<Route path='/stations' component={StationsPage}/>
+				</Switch> */}
 		    </div>
 		);
 	}

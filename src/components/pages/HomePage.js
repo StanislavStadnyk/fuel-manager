@@ -6,7 +6,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import * as ApiServiceActionCreators from '../../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
 
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 
 // content
 import Records from '../Records';
@@ -31,14 +31,14 @@ class HomePage extends Component {
 	}
 
 	componentDidMount() {
-		const db = firebase.database();
-		const rootRef = db.ref().child('records')
+		// const db = firebase.database();
+		// const rootRef = db.ref().child('records')
 
-		rootRef.on('value', snap => {
-			this.setState({
-				data: snap.val()
-			})
-		})
+		// rootRef.on('value', snap => {
+		// 	this.setState({
+		// 		data: snap.val()
+		// 	})
+		// })
 	}
 
 	render() {

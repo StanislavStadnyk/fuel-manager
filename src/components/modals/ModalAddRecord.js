@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Modal, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 
 class ModalAddRecord extends Component {
 	constructor(props) {
@@ -29,18 +29,18 @@ class ModalAddRecord extends Component {
 	}
 
 	addNewRecord = (type, distance) => {
-		const db = firebase.database();
-		const rootRef = db.ref().child('records');
+		// const db = firebase.database();
+		// const rootRef = db.ref().child('records');
 
-		rootRef.push({
-			type: type,
-			distance: distance
-		})
+		// rootRef.push({
+		// 	type: type,
+		// 	distance: distance
+		// })
 
-		this.setState({ 
-			typeInputValue: '',
-			distanceInputValue: ''
-		});
+		// this.setState({ 
+		// 	typeInputValue: '',
+		// 	distanceInputValue: ''
+		// });
 	}
 
 	distanceInputValue = (evt) => {

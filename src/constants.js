@@ -27,8 +27,11 @@ export const SIMPLE_SEARCH = 'SIMPLE_SEARCH';
 
 // Backend Server
 const DEV_BACK_END_SERVER = 'https://fuel-manager-f1d75.firebaseio.com';
-const PROD_BACK_END_SERVER = 'http://localhost:4000';
+const PROD_BACK_END_SERVER = 'https://fuel-manager-f1d75.firebaseio.com';
 
 export const BACK_END_SERVER = process.env.NODE_ENV !== 'production' ? DEV_BACK_END_SERVER : PROD_BACK_END_SERVER;
+
+// Subpath for prod
+export const SUB_PATH = process.env.NODE_ENV !== 'production' ? '' : '/fuel-manager';
 
 
