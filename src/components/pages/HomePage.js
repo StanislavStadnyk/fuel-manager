@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { Tabs, Tab } from 'react-bootstrap';
@@ -19,7 +20,7 @@ class HomePage extends Component {
 		this.handleSelect = this.handleSelect.bind(this);
 	
 		this.state = {
-		  key: 1,
+		  key: 2,
 		  data: [],
 		  typeInputValue: '',
 		  distanceInputValue: ''
@@ -43,7 +44,15 @@ class HomePage extends Component {
 
 	render() {
 		return (
-            <div>
+            <div className="container">
+				{/* {
+					this.props.records.error.isError
+						? <Alert bsStyle="danger">
+							<h4>{this.props.records.error.request}</h4>
+							</Alert>
+						: null
+				} */}
+
                 <Tabs
 					activeKey={this.state.key}
 					onSelect={this.handleSelect}

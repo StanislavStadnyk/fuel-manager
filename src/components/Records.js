@@ -28,11 +28,11 @@ class Records extends Component {
 	}
 
 	render() {
-		const { directories: { dataRecords } } = this.props;
+		const { records: { dataRecords } } = this.props;
 
 		let data = dataRecords;
 
-		let records = Object.keys(data).map((item, index) => {
+		let recordsList = Object.keys(data).map((item, index) => {
 			return (
 					<li	key={index}>
 						<Panel bsStyle="primary">
@@ -49,10 +49,10 @@ class Records extends Component {
 		return (
             <div>
                 <ul className="list-unstyled">
-                    {records}
+                    {recordsList}
                 </ul>
 
-                <ModalAddRecord/>
+                <ModalAddRecord {...this.props}/>
 			</div>
 		);
 	}
@@ -60,6 +60,7 @@ class Records extends Component {
 
 function mapStateToProps(state) {
 	return {
+		records: state.recordsState,
 		notices: state.noticesState,
 		directories: state.directoriesState
 	};

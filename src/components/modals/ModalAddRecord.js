@@ -29,18 +29,16 @@ class ModalAddRecord extends Component {
 	}
 
 	addNewRecord = (type, distance) => {
-		// const db = firebase.database();
-		// const rootRef = db.ref().child('records');
-
-		// rootRef.push({
-		// 	type: type,
-		// 	distance: distance
-		// })
-
-		// this.setState({ 
-		// 	typeInputValue: '',
-		// 	distanceInputValue: ''
-		// });
+		console.log('addNewRecord', this.props)
+		const { ApiServiceActionCreators: {
+					createRecordAction
+				}
+			  } = this.props;
+			  
+		createRecordAction({
+			"distance": distance,
+			"type": type
+		});
 	}
 
 	distanceInputValue = (evt) => {

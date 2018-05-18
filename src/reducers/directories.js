@@ -1,5 +1,4 @@
 import {
-    GET_ALL_RECORDS,
     GET_ALL_DIRECTORIES,
     CREATE_DIRECTORY,
     EDIT_DIR_MODE,
@@ -12,8 +11,7 @@ const initialState = {
     error: {},
     selectedDirectory: null,
     editSelectedDirectory: null,
-    data: [],
-    dataRecords: {}
+    data: []
 }
 
 function directories(state = initialState, action) {
@@ -64,13 +62,6 @@ function directories(state = initialState, action) {
             return {
                 ...state, 
                 data: action.payload
-            };
-
-        // GET_ALL_DIRECTORIES
-        case GET_ALL_RECORDS :
-            return {
-                ...state, 
-                dataRecords: action.payload
             };
 
         default:

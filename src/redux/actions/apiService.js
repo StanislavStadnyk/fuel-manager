@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
 	GET_ALL_RECORDS,
 	RECORDS_FAIL,
+	CREATE_RECORD,
 
 
 	GET_ALL_DIRECTORIES,
@@ -48,8 +49,8 @@ function defaultAjaxCall(dispatch, type, type_fail, callAPI) {
 		.catch(error => errorHandler(error))
 }
 
-// ------------- Directories -------------
-// get all directories from server
+// ------------- Records -------------
+// get all records from server
 export const getAllRecordsAction = () => {
 	return function(dispatch) {
 		defaultAjaxCall(dispatch, 
@@ -57,6 +58,23 @@ export const getAllRecordsAction = () => {
 						RECORDS_FAIL, 
 						{
 							url: `${BACK_END_SERVER}/records.json`
+						});
+	}
+}
+
+// create record on server
+export const createRecordAction = (props) => {
+	return function(dispatch) {
+		defaultAjaxCall(dispatch, 
+						CREATE_RECORD, 
+						RECORDS_FAIL, 
+						{	
+							method: 'POST',
+							url: `${BACK_END_SERVER}/records.json`,
+							data: {
+								distance: props.distance,
+								type: props.type
+							}
 						});
 	}
 }

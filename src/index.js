@@ -8,28 +8,13 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import logger from 'redux-logger'
 
-import './css/index.css';
+import './css/styles/index.css';
 import App from './components/App';
 import reducers from './reducers';
 
 import HomePage from './components/pages/HomePage';
 import ProfilePage from './components/pages/ProfilePage';
 import StationsPage from './components/pages/StationsPage';
-
-// import * as firebase from 'firebase';
-// var config = {
-// 	apiKey: "AIzaSyDSe7h9cFHRzmXWKL8_db4DLQ6vNzYanRU",
-// 	authDomain: "fuel-manager-f1d75.firebaseapp.com",
-// 	databaseURL: "https://fuel-manager-f1d75.firebaseio.com",
-// 	projectId: "fuel-manager-f1d75",
-// 	storageBucket: "fuel-manager-f1d75.appspot.com",
-// 	messagingSenderId: "57775689014"
-// };
-// firebase.initializeApp(config);
-
-// import Directories from './components/Directories';
-// import NoticePage from './components/NoticePage';
-// import SearchPage from './components/SearchPage';
 import Error404 from './components/Error404';
 
 const store = process.env.NODE_ENV !== 'production'
@@ -43,22 +28,14 @@ import { SUB_PATH } from './constants';
 render(
 	<Provider store={store}>
 	    <Router history={history}>
-
-			{/* Directories */}
+			{/* Main pages */}
 	      	<Route path={`${SUB_PATH}/`} component={App}>
 			  	<IndexRoute component={HomePage} />
 				<Route path={`${SUB_PATH}/profile`} component={ProfilePage} />
 				<Route path={`${SUB_PATH}/stations`} component={StationsPage} />
+				
 	      	</Route>
-
-			
-			{/* <Route path="/notices/:id" component={NoticePage}/>
-
-			
-			<Route path="/search/:id" component={SearchPage}/>
-
-		  	
-			<Route path="*" component={Error404}/> */}
+			<Route path="*" component={Error404}/>
 	    </Router>
   	</Provider>,
 	document.getElementById('root')

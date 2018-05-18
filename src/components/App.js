@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 // import { Alert } from 'react-bootstrap';
-import { Link } from 'react-router';
-
 import { connect } from 'react-redux';
 
 import * as DirectoriesActionCreators from '../redux/actions/directories';
@@ -12,51 +10,39 @@ import { bindActionCreators } from 'redux';
 // import { ModalAddDirectory, ModalAddNotice } from './modals/index';
 
 //import { Switch, Route, Link } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import ProfilePage from './pages/ProfilePage';
-import StationsPage from './pages/StationsPage';
-
-import { SUB_PATH } from '../constants';
+// import HomePage from './pages/HomePage';
+// import ProfilePage from './pages/ProfilePage';
+// import StationsPage from './pages/StationsPage';
+import Header from './Header';
 
 class App extends Component {
 	
-	componentDidMount = () => {
-		const { ApiServiceActionCreators: {
-					getAllDirectoriesAction,
-					getAllNoticesAction
-				}, 
-				DirectoriesActionCreators: {
-					selectedDirectoryAction
-				}, 
-			    params
-			  } = this.props;
+	// componentDidMount = () => {
+	// 	const { ApiServiceActionCreators: {
+	// 				getAllDirectoriesAction,
+	// 				getAllNoticesAction
+	// 			}, 
+	// 			DirectoriesActionCreators: {
+	// 				selectedDirectoryAction
+	// 			}, 
+	// 		    params
+	// 		  } = this.props;
 
-		getAllDirectoriesAction();
-		getAllNoticesAction();
-	}
+	// 	getAllDirectoriesAction();
+	// 	getAllNoticesAction();
+	// }
 
 	render() {
-		const { directories } = this.props;
-
+		//const { directories } = this.props;
+		console.log('App', this.props);
 		
 
 		return (
 			<div className="container">
-				{/* Heaader */}
-				<h1><Link to={`${SUB_PATH}/`}>Fuel Manager</Link></h1>
-				<ul className="nav nav-tabs mb-15">
-					<li><Link to={`${SUB_PATH}/profile`}>Profile</Link></li>
-					<li><Link to={`${SUB_PATH}/stations`}>Stations</Link></li>
-				</ul>
+				<Header/>
 
-
-				{/* добавили вывод потомков */}
+				{/* childs */}
 				{this.props.children}
-				{/* <Switch>
-					<Route exact path='/' component={HomePage}/>
-					<Route path='/profile' component={ProfilePage}/>
-					<Route path='/stations' component={StationsPage}/>
-				</Switch> */}
 		    </div>
 		);
 	}
@@ -64,6 +50,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
+	records: state.recordsState,
     directories: state.directoriesState,
     notices: state.noticesState
   };
