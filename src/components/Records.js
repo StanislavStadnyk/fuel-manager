@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Panel, Button } from 'react-bootstrap';
+import * as FontAwesome from 'react-icons/lib/fa'
 
 import { ModalAddRecord } from './modals/index';
 import moment from 'moment';
-
 import { sortObjectByParam } from '../utils/index';
 
 import * as ApiServiceActionCreators from '../redux/actions/apiService';
@@ -50,6 +50,8 @@ class Records extends Component {
 									}}>
 								-
 							</Button>
+							<FontAwesome.FaEllipsisH />
+							
 						</Panel.Body>
 					</Panel>
 				</li>
