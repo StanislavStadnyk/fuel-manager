@@ -23,10 +23,12 @@ function records(state = initialState, action) {
 
         // CREATE_RECORD
         case CREATE_RECORD :
-            console.log('CREATE_RECORD', action);
+            const id = action.payload["name"];
+            const data = action.props;
+                        
             return {
                 ...state,
-                dataRecords: [...state.dataRecords, action.payload]
+                dataRecords: {...state.dataRecords, [id]: data}
             };
 
         // GET_ALL_RECORDS

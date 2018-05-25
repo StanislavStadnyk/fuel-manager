@@ -1,0 +1,7 @@
+.DayPickerInput {
+    display: block !important;
+
+    > input {
+        @extend .form-control;
+    }
+}

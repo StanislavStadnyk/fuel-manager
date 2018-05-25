@@ -1,7 +1,10 @@
 // Api
+// Records
 export const GET_ALL_RECORDS = 'GET_ALL_RECORDS';
 export const RECORDS_FAIL = 'RECORDS_FAIL';
 export const CREATE_RECORD = 'CREATE_RECORD';
+export const DELETE_RECORD = 'DELETE_RECORD';
+export const UPDATE_RECORD = 'UPDATE_RECORD';
 
 
 export const GET_ALL_DIRECTORIES = 'GET_ALL_DIRECTORIES';

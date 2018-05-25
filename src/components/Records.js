@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Panel } from 'react-bootstrap';
+import { Panel, Button } from 'react-bootstrap';
 
 import { ModalAddRecord } from './modals/index';
+import moment from 'moment';
+
+import { sortObjectByParam } from '../utils/index';
 
 import * as ApiServiceActionCreators from '../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
 
 class Records extends Component {
-	constructor(props, context) {
-		super(props, context);
-	
-		this.state = {
-		  data: [],
-		  typeInputValue: '',
-		  distanceInputValue: ''
-		};
-	}
-
 	componentDidMount() {
 		const { ApiServiceActionCreators: {
 					getAllRecordsAction
@@ -28,23 +21,58 @@ class Records extends Component {
 	}
 
 	render() {
-		const { records: { dataRecords } } = this.props;
+		const { records: { dataRecords },
+				ApiServiceActionCreators: {
+					deleteRecordAction
+				}, 
+			  } = this.props;
 
-		let data = dataRecords;
+		let arrRecords = sortObjectByParam(dataRecords, 'odometer');
 
-		let recordsList = Object.keys(data).map((item, index) => {
+		let recordsList = arrRecords.map((item, index) => {
+			console.log(item);
+
+			let date = moment(item.value.date).format('DD.MM.YYYY')
 			return (
-					<li	key={index}>
-						<Panel bsStyle="primary">
-							<Panel.Body>
-								{data[item].type}
-								{data[item].distance}
-							</Panel.Body>
-						</Panel>
-					</li>
-				)
-			}
-		);
+				<li	key={index}>
+					<Panel bsStyle="primary">
+						<Panel.Body>
+							<p>
+								date: {date} <br/>
+								odometer: {item.value.odometer} <br/>
+								volume: {item.value.volume} <br/>
+								type: {item.value.type} <br/>
+							</p>
+							
+							<Button bsStyle="danger"
+									onClick={() => {
+										deleteRecordAction(item);
+									}}>
+								-
+							</Button>
+						</Panel.Body>
+					</Panel>
+				</li>
+			)
+		})
+
+		// let recordsList = Object.keys(dataRecords).map((item, index) => {
+		// 	let date = moment(dataRecords[item].date).format('DD.MM.YYYY')
+		// 	return (
+		// 			<li	key={index}>
+		// 				<Panel bsStyle="primary">
+		// 					<Panel.Body>
+		// 						date: {date} <br/>
+		// 						odometer: {dataRecords[item].odometer} <br/>
+		// 						volume: {dataRecords[item].volume} <br/>
+		// 						type: {dataRecords[item].type} <br/>
+								
+		// 					</Panel.Body>
+		// 				</Panel>
+		// 			</li>
+		// 		)
+		// 	}
+		// );
 		
 		return (
             <div>

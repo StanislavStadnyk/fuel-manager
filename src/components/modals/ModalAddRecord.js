@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Modal, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 
-// import * as firebase from 'firebase';
+import moment from 'moment';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
 
 class ModalAddRecord extends Component {
 	constructor(props) {
@@ -9,11 +11,23 @@ class ModalAddRecord extends Component {
 		
 		this.state = { 
 			showModal: false,
+
 			typeInputValue: '',
-			distanceInputValue: '',
+			odometerInputValue: '',
+			dateInputValue: new Date(),
+			volumeInputValue: '',
+
 			isTypeInputValid: true,
-			isDistanceInputValid: true,
+			isOdometerInputValid: true,
+			isDateInputValid: true,
+			isVolumeInputValid: true,
 		};
+	}
+
+	handleDayChange = (dateInputValue) => {
+		this.setState({
+			dateInputValue: dateInputValue
+		});
 	}
 
 	close = () => {
@@ -28,7 +42,7 @@ class ModalAddRecord extends Component {
 		this.setState({ showModal: true });
 	}
 
-	addNewRecord = (type, distance) => {
+	addNewRecord = (date, odometer, type, volume) => {
 		console.log('addNewRecord', this.props)
 		const { ApiServiceActionCreators: {
 					createRecordAction
@@ -36,14 +50,16 @@ class ModalAddRecord extends Component {
 			  } = this.props;
 			  
 		createRecordAction({
-			"distance": distance,
-			"type": type
+			"date": date,
+			"odometer": odometer,
+			"type": type,
+			"volume": volume,
 		});
 	}
 
-	distanceInputValue = (evt) => {
+	odometerInputValue = (evt) => {
 		this.setState({ 
-			distanceInputValue: evt.target.value
+			odometerInputValue: evt.target.value
 		});
 	}
 
@@ -53,14 +69,23 @@ class ModalAddRecord extends Component {
 		});
 	}
 
+	volumeInputValue = (evt) => {
+		this.setState({ 
+			volumeInputValue: evt.target.value
+		});
+	}
+
 	render() {
+		const { dateInputValue } = this.state;
+
 		return (
-			<span>
+			<div>
 				<Button bsStyle="primary"
+						className="btn-add-record"
 						bsSize="sm"
 						disabled={false}
 						onClick={this.open}>
-					ADD RECORD
+					+
 				</Button>
 
 				<Modal show={this.state.showModal} 
@@ -71,33 +96,72 @@ class ModalAddRecord extends Component {
 					<Modal.Body>
 						<FormGroup controlId="formControlsType"
 								   className={!this.state.isTypeInputValid ? "has-error" : null}>
-							<ControlLabel>Type:</ControlLabel>
-							<FormControl type="text" 
-										 placeholder="Type"
-										 onChange={this.typeInputValue}/>
+							<ControlLabel>Date:</ControlLabel>
+							<div>
+								<DayPickerInput 
+									value={dateInputValue}
+									onDayChange={this.handleDayChange}
+									dayPickerProps={{ 
+										selectedDays: dateInputValue,
+										disabledDays: {after: new Date()}
+									}}
+								/>
+							</div>
 						</FormGroup>
-						<FormGroup controlId="formControlsDistance"
-								   className={!this.state.isDistanceInputValid ? "has-error" : null}>
-							<ControlLabel>Distance:</ControlLabel>
+						
+						<FormGroup controlId="formControlsodometer"
+								   className={!this.state.isOdometerInputValid ? "has-error" : null}>
+							<ControlLabel>odometer:</ControlLabel>
 							<FormControl type="text" 
-										 placeholder="Distance" 
-										 onChange={this.distanceInputValue}/>
+										 placeholder="odometer" 
+										 onChange={this.odometerInputValue}/>
 						</FormGroup>
+						<div className="row">
+							<div className="col-xs-6">
+								<FormGroup controlId="formControlsVolume"
+										   className={!this.state.isVolumeInputValid ? "has-error" : null}>
+									<ControlLabel>Volume:</ControlLabel>
+									<FormControl type="text" 
+											placeholder="Volume"
+											onChange={this.volumeInputValue}/>
+								</FormGroup>
+							</div>
+							<div className="col-xs-6">
+								<FormGroup controlId="formControlsType"
+										   className={!this.state.isTypeInputValid ? "has-error" : null}>
+									<ControlLabel>Type:</ControlLabel>
+									<FormControl componentClass="select" 
+												 placeholder="Type"
+												 onChange={this.typeInputValue}>
+										<option value="">Choose type</option>
+										<option value="A-98">A-98</option>
+										<option value="A-95">A-95</option>
+										<option value="A-92">A-92</option>
+										<option value="Diesel">Diesel</option>
+										<option value="Gas">Gas</option>
+									</FormControl>
+								</FormGroup>
+							</div>
+						</div>
 					</Modal.Body>
 					<Modal.Footer>
-						
-							<Button onClick={this.close}>Close</Button>
-						
-							<Button bsStyle="primary"
-									onClick={() => {
-										this.addNewRecord(this.state.typeInputValue, this.state.distanceInputValue)
-									}}>
-								Ok
-							</Button>
-						
+						<Button onClick={this.close}>Close</Button>
+					
+						<Button bsStyle="primary"
+								onClick={() => {
+									console.log('on click addNewRecod', this.state.dateInputValue.toJSON());
+									this.addNewRecord(
+										this.state.dateInputValue.toJSON(),
+										+this.state.odometerInputValue,
+										this.state.typeInputValue,
+										this.state.volumeInputValue,
+									);
+								}}>
+							Ok
+						</Button>
 					</Modal.Footer>
 				</Modal>
-			</span>
+			</div>
 		);
 	}
 };

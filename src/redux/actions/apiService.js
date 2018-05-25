@@ -3,6 +3,8 @@ import {
 	GET_ALL_RECORDS,
 	RECORDS_FAIL,
 	CREATE_RECORD,
+	DELETE_RECORD,
+	UPDATE_RECORD,
 
 
 	GET_ALL_DIRECTORIES,
@@ -28,11 +30,12 @@ function ajaxCall(callAPI) {
 	});
   }
   
-function defaultAjaxCall(dispatch, type, type_fail, callAPI) {
+function defaultAjaxCall(dispatch, type, type_fail, callAPI, props) {
 	const successHandler = response => {
 		dispatch({
 			type: type,
-			payload: response.data
+			payload: response.data,
+			props: props
 		})
 	}
 
@@ -72,12 +75,71 @@ export const createRecordAction = (props) => {
 							method: 'POST',
 							url: `${BACK_END_SERVER}/records.json`,
 							data: {
-								distance: props.distance,
-								type: props.type
+								date: props.date,
+								odometer: props.odometer,
+								volume: props.volume,
+								type: props.type,
+							}
+						},
+						props);
+	}
+}
+
+// delete record on server
+export const deleteRecordAction = (props) => {
+	console.log('deleteRecordAction', props.id)
+	return function(dispatch) {
+		axios.delete(`${BACK_END_SERVER}/records/${props.id}.json`)
+			.then(function (response) {
+				dispatch(getAllRecordsAction());
+			})
+			.catch(function (error) {
+				dispatch({
+					type: RECORDS_FAIL, 
+					isError: true,
+					request: DELETE_RECORD
+				});
+			});
+	}
+}
+
+// update record on server
+export const updateRecordAction = (props) => {
+	return function(dispatch) {
+		defaultAjaxCall(dispatch, 
+						UPDATE_RECORD, 
+						RECORDS_FAIL, 
+						{	
+							method: 'PUT',
+							url: `${BACK_END_SERVER}/records/${props.id}.json`,
+							data: {
+								date: props.date,
+								odometer: props.odometer,
+								type: props.type,
+								volume: props.volume
 							}
 						});
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ------------- Directories -------------
 // get all directories from server

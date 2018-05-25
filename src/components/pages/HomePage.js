@@ -43,15 +43,19 @@ class HomePage extends Component {
 	}
 
 	render() {
+		const {} = this.props;
+
+		console.log('Home Page', this.props)
+
 		return (
-            <div className="container">
-				{/* {
+            <div>
+				{
 					this.props.records.error.isError
 						? <Alert bsStyle="danger">
 							<h4>{this.props.records.error.request}</h4>
 							</Alert>
 						: null
-				} */}
+				}
 
                 <Tabs
 					activeKey={this.state.key}
@@ -73,7 +77,7 @@ class HomePage extends Component {
 
 function mapStateToProps(state) {
 	return {
-		notices: state.noticesState,
+		records: state.recordsState,
 	};
 }
 

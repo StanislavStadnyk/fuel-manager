@@ -12,10 +12,7 @@ import './css/styles/index.css';
 import App from './components/App';
 import reducers from './reducers';
 
-import HomePage from './components/pages/HomePage';
-import ProfilePage from './components/pages/ProfilePage';
-import StationsPage from './components/pages/StationsPage';
-import Error404 from './components/Error404';
+import { HomePage, ProfilePage, StationsPage, Error404 } from './components/pages/index';
 
 const store = process.env.NODE_ENV !== 'production'
 	? createStore( reducers, composeWithDevTools( applyMiddleware( thunk, logger ) ))
