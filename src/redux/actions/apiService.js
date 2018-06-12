@@ -6,6 +6,10 @@ import {
 	DELETE_RECORD,
 	UPDATE_RECORD,
 
+	CREATE_USER,
+	USER_FAIL,
+	GET_ALL_USERS,
+
 
 	GET_ALL_DIRECTORIES,
 	CREATE_DIRECTORY,
@@ -54,13 +58,25 @@ function defaultAjaxCall(dispatch, type, type_fail, callAPI, props) {
 
 // ------------- Records -------------
 // get all records from server
-export const getAllRecordsAction = () => {
+export const getAllUsersAction = () => {
+	return function(dispatch) {
+		defaultAjaxCall(dispatch, 
+						GET_ALL_USERS, 
+						USER_FAIL, 
+						{
+							url: `${BACK_END_SERVER}/users.json`
+						});
+	}
+}
+
+// get all records from server
+export const getAllRecordsAction = (userId) => {
 	return function(dispatch) {
 		defaultAjaxCall(dispatch, 
 						GET_ALL_RECORDS, 
 						RECORDS_FAIL, 
 						{
-							url: `${BACK_END_SERVER}/records.json`
+							url: `${BACK_END_SERVER}/users/${userId}/records.json`
 						});
 	}
 }
@@ -73,7 +89,7 @@ export const createRecordAction = (props) => {
 						RECORDS_FAIL, 
 						{	
 							method: 'POST',
-							url: `${BACK_END_SERVER}/records.json`,
+							url: `${BACK_END_SERVER}/users/${props.userId}/records.json`,
 							data: {
 								date: props.date,
 								odometer: props.odometer,
@@ -85,11 +101,29 @@ export const createRecordAction = (props) => {
 	}
 }
 
+// create record on server
+export const createUserAction = (props) => {
+	return function(dispatch) {
+		defaultAjaxCall(dispatch, 
+						CREATE_USER, 
+						USER_FAIL, 
+						{	
+							method: 'POST',
+							url: `${BACK_END_SERVER}/users.json`,
+							data: {
+								name: props.displayName,
+								email: props.email,
+							}
+						},
+						props);
+	}
+}
+
 // delete record on server
 export const deleteRecordAction = (props) => {
 	console.log('deleteRecordAction', props.id)
 	return function(dispatch) {
-		axios.delete(`${BACK_END_SERVER}/records/${props.id}.json`)
+		axios.delete(`${BACK_END_SERVER}/users/-LEjR4zcXodRLZV41K2g/records/${props.id}.json`)
 			.then(function (response) {
 				dispatch(getAllRecordsAction());
 			})

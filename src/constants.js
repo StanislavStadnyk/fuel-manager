@@ -6,6 +6,16 @@ export const CREATE_RECORD = 'CREATE_RECORD';
 export const DELETE_RECORD = 'DELETE_RECORD';
 export const UPDATE_RECORD = 'UPDATE_RECORD';
 
+// Authorization
+export const USER_LOGIN = "USER_LOGIN";
+export const USER_LOGOUT = "USER_LOGOUT";
+
+export const GET_ALL_USERS = 'GET_ALL_USERS';
+export const CREATE_USER = "CREATE_USER";
+export const USER_FAIL = "USER_FAIL";
+
+
+
 
 export const GET_ALL_DIRECTORIES = 'GET_ALL_DIRECTORIES';
 export const CREATE_DIRECTORY = 'CREATE_DIRECTORY';

@@ -1,79 +1,83 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
-
-import { Tabs, Tab } from 'react-bootstrap';
 
 import * as ApiServiceActionCreators from '../../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
 
-// import * as firebase from 'firebase';
-
-// content
+// Content
 import Records from '../Records';
 import { ChartLine } from '../charts/index';
 
+// Material
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+
+function TabContainer(props) {
+	return (
+		<Typography component="div">
+			{props.children}
+		</Typography>
+	);
+  }
+  
+// start HomePage
 class HomePage extends Component {
 	constructor(props, context) {
 		super(props, context);
 	
-		this.handleSelect = this.handleSelect.bind(this);
-	
 		this.state = {
-		  key: 2,
 		  data: [],
 		  typeInputValue: '',
-		  distanceInputValue: ''
+		  distanceInputValue: '',
+		  activeTab: 1
 		};
 	}
 
-	handleSelect(key) {
-		this.setState({ key });
-	}
-
-	componentDidMount() {
-		// const db = firebase.database();
-		// const rootRef = db.ref().child('records')
-
-		// rootRef.on('value', snap => {
-		// 	this.setState({
-		// 		data: snap.val()
-		// 	})
-		// })
-	}
+	handleTabChange = (event, activeTab) => {
+		this.setState({ activeTab });
+	};
 
 	render() {
-		const {} = this.props;
-
-		console.log('Home Page', this.props)
+		const { classes, records } = this.props;
+		const { activeTab } = this.state;		
 
 		return (
             <div>
 				{
-					this.props.records.error.isError
-						? <Alert bsStyle="danger">
-							<h4>{this.props.records.error.request}</h4>
-							</Alert>
+					records.error.isError
+						? <AppBar position="static" 
+								  style={{ padding: 20, marginBottom: 20 }}>
+							<h4>{records.error.request}</h4>
+						   </AppBar>
 						: null
 				}
 
-                <Tabs
-					activeKey={this.state.key}
-					onSelect={this.handleSelect}
-					id="controlled-tab"
-				>
-					<Tab eventKey={1} title="Main">
-						Main
-						<ChartLine/>
-					</Tab>
-					<Tab eventKey={2} title="Records">
-						<Records/>
-					</Tab>
-				</Tabs>           
+				<AppBar position="static">
+					<Tabs value={activeTab} 
+						  onChange={this.handleTabChange}>
+						<Tab label="Item One" />
+						<Tab label="Item Two" />
+					</Tabs>
+				</AppBar>
+
+				{activeTab === 0 && <TabContainer>
+										<div className="grid-container">
+											Main
+											<ChartLine/>
+										</div>
+									</TabContainer>}
+				{activeTab === 1 && <TabContainer>
+										<div className="grid-container">
+											<Records/>
+										</div>
+									</TabContainer>}
             </div>
 		);
 	}
 }
+// end HomePage
 
 function mapStateToProps(state) {
 	return {

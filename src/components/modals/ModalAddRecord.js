@@ -1,9 +1,23 @@
-import React, { Component } from 'react';
-import { Button, Modal, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
+import React, { Component, PropTypes } from 'react';
+// import { Button, Modal, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 
-import moment from 'moment';
+// import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
+
+
+import Button from '@material-ui/core/Button';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
 
 class ModalAddRecord extends Component {
 	constructor(props) {
@@ -21,6 +35,8 @@ class ModalAddRecord extends Component {
 			isOdometerInputValid: true,
 			isDateInputValid: true,
 			isVolumeInputValid: true,
+
+			placeholderOdometer: 'Odometer'
 		};
 	}
 
@@ -44,12 +60,12 @@ class ModalAddRecord extends Component {
 
 	addNewRecord = (date, odometer, type, volume) => {
 		console.log('addNewRecord', this.props)
-		const { ApiServiceActionCreators: {
-					createRecordAction
-				}
+		const { ApiServiceActionCreators: { createRecordAction},
+				authorization: { userId }
 			  } = this.props;
 			  
 		createRecordAction({
+			"userId": userId,
 			"date": date,
 			"odometer": odometer,
 			"type": type,
@@ -75,12 +91,20 @@ class ModalAddRecord extends Component {
 		});
 	}
 
+	handleClickOpen = () => {
+		this.setState({ showModal: true });
+	  };
+	
+	  handleClose = () => {
+		this.setState({ showModal: false });
+	  };
+
 	render() {
 		const { dateInputValue } = this.state;
 
 		return (
 			<div>
-				<Button bsStyle="primary"
+				{/* <Button bsStyle="primary"
 						className="btn-add-record"
 						bsSize="sm"
 						disabled={false}
@@ -160,7 +184,67 @@ class ModalAddRecord extends Component {
 							Ok
 						</Button>
 					</Modal.Footer>
-				</Modal>
+				</Modal> */}
+
+				<Button variant="fab"
+						color="secondary" 
+						onClick={this.handleClickOpen}>+</Button>
+				<Dialog
+					open={this.state.showModal}
+					onClose={this.handleClose}
+					aria-labelledby="form-dialog-title"
+				>
+				<DialogTitle id="form-dialog-title">Add new record.</DialogTitle>
+				<DialogContent>
+						<DayPickerInput 
+							value={dateInputValue}
+							onDayChange={this.handleDayChange}
+							dayPickerProps={{ 
+								selectedDays: dateInputValue,
+								disabledDays: {after: new Date()}
+							}}
+						/>
+
+
+					<FormControl>
+						<InputLabel htmlFor="label-odometer">Odometer:</InputLabel>
+						<Input id="label-odometer"
+							   onChange={this.odometerInputValue} />
+					</FormControl>
+
+					<FormControl>
+						<InputLabel htmlFor="label-volume">Volume:</InputLabel>
+						<Input id="label-volume"
+							   onChange={this.volumeInputValue} />
+					</FormControl>
+
+					{/* <FormGroup controlId="formControlsodometer"
+								   className={!this.state.isOdometerInputValid ? "has-error" : null}>
+							<ControlLabel>odometer:</ControlLabel>
+							<FormControl type="text" 
+										 placeholder="odometer" 
+										 onChange={this.odometerInputValue}/> */}
+
+
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={this.handleClose} color="primary">
+					Cancel
+					</Button>
+					<Button color="primary" onClick={() => {
+									this.addNewRecord(
+										this.state.dateInputValue.toJSON(),
+										+this.state.odometerInputValue,
+										//this.state.typeInputValue,
+										this.state.volumeInputValue,
+									);
+								}}>
+					ADD
+					</Button>
+				</DialogActions>
+				</Dialog>
+
+
 			</div>
 		);
 	}

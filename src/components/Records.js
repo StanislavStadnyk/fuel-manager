@@ -10,14 +10,15 @@ import { sortObjectByParam } from '../utils/index';
 
 import * as ApiServiceActionCreators from '../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
+import authorization from '../reducers/authorization';
 
 class Records extends Component {
 	componentDidMount() {
-		const { ApiServiceActionCreators: {
-					getAllRecordsAction
-				}
+		const { ApiServiceActionCreators: { getAllRecordsAction },
+				authorization: { userId }
 			  } = this.props;
-		getAllRecordsAction();
+		console.log('getAllRecordsAction', this.props);
+		getAllRecordsAction(userId);
 	}
 
 	render() {
@@ -91,6 +92,8 @@ class Records extends Component {
 function mapStateToProps(state) {
 	return {
 		records: state.recordsState,
+		authorization: state.authorizationState,
+		
 		notices: state.noticesState,
 		directories: state.directoriesState
 	};

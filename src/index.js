@@ -3,37 +3,35 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+
 import thunk from 'redux-thunk';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+
+//import { Route, Switch } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 import logger from 'redux-logger'
 
 import './css/styles/index.css';
 import App from './components/App';
 import reducers from './reducers';
 
-import { HomePage, ProfilePage, StationsPage, Error404 } from './components/pages/index';
+//import { HomePage, ProfilePage, StationsPage, Error404, LoginPage } from './components/pages/index';
+import createHistory from 'history/createBrowserHistory'
 
+const history = createHistory();
 const store = process.env.NODE_ENV !== 'production'
-	? createStore( reducers, composeWithDevTools( applyMiddleware( thunk, logger ) ))
+	? createStore( reducers, composeWithDevTools( applyMiddleware(thunk, logger ) ))
 	: createStore( reducers, applyMiddleware( thunk ))
-
-const history = syncHistoryWithStore(browserHistory, store);
 
 import { SUB_PATH } from './constants';
 
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import customTheme from './css/components/customTheme';
+
 render(
-	<Provider store={store}>
-	    <Router history={history}>
-			{/* Main pages */}
-	      	<Route path={`${SUB_PATH}/`} component={App}>
-			  	<IndexRoute component={HomePage} />
-				<Route path={`${SUB_PATH}/profile`} component={ProfilePage} />
-				<Route path={`${SUB_PATH}/stations`} component={StationsPage} />
-				
-	      	</Route>
-			<Route path="*" component={Error404}/>
-	    </Router>
-  	</Provider>,
+	<MuiThemeProvider theme={customTheme}>
+		<Provider store={store}>
+			<App history={history}/>
+		</Provider>
+	</MuiThemeProvider>,
 	document.getElementById('root')
 );
