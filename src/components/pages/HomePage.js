@@ -40,7 +40,7 @@ class HomePage extends Component {
 	};
 
 	render() {
-		const { classes, records } = this.props;
+		const { records } = this.props;
 		const { activeTab } = this.state;		
 
 		return (

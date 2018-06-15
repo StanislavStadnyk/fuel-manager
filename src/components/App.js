@@ -30,7 +30,6 @@ import { SUB_PATH } from '../constants';
 
 // Layout
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 
 // Firebase
 import { appFire } from './base';
@@ -44,21 +43,6 @@ class App extends Component {
 		}
 	}
 	
-	// componentDidMount = () => {
-	// 	const { ApiServiceActionCreators: {
-	// 				getAllDirectoriesAction,
-	// 				getAllNoticesAction
-	// 			}, 
-	// 			DirectoriesActionCreators: {
-	// 				selectedDirectoryAction
-	// 			}, 
-	// 		    params
-	// 		  } = this.props;
-
-	// 	getAllDirectoriesAction();
-	// 	getAllNoticesAction();
-	// }
-
 	componentWillMount = () => {
 		console.log('App componentWillMount', this.props)
 
@@ -67,9 +51,9 @@ class App extends Component {
 			  } = this.props;
 
 		getAllUsersAction();
+		let userId;
 
 		this.removeAuthListener = appFire.auth().onAuthStateChanged((user) => {
-			let userId;
 			const { users: { dataUsers } } = this.props;
                     
 			console.log('dataUser removeAuthListener', dataUsers);
@@ -104,7 +88,12 @@ class App extends Component {
 		//const { directories } = this.props;
 		console.log('App render', this.props);
 
-		const { authorization: { authenticated }} = this.props;
+		const { authorization: { authenticated }, users: { newUserId }} = this.props;
+
+		if (newUserId) {
+			debugger;
+			window.location.reload();
+		}
 
 		if (this.state.loading) {
 			return <Spinner />

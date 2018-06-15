@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase from 'firebase';
 
 // Actions
 import { connect } from 'react-redux';
@@ -48,7 +49,8 @@ class LoginPage extends Component {
         appFire.auth().signInWithPopup(provider)
             .then((result, error) => {
                 if (error) {
-                    this.handleClick({ vertical: 'bottom', horizontal: 'center' });
+                    alert(1);
+                    //this.handleClick({ vertical: 'bottom', horizontal: 'center' });
                 } else {
                     const { users: { dataUsers } } = this.props;
                     
@@ -65,9 +67,9 @@ class LoginPage extends Component {
                         console.log('user exists', userId);
                         userLoginAction({ userId: userId, data: result.user});
 
-                        this.setState({
-                            redirect: true
-                        })  
+                        // this.setState({
+                        //     redirect: true
+                        // })  
                     }
 
                     else {
@@ -75,12 +77,74 @@ class LoginPage extends Component {
                         console.log('user has been created');
                         createUserAction(result.user);
                         userLoginAction({ userId: userId, data: result.user});
-
-                        this.setState({
-                            redirect: true
-                        })
+                        //getAllUsersAction();
+                        
+                        // this.setState({
+                        //     redirect: true
+                        // })  
                     }
                 }
+            })
+            .catch(error => {
+                console.log('signInWithPopup(provider)', error);
+
+                //let credential = appFire.auth.GoogleAuthProvidercredential(
+                //    googleUser.getAuthResponse().id_token);
+      
+
+                const email = error.email;
+                appFire.auth().fetchSignInMethodsForEmail(email)
+                    .then(providers => {
+                        console.log('fetchProvidersForEmail', providers)
+                        console.log('googleProvider', googleProvider)
+
+                        // appFire.auth().signInWithPopup(googleProvider)
+                        //     .catch(error => {
+                        //         console.log('pendingCredCred', error)
+                        //     }
+                        // )
+                        
+                        //googleProvider.addScope('profile');
+                        //googleProvider.addScope('email');
+                        appFire.auth().signInWithRedirect(googleProvider)
+                        // this.setState({
+                        //     redirect: true
+                        // }) 
+                        // appFire.auth().getRedirectResult().then(function(result) {
+                        //         // console.log(result);
+                        //         //alert(result);
+                        //         if (result.credential) {
+                        //             //debugger;
+                        //            // This gives you a Google Access Token.
+                        //            <Redirect to={`${SUB_PATH}/`} />
+                                   
+                                
+                        //         }
+                                
+                        //      })
+                        
+                        
+
+                        // appFire.auth().signInWithRedirect(googleProvider);
+                        // appFire.auth().getRedirectResult().then(function(result) {
+                        //     if (result.credential) {
+                        //       // This gives you a Google Access Token. You can use it to access the Google API.
+                        //       var token = result.credential.accessToken;
+                        //       console.log(result)
+                        //     }
+                        //     // The signed-in user info.
+                        //   })
+
+                        //    appFire.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(token))
+                        //     .then(user => {
+                        //         debugger;
+                        //         // You can now link the pending credential from the first
+                        //         // error.
+                        //         user.linkWithCredential(error.credential)
+                        //     })
+                        
+                    })
+                
             })
     }
 
@@ -113,8 +177,9 @@ class LoginPage extends Component {
 
     render() {
         const { vertical, horizontal, open } = this.state;
+        console.log('LoginPageProps', this.props)
 
-        if (this.state.redirect) {
+        if (this.props.authorization.authenticated) {
             return <Redirect to={`${SUB_PATH}/`} />
         }
 

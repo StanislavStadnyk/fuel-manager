@@ -6,6 +6,7 @@ import {
 
 const initialState = {
     error: {},
+    newUserId: null,
     dataUsers: {}
 }
 
@@ -23,9 +24,17 @@ function users(state = initialState, action) {
 
         // CREATE_RECORD
         case CREATE_USER :
+            const id = action.payload["name"];
+            const data = {
+                email: action.props.email,
+                name: action.props.displayName,
+                records: {}
+            }
+
             return {
-                ...state, 
-                dataUsers: action.payload
+                ...state,
+                newUserId: id,
+                dataUsers: {...state.dataUsers, [id]: data}
             };
 
         // GET_ALL_RECORDS
