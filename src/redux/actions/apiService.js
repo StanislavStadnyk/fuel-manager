@@ -121,19 +121,25 @@ export const createUserAction = (props) => {
 
 // delete record on server
 export const deleteRecordAction = (props) => {
-	console.log('deleteRecordAction', props.id)
+	// console.log('deleteRecordAction', props)
 	return function(dispatch) {
-		axios.delete(`${BACK_END_SERVER}/users/-LEjR4zcXodRLZV41K2g/records/${props.id}.json`)
-			.then(function (response) {
-				dispatch(getAllRecordsAction());
+		axios.delete(`${BACK_END_SERVER}/users/${props.userId}/records/${props.record.id}.json`)
+			.then(function () {
+				dispatch(getAllRecordsAction(props.userId));
 			})
-			.catch(function (error) {
+			.catch(function () {
 				dispatch({
 					type: RECORDS_FAIL, 
 					isError: true,
 					request: DELETE_RECORD
 				});
 			});
+	}
+}
+export const refreshDeleteAction = () => {
+	return {
+		type: RECORDS_FAIL,
+		isError: false,
 	}
 }
 

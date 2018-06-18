@@ -20,6 +20,11 @@ const customTheme = createMuiTheme({
 		// 	// boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
 		//   },
 		// },
+		MuiAppBar: {
+			root: {
+				boxShadow: "none"
+			}
+		},
 		MuiToolbar: {
 			gutters: {
 				paddingLeft: 12,

@@ -10,9 +10,22 @@ import { sortObjectByParam } from '../utils/index';
 
 import * as ApiServiceActionCreators from '../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
-import authorization from '../reducers/authorization';
+
+// Mui
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 class Records extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			anchorEl: null,
+		};
+	}
+
 	componentDidMount() {
 		const { ApiServiceActionCreators: { getAllRecordsAction },
 				authorization: { userId }
@@ -21,8 +34,18 @@ class Records extends Component {
 		getAllRecordsAction(userId);
 	}
 
+	handleMenuClick = event => {
+		this.setState({ anchorEl: event.currentTarget });
+	};
+	
+	handleMenuClose = () => {
+		this.setState({ anchorEl: null });
+	};
+
 	render() {
+		const { anchorEl } = this.state;
 		const { records: { dataRecords },
+				authorization: { userId },
 				ApiServiceActionCreators: {
 					deleteRecordAction
 				}, 
@@ -31,7 +54,7 @@ class Records extends Component {
 		let arrRecords = sortObjectByParam(dataRecords, 'odometer');
 
 		let recordsList = arrRecords.map((item, index) => {
-			console.log(item);
+			//console.log(item);
 
 			let date = moment(item.value.date).format('DD.MM.YYYY')
 			return (
@@ -47,11 +70,31 @@ class Records extends Component {
 							
 							<Button bsStyle="danger"
 									onClick={() => {
-										deleteRecordAction(item);
+										deleteRecordAction({record: item, userId: userId});
 									}}>
 								-
 							</Button>
-							<FontAwesome.FaEllipsisH />
+							<IconButton
+								aria-label="More"
+								aria-owns={anchorEl ? 'long-menu' : null}
+								aria-haspopup="true"
+								onClick={this.handleMenuClick}
+							>
+								<MoreVertIcon />
+							</IconButton>
+							<Menu
+								id="long-menu"
+								anchorEl={anchorEl}
+								open={Boolean(anchorEl)}
+								onClose={this.handleMenuClose}
+							>
+								<MenuItem>
+									Update
+								</MenuItem>
+								<MenuItem onClick={() => deleteRecordAction({record: item, userId: userId})}>
+									Delete
+								</MenuItem>
+							</Menu>
 							
 						</Panel.Body>
 					</Panel>

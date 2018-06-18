@@ -17,6 +17,9 @@ import { ConnectedRouter } from 'react-router-redux';
 import Header from './Header';
 import Spinner from './Spinner';
 
+// Mui
+import Snackbar from '@material-ui/core/Snackbar';
+
 // Pages
 import { HomePage, 
 		 LoginPage, 
@@ -32,7 +35,7 @@ import { SUB_PATH } from '../constants';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 // Firebase
-import { appFire } from './base';
+import { appFire } from './Firebase';
 
 class App extends Component {
 	constructor(props){
@@ -44,7 +47,7 @@ class App extends Component {
 	}
 	
 	componentWillMount = () => {
-		console.log('App componentWillMount', this.props)
+		// console.log('App componentWillMount', this.props)
 
 		const { AuthorizationActionCreators: { userLoginAction, userLogoutAction },
 				ApiServiceActionCreators: { getAllUsersAction},
@@ -56,8 +59,8 @@ class App extends Component {
 		this.removeAuthListener = appFire.auth().onAuthStateChanged((user) => {
 			const { users: { dataUsers } } = this.props;
                     
-			console.log('dataUser removeAuthListener', dataUsers);
-			console.log('removeAuthListener', user)
+			// console.log('dataUser removeAuthListener', dataUsers);
+			// console.log('removeAuthListener', user)
 			if (user) {
 				for (let prop in dataUsers) {
 					if (dataUsers[prop]["email"] === user.email) {
@@ -84,14 +87,25 @@ class App extends Component {
 		this.removeAuthListener();
 	}
 
+	// handleSnackClick = state => () => {
+    //     this.setState({ open: true, ...state });
+    //   };
+    
+    // handleSnaclClose = () => {
+    //     this.setState({ open: false });
+    // };
+
 	render() {
 		//const { directories } = this.props;
 		console.log('App render', this.props);
 
-		const { authorization: { authenticated }, users: { newUserId }} = this.props;
+		const { authorization: { authenticated }, 
+				users: { newUserId }, 
+				records 
+			  } = this.props;
 
 		if (newUserId) {
-			debugger;
+			// debugger;
 			window.location.reload();
 		}
 
@@ -101,7 +115,7 @@ class App extends Component {
 		
 		return (
 			<ConnectedRouter history={this.props.history}>
-				<div>
+				<div className="app-wrapper">
 					<CssBaseline />
 					<Header auth={ authenticated }/>
 
@@ -123,6 +137,25 @@ class App extends Component {
 									  path="*" 
 									  component={Error404}/>
 					</Switch>
+
+					{/* {
+						records.error.isError
+							? <AppBar position="static" 
+									style={{ padding: 20, marginBottom: 20 }}>
+								<h4>{records.error.request}</h4>
+							</AppBar>
+							: null
+					}
+
+					<Snackbar
+						anchorOrigin={{ vertical, horizontal }}
+						open={open}
+						onClose={this.handleClose}
+						ContentProps={{
+							'aria-describedby': 'message-id',
+						}}
+						message={<span id="message-id">Please check Login or Password</span>}
+					/> */}
 				</div>
 		    </ConnectedRouter>
 		);

@@ -16,6 +16,6 @@ const base = Rebase.createClass(appFire.database());
 
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
 const googleProvider = new firebase.auth.GoogleAuthProvider();
-console.log('app base', facebookProvider, googleProvider);
+// console.log('app base', facebookProvider, googleProvider);
 
 export { appFire, base, facebookProvider, googleProvider };

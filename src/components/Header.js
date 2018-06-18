@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { SUB_PATH } from '../constants';
 
-
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
@@ -31,8 +30,8 @@ class Header extends Component {
         const { auth } = this.props;
 
 		return (
-            <header>
-                <AppBar position="static">
+            <div>
+                <AppBar position="fixed">
                     <Toolbar>
                         {/* Nav btn */}
                         {auth
@@ -72,7 +71,7 @@ class Header extends Component {
                         </ul>
                     </div>
                 </Drawer>
-            </header>
+            </div>
 		);
   }
 }

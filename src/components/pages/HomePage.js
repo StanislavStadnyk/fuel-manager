@@ -14,6 +14,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
+import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 function TabContainer(props) {
 	return (
 		<Typography component="div">
@@ -31,12 +36,24 @@ class HomePage extends Component {
 		  data: [],
 		  typeInputValue: '',
 		  distanceInputValue: '',
-		  activeTab: 1
+		  activeTab: 1,
+
+		  open: true,
 		};
 	}
 
 	handleTabChange = (event, activeTab) => {
 		this.setState({ activeTab });
+	};
+
+	handleClick = () => {
+		this.setState({ open: true });
+	  };
+	
+	handleClose = () => {
+		const { ApiServiceActionCreators: { refreshDeleteAction }} = this.props;
+
+		refreshDeleteAction();
 	};
 
 	render() {
@@ -47,10 +64,19 @@ class HomePage extends Component {
             <div>
 				{
 					records.error.isError
-						? <AppBar position="static" 
-								  style={{ padding: 20, marginBottom: 20 }}>
-							<h4>{records.error.request}</h4>
-						   </AppBar>
+						? <Snackbar
+							anchorOrigin={{
+								vertical: 'bottom',
+								horizontal: 'center',
+							}}
+							autoHideDuration={5000}
+							open={this.state.open}
+							onClose={this.handleClose}
+							ContentProps={{
+								'aria-describedby': 'message-id',
+							}}
+							message={<span id="message-id">{records.error.request}</span>}
+							/>
 						: null
 				}
 
@@ -73,6 +99,7 @@ class HomePage extends Component {
 											<Records/>
 										</div>
 									</TabContainer>}
+				
             </div>
 		);
 	}

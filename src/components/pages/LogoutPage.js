@@ -6,7 +6,7 @@ import * as AuthorizationActionCreators from '../../redux/actions/authorization'
 import { bindActionCreators } from 'redux';
 
 // Firebase
-import { appFire } from '../base';
+import { appFire } from '../Firebase';
 
 // Constants
 import { SUB_PATH } from '../../constants';
@@ -22,7 +22,7 @@ class LogoutPage extends Component {
         const { AuthorizationActionCreators: { userLogoutAction }} = this.props;
 
         appFire.auth().signOut()
-            .then((user) => {
+            .then(() => {
                 userLogoutAction();
             });
     }

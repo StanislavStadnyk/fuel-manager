@@ -17,7 +17,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Snackbar from '@material-ui/core/Snackbar';
 
 // Firebase
-import { appFire, facebookProvider, googleProvider } from '../base';
+import { appFire, facebookProvider, googleProvider } from '../Firebase';
 
 // Contsants
 import { SUB_PATH } from '../../constants';
@@ -49,8 +49,8 @@ class LoginPage extends Component {
         appFire.auth().signInWithPopup(provider)
             .then((result, error) => {
                 if (error) {
-                    alert(1);
-                    //this.handleClick({ vertical: 'bottom', horizontal: 'center' });
+                    // alert(1);
+                    // this.handleClick({ vertical: 'bottom', horizontal: 'center' });
                 } else {
                     const { users: { dataUsers } } = this.props;
                     
@@ -64,7 +64,7 @@ class LoginPage extends Component {
 
                     if (userId) {
                         // Login
-                        console.log('user exists', userId);
+                        // console.log('user exists', userId);
                         userLoginAction({ userId: userId, data: result.user});
 
                         // this.setState({
@@ -74,7 +74,7 @@ class LoginPage extends Component {
 
                     else {
                         // Create and login
-                        console.log('user has been created');
+                        // console.log('user has been created');
                         createUserAction(result.user);
                         userLoginAction({ userId: userId, data: result.user});
                         //getAllUsersAction();
@@ -86,7 +86,7 @@ class LoginPage extends Component {
                 }
             })
             .catch(error => {
-                console.log('signInWithPopup(provider)', error);
+                // console.log('signInWithPopup(provider)', error);
 
                 //let credential = appFire.auth.GoogleAuthProvidercredential(
                 //    googleUser.getAuthResponse().id_token);
@@ -94,9 +94,9 @@ class LoginPage extends Component {
 
                 const email = error.email;
                 appFire.auth().fetchSignInMethodsForEmail(email)
-                    .then(providers => {
-                        console.log('fetchProvidersForEmail', providers)
-                        console.log('googleProvider', googleProvider)
+                    .then(() => {
+                        //console.log('fetchProvidersForEmail', providers)
+                        //console.log('googleProvider', googleProvider)
 
                         // appFire.auth().signInWithPopup(googleProvider)
                         //     .catch(error => {
@@ -158,14 +158,14 @@ class LoginPage extends Component {
         this.apiAuth(facebookProvider);
     }
 
-    authWithEmailPassword = (event) => {
-        event.preventDefault();
-        console.log('authWithEmailPassword');
-        console.table([{
-            email: this.emailInput.value,
-            password: this.passwordlInput.value
-        }])
-    }
+    // authWithEmailPassword = (event) => {
+    //     event.preventDefault();
+    //     console.log('authWithEmailPassword');
+    //     console.table([{
+    //         email: this.emailInput.value,
+    //         password: this.passwordlInput.value
+    //     }])
+    // }
 
     handleClick = state => () => {
         this.setState({ open: true, ...state });
@@ -177,7 +177,7 @@ class LoginPage extends Component {
 
     render() {
         const { vertical, horizontal, open } = this.state;
-        console.log('LoginPageProps', this.props)
+        // console.log('LoginPageProps', this.props)
 
         if (this.props.authorization.authenticated) {
             return <Redirect to={`${SUB_PATH}/`} />
@@ -190,13 +190,13 @@ class LoginPage extends Component {
                         onClick={() => { this.authWithFacebook() }}>
                     Login with Facebook
                 </Button>
-                <Button color="secondary"
+                {/* <Button color="secondary"
                         variant="outlined"
                         onClick={() => { this.authWithGoogle() }}>
                     Login with Google
-                </Button>
+                </Button> */}
                 <Divider/>
-                <form onSubmit={(event) => { this.authWithEmailPassword(event)}}
+                {/* <form onSubmit={(event) => { this.authWithEmailPassword(event)}}
                       ref={(form) => { this.loginForm = form }}>
 
                         <h5>Note</h5>
@@ -225,7 +225,7 @@ class LoginPage extends Component {
 
                 <Button onClick={this.handleClick({ vertical: 'bottom', horizontal: 'center' })}>
                     Bottom-Center
-                </Button>
+                </Button> */}
 
                 <br/>
 
