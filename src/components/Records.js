@@ -68,12 +68,6 @@ class Records extends Component {
 								type: {item.value.type} <br/>
 							</p>
 							
-							<Button bsStyle="danger"
-									onClick={() => {
-										deleteRecordAction({record: item, userId: userId});
-									}}>
-								-
-							</Button>
 							<IconButton
 								aria-label="More"
 								aria-owns={anchorEl ? 'long-menu' : null}
@@ -89,7 +83,7 @@ class Records extends Component {
 								onClose={this.handleMenuClose}
 							>
 								<MenuItem>
-									Update
+									<ModalAddRecord {...this.props}/>
 								</MenuItem>
 								<MenuItem onClick={() => deleteRecordAction({record: item, userId: userId})}>
 									Delete

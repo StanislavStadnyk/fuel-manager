@@ -25,10 +25,25 @@ const customTheme = createMuiTheme({
 				boxShadow: "none"
 			}
 		},
+		MuiSelect: {
+			select: {
+				"&:focus": {
+					background: "none"
+				}
+			}
+		},
 		MuiToolbar: {
 			gutters: {
 				paddingLeft: 12,
 				paddingRight: 12
+			}
+		},
+		MuiDialogActions: {
+			root: {
+				margin: "8px 20px"
+			},
+			action: {
+				minWidth: 0
 			}
 		}
 	},

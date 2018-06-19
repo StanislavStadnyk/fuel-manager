@@ -73,9 +73,9 @@ class HomePage extends Component {
 							open={this.state.open}
 							onClose={this.handleClose}
 							ContentProps={{
-								'aria-describedby': 'message-id',
+								'aria-describedby': 'message-error-request',
 							}}
-							message={<span id="message-id">{records.error.request}</span>}
+							message={<span id="message-error-request">{records.error.request}</span>}
 							/>
 						: null
 				}
@@ -84,7 +84,7 @@ class HomePage extends Component {
 					<Tabs value={activeTab} 
 						  onChange={this.handleTabChange}>
 						<Tab label="Item One" />
-						<Tab label="Item Two" />
+						<Tab label="Records" />
 					</Tabs>
 				</AppBar>
 

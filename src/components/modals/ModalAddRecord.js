@@ -19,6 +19,20 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import Grid from '@material-ui/core/Grid';
+
+// Mui icons
+import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
+import SwapCallsIcon from '@material-ui/icons/SwapCalls';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import DoneIcon from '@material-ui/icons/Done';
+import ClearIcon from '@material-ui/icons/Clear';
+import AddIcon from '@material-ui/icons/Add';
+
 class ModalAddRecord extends Component {
 	constructor(props) {
 		super(props);
@@ -30,6 +44,8 @@ class ModalAddRecord extends Component {
 			odometerInputValue: '',
 			dateInputValue: new Date(),
 			volumeInputValue: '',
+			costInputValue: '',
+			typeSelectValue: '',
 
 			isTypeInputValid: true,
 			isOdometerInputValid: true,
@@ -91,16 +107,30 @@ class ModalAddRecord extends Component {
 		});
 	}
 
+	costInputValue = (evt) => {
+		this.setState({ 
+			costInputValue: evt.target.value
+		});
+	}
+
 	handleClickOpen = () => {
 		this.setState({ showModal: true });
 	  };
 	
-	  handleClose = () => {
+	handleClose = () => {
 		this.setState({ showModal: false });
-	  };
+	};
+
+	// handleSelectChange = name => event => {
+	// 	this.setState({ [name]: event.target.value });
+	// };
+
+	handleSelectChange = event => {
+		this.setState({ [event.target.name]: event.target.value });
+	};
 
 	render() {
-		const { dateInputValue } = this.state;
+		const { dateInputValue, typeSelectValue } = this.state;
 
 		return (
 			<div>
@@ -188,36 +218,87 @@ class ModalAddRecord extends Component {
 
 				<Button variant="fab"
 						color="secondary" 
-						onClick={this.handleClickOpen}>+</Button>
+						onClick={this.handleClickOpen}>
+						<AddIcon />
+				</Button>
 				<Dialog
+					className="modal-add-record"
 					open={this.state.showModal}
 					onClose={this.handleClose}
 					aria-labelledby="form-dialog-title"
 				>
-				<DialogTitle id="form-dialog-title">Add new record.</DialogTitle>
+				<DialogTitle id="form-dialog-title">Add new record</DialogTitle>
 				<DialogContent>
-						<DayPickerInput 
-							value={dateInputValue}
-							onDayChange={this.handleDayChange}
-							dayPickerProps={{ 
-								selectedDays: dateInputValue,
-								disabledDays: {after: new Date()}
-							}}
-						/>
+					<Grid container spacing={24}>
+						{/* Date */}
+						<Grid item xs={2}>
+							<div className="icon-holder no-label"><DateRangeIcon /></div>
+						</Grid>
+						<Grid item xs={10}>
+							<DayPickerInput 
+								value={dateInputValue}
+								onDayChange={this.handleDayChange}
+								dayPickerProps={{ 
+									selectedDays: dateInputValue,
+									disabledDays: {after: new Date()}
+								}}
+							/>
+						</Grid>
+						
+						{/* Odometer */}
+						<Grid item xs={2}>
+							<div className="icon-holder"><SwapCallsIcon /></div>
+						</Grid>
+						<Grid item xs={10}>
+							<FormControl className="form-control">
+								<InputLabel htmlFor="label-odometer">Odometer:</InputLabel>
+								<Input id="label-odometer"
+									onChange={this.odometerInputValue} />
+							</FormControl>
+						</Grid>
 
+						{/* Volume & Type */}
+						<Grid item xs={2}>
+							<div className="icon-holder"><LocalGasStationIcon /></div>
+						</Grid>
+						<Grid item xs={5}>
+							<FormControl className="form-control">
+								<InputLabel htmlFor="label-volume">Volume:</InputLabel>
+								<Input id="label-volume"
+									onChange={this.volumeInputValue} />
+							</FormControl>
+						</Grid>
+						<Grid item xs={5}>
+							<FormControl className="form-control">
+								<InputLabel htmlFor="label-type">Type</InputLabel>
+								<Select
+									value={typeSelectValue}
+									onChange={this.handleSelectChange}
+									inputProps={{
+									name: 'typeSelectValue',
+									id: 'label-type',
+									}}
+								>
+									<MenuItem value="A-98">A-98</MenuItem>
+									<MenuItem value="A-95">A-95</MenuItem>
+									<MenuItem value="A-92">A-92</MenuItem>
+									<MenuItem value="Diesel">Diesel</MenuItem>
+									<MenuItem value="Gas">Gas</MenuItem>
+								</Select>
+							</FormControl>
+						</Grid>
 
-					<FormControl>
-						<InputLabel htmlFor="label-odometer">Odometer:</InputLabel>
-						<Input id="label-odometer"
-							   onChange={this.odometerInputValue} />
-					</FormControl>
-
-					<FormControl>
-						<InputLabel htmlFor="label-volume">Volume:</InputLabel>
-						<Input id="label-volume"
-							   onChange={this.volumeInputValue} />
-					</FormControl>
-
+						{/* Cost */}
+						<Grid item xs={2}>
+							<div className="icon-holder"><AttachMoneyIcon /></div>
+						</Grid>
+						<Grid item xs={10}>
+							<FormControl className="form-control">
+								<InputLabel htmlFor="label-cost">Cost:</InputLabel>
+								<Input id="label-cost"
+									onChange={this.costInputValue} />
+							</FormControl>
+						</Grid>
 					{/* <FormGroup controlId="formControlsodometer"
 								   className={!this.state.isOdometerInputValid ? "has-error" : null}>
 							<ControlLabel>odometer:</ControlLabel>
@@ -225,21 +306,26 @@ class ModalAddRecord extends Component {
 										 placeholder="odometer" 
 										 onChange={this.odometerInputValue}/> */}
 
-
+					</Grid>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={this.handleClose} color="primary">
-					Cancel
+					<Button variant="fab"
+							color="primary" 
+							mini 
+							onClick={this.handleClose}>
+						<ClearIcon />
 					</Button>
-					<Button color="primary" onClick={() => {
-									this.addNewRecord(
-										this.state.dateInputValue.toJSON(),
-										+this.state.odometerInputValue,
-										//this.state.typeInputValue,
-										this.state.volumeInputValue,
-									);
-								}}>
-					ADD
+					<Button variant="fab"
+							color="secondary" 
+							onClick={() => {
+								this.addNewRecord(
+									this.state.dateInputValue.toJSON(),
+									+this.state.odometerInputValue,
+									//this.state.typeInputValue,
+									this.state.volumeInputValue,
+								);
+						}}>
+						<DoneIcon />
 					</Button>
 				</DialogActions>
 				</Dialog>

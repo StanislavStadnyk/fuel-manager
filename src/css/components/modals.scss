@@ -1,0 +1,14 @@
+.modal-add-record {
+    .form-control,
+    input {
+        width: 100%;
+    }
+
+    .icon-holder {
+        margin-top: 22px;
+
+        &.no-label {
+            margin-top: 2px;
+        }
+    }
+}
