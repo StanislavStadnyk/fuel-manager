@@ -95,6 +95,7 @@ export const createRecordAction = (props) => {
 								odometer: props.odometer,
 								volume: props.volume,
 								type: props.type,
+								cost: props.cost
 							}
 						},
 						props);
@@ -151,12 +152,13 @@ export const updateRecordAction = (props) => {
 						RECORDS_FAIL, 
 						{	
 							method: 'PUT',
-							url: `${BACK_END_SERVER}/records/${props.id}.json`,
+							url: `${BACK_END_SERVER}/users/${props.userId}/records/${props.recordId}.json`,
 							data: {
 								date: props.date,
 								odometer: props.odometer,
+								volume: props.volume,
 								type: props.type,
-								volume: props.volume
+								cost: props.cost
 							}
 						});
 	}

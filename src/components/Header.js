@@ -31,8 +31,9 @@ class Header extends Component {
 
 		return (
             <div>
-                <AppBar position="fixed">
-                    <Toolbar>
+                <AppBar position="fixed"
+                        id="header">
+                    <Toolbar className="header-holder">
                         {/* Nav btn */}
                         {auth
                             ? <IconButton color="inherit" 
@@ -45,13 +46,13 @@ class Header extends Component {
 
                         {/* Logo */}
                         <Typography variant="title" color="inherit">
-                            <Link to={`${SUB_PATH}/`} style={{ color: '#fff' }}>Fuel Manager</Link>
+                            <Link to={`${SUB_PATH}/`}>Fuel Manager</Link>
                         </Typography>
 
                         {/* Btns */}
                         {auth
-                            ? <Link to={`${SUB_PATH}/logout`} style={{ color: '#fff' }}>Logout</Link>
-                            : <Link to={`${SUB_PATH}/login`} style={{ color: '#fff' }}>Register/Login</Link>
+                            ? <Link to={`${SUB_PATH}/logout`}>Logout</Link>
+                            : <Link to={`${SUB_PATH}/login`}>Register/Login</Link>
                         }
                     </Toolbar>
                 </AppBar>

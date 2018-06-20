@@ -2,6 +2,7 @@ import {
     GET_ALL_RECORDS,
     RECORDS_FAIL,
     CREATE_RECORD,
+    UPDATE_RECORD
 } from '../constants';
 
 const initialState = {
@@ -30,6 +31,16 @@ function records(state = initialState, action) {
                 ...state,
                 dataRecords: {...state.dataRecords, [id]: data}
             };
+
+        // UPDATE_RECORD
+        // case UPDATE_RECORD :
+        //     console.log('UPDATE_RECORD', action);
+        //     let index = state.dataRecords.findIndex(i => i.id === action.payload.id);
+        // return {
+        //     ...state,
+        //     data: [...state.data.slice(0, index), action.payload, ...state.data.slice(index + 1)],
+        //     selectedDirectory: +action.payload.id
+        // };
 
         // GET_ALL_RECORDS
         case GET_ALL_RECORDS :

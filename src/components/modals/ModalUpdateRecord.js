@@ -33,20 +33,22 @@ import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
 import AddIcon from '@material-ui/icons/Add';
 
-class ModalAddRecord extends Component {
+class ModalUpdateRecord extends Component {
 	constructor(props) {
 		super(props);
+
+		console.log('ModalUpdateRecord', props)
 		
 		this.state = { 
 			showModal: false,
 
-			typeInputValue: '',
-			odometerInputValue: '',
-			dateInputValue: new Date(),
-			volumeInputValue: '',
-			costInputValue: '',
+			//typeInputValue: props.item.value.type,
+			odometerInputValue: props.item.value.odometer,
+			dateInputValue: new Date(props.item.value.date),
+			volumeInputValue: props.item.value.volume,
+			costInputValue: props.item.value.volume,
 
-			typeSelectValue: '',
+			typeSelectValue: props.item.value.type,
 
 			isTypeInputValid: true,
 			isOdometerInputValid: true,
@@ -75,14 +77,12 @@ class ModalAddRecord extends Component {
 		this.setState({ showModal: true });
 	}
 
-	addNewRecord = (date, odometer, type, volume, cost) => {
-		console.log('addNewRecord', this.props)
-		const { ApiServiceActionCreators: { createRecordAction},
-				authorization: { userId }
-			  } = this.props;
+	updateRecord = (date, odometer, type, volume, cost) => {
+		console.log('updateRecord', this.props)
 			  
-		createRecordAction({
-			"userId": userId,
+		this.props.updateRecordAction({
+			"recordId": this.props.item.id,
+			"userId": this.props.userId,
 			"date": date,
 			"odometer": odometer,
 			"volume": volume,
@@ -94,12 +94,6 @@ class ModalAddRecord extends Component {
 	odometerInputValue = (evt) => {
 		this.setState({ 
 			odometerInputValue: evt.target.value
-		});
-	}
-
-	typeInputValue = (evt) => {
-		this.setState({ 
-			typeInputValue: evt.target.value
 		});
 	}
 
@@ -137,18 +131,16 @@ class ModalAddRecord extends Component {
 
 		return (
 			<div>
-				<Button variant="fab"
-						color="secondary" 
-						onClick={this.handleModalOpen}>
-					<AddIcon />
-				</Button>
+				<span onClick={this.handleModalOpen}>
+					Update
+				</span>
 				<Dialog
-					className="modal-add-record"
+					className="modal-update-record"
 					open={this.state.showModal}
 					onClose={this.handleModalClose}
 					aria-labelledby="form-dialog-title"
 				>
-					<DialogTitle id="form-dialog-title">Add new record</DialogTitle>
+					<DialogTitle id="form-dialog-title">Update record</DialogTitle>
 					<DialogContent>
 						<Grid container spacing={24}>
 							{/* Date */}
@@ -174,6 +166,7 @@ class ModalAddRecord extends Component {
 								<FormControl className="form-control">
 									<InputLabel htmlFor="label-odometer">Odometer:</InputLabel>
 									<Input id="label-odometer"
+										   value={odometerInputValue}
 										   onChange={this.odometerInputValue} />
 								</FormControl>
 							</Grid>
@@ -186,13 +179,14 @@ class ModalAddRecord extends Component {
 								<FormControl className="form-control">
 									<InputLabel htmlFor="label-volume">Volume:</InputLabel>
 									<Input id="label-volume"
+										   value={volumeInputValue}
 										   onChange={this.volumeInputValue} />
 								</FormControl>
 							</Grid>
 							<Grid item xs={5}>
 								<FormControl className="form-control">
 									<InputLabel htmlFor="label-type">Type</InputLabel>
-									<Select	value={typeSelectValue}
+									<Select value={typeSelectValue}
 											onChange={this.handleSelectChange}
 											inputProps={{
 												name: 'typeSelectValue',
@@ -216,6 +210,7 @@ class ModalAddRecord extends Component {
 								<FormControl className="form-control">
 									<InputLabel htmlFor="label-cost">Cost:</InputLabel>
 									<Input id="label-cost"
+										   value={costInputValue}
 										   onChange={this.costInputValue} />
 								</FormControl>
 							</Grid>
@@ -231,7 +226,7 @@ class ModalAddRecord extends Component {
 						<Button variant="fab"
 								color="secondary" 
 								onClick={() => {
-									this.addNewRecord(
+									this.updateRecord(
 										dateInputValue.toJSON(),
 										+odometerInputValue,
 										typeSelectValue,
@@ -249,4 +244,4 @@ class ModalAddRecord extends Component {
 	}
 };
 
-export default ModalAddRecord;
+export default ModalUpdateRecord;

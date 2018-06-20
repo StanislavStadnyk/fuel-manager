@@ -1,10 +1,11 @@
 
-//@import '../components/variables.scss';
+@import '../components/variables.scss';
 
 //$icon-font-path: '../bootstrap/assets/fonts/bootstrap/';
 //@import '../bootstrap/assets/stylesheets/_bootstrap.scss';
 
 @import "../components/common.scss";
+@import "../components/header.scss";
 @import "../components/modals.scss";
 //@import "../components/tabs.scss";
 @import "../components/grid.scss";
