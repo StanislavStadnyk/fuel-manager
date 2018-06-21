@@ -40,7 +40,7 @@ class ModalUpdateRecord extends Component {
 		console.log('ModalUpdateRecord', props)
 		
 		this.state = { 
-			showModal: false,
+			//showModal: false,
 
 			//typeInputValue: props.item.value.type,
 			odometerInputValue: props.item.value.odometer,
@@ -65,17 +65,17 @@ class ModalUpdateRecord extends Component {
 		});
 	}
 
-	close = () => {
-		this.setState({ 
-			showModal: false,
-			isInputValid: true,
-			isTextareaValid: true
-		});
-	}
+	// close = () => {
+	// 	this.setState({ 
+	// 		showModal: false,
+	// 		isInputValid: true,
+	// 		isTextareaValid: true
+	// 	});
+	// }
 
-	open = () => {
-		this.setState({ showModal: true });
-	}
+	// open = () => {
+	// 	this.setState({ showModal: true });
+	// }
 
 	updateRecord = (date, odometer, type, volume, cost) => {
 		console.log('updateRecord', this.props)
@@ -109,12 +109,13 @@ class ModalUpdateRecord extends Component {
 		});
 	}
 
-	handleModalOpen = () => {
-		this.setState({ showModal: true });
-	};
+	// handleModalOpen = () => {
+	// 	this.setState({ showModal: true });
+	// };
 	
 	handleModalClose = () => {
-		this.setState({ showModal: false });
+		//this.setState({ showModal: false });
+		this.props.onModalClose();
 	};
 
 	handleSelectChange = event => {
@@ -131,16 +132,16 @@ class ModalUpdateRecord extends Component {
 
 		return (
 			<div>
-				<span onClick={this.handleModalOpen}>
+				{/* <span onClick={this.handleModalOpen}>
 					Update
-				</span>
+				</span> */}
 				<Dialog
 					className="modal-update-record"
-					open={this.state.showModal}
+					open={this.props.showModal}
 					onClose={this.handleModalClose}
-					aria-labelledby="form-dialog-title"
+					aria-labelledby={this.props.id}
 				>
-					<DialogTitle id="form-dialog-title">Update record</DialogTitle>
+					<DialogTitle id={this.props.id}>Update record</DialogTitle>
 					<DialogContent>
 						<Grid container spacing={24}>
 							{/* Date */}

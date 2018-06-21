@@ -21,9 +21,10 @@ class Records extends Component {
 	constructor(props) {
 		super(props)
 
-		// this.state = {
-		// 	anchorEl: null,
-		// };
+		this.state = {
+			showModal: false,
+			modalId: null
+		}
 	}
 
 	componentDidMount() {
@@ -34,27 +35,23 @@ class Records extends Component {
 		getAllRecordsAction(userId);
 	}
 
-	// handleMenuClick = event => {
-	// 	this.setState({ anchorEl: event.currentTarget });
-	// };
-	
-	// handleMenuClose = (obj) => {
-	// 	this.setState({ anchorEl: null });
-	// };
+	handleModalOpen = (index) => {
+		//console.log('onUpdateClick', index);
+		this.setState({ 
+			showModal: true,
+			modalId: index
+		});
+	};
 
-	// handleMenuCloseDelete = (obj) => {
-	// 	this.setState({ anchorEl: null });
-	// 	this.props.ApiServiceActionCreators.deleteRecordAction(obj);
-	// 	console.log('obj', obj);
-	// };
-
-	// handleMenuCloseUpdate = (obj) => {
-	// 	this.setState({ anchorEl: null });
-	// 	console.log('obj', obj);
-	// };
+	handleModalClose = () => {
+		//console.log('onModalClose');
+		this.setState({ 
+			showModal: false ,
+			modalId: null
+		});
+	};
 
 	render() {
-		// const { anchorEl } = this.state;
 		const { records: { dataRecords },
 				authorization: { userId },
 				ApiServiceActionCreators: {
@@ -81,11 +78,20 @@ class Records extends Component {
 								cost: {item.value.cost} <br/>
 							</p>
 							
-							<MenuCustom item={item} 
+							<MenuCustom item={item}
+										index={index}
 										userId={userId} 
 										deleteRecordAction={deleteRecordAction}
-										updateRecordAction={updateRecordAction}/>
-							
+										onBtnUpdateClick={this.handleModalOpen}/>
+
+							{this.state.modalId === index 
+								? <ModalUpdateRecord onModalClose={this.handleModalClose} 
+													 showModal={this.state.showModal}
+													 updateRecordAction={updateRecordAction}
+													 item={item}
+													 userId={userId}/>
+								: null
+							}
 						</Panel.Body>
 					</Panel>
 				</li>
@@ -128,21 +134,22 @@ class MenuCustom extends Component {
 
 		this.state = {
 			anchorEl: null,
-			menuHidden: 'visible'
+			// menuHidden: 'visible',
+			showModal: false
 		};
 	}
 
 	handleMenuClick = event => {
 		this.setState({ 
 			anchorEl: event.currentTarget,
-			menuHidden: 'visible'
+			// menuHidden: 'visible'
 		});
 	};
 	
 	handleMenuClose = () => {
 		this.setState({ 
 			anchorEl: null,
-			menuHidden: 'visible'
+			// menuHidden: 'visible'
 		});
 	};
 
@@ -152,14 +159,19 @@ class MenuCustom extends Component {
 		console.log('obj', obj);
 	};
 
-	handleMenuCloseUpdate = (obj) => {
-		this.setState({ anchorEl: null });
-		console.log('obj', obj);
-	};
+	// handleMenuCloseUpdate = (obj) => {
+	// 	this.setState({ anchorEl: null });
+	// 	console.log('obj', obj);
+	// };
 
-	handleMenuHide() {
-		this.setState({ menuHidden: 'hidden'})
-	}
+	// handleMenuHide() {
+	// 	this.setState({ menuHidden: 'hidden'})
+	// }
+
+	onBtnUpdateClick = (index) => {
+		this.setState({ anchorEl: null });
+		this.props.onBtnUpdateClick(index);
+	};
 
 	render() {
 		const { anchorEl, menuHidden } = this.state;
@@ -175,16 +187,15 @@ class MenuCustom extends Component {
 					<MoreVertIcon />
 				</IconButton>
 				<Menu
-					style={{ visibility: menuHidden}}
+					//style={{ visibility: menuHidden}}
 					id={`long-menu-${this.props.item.id}`}
 					anchorEl={anchorEl}
 					open={Boolean(anchorEl)}
 					onClose={this.handleMenuClose}
 				>
-					<MenuItem onClick={() => this.handleMenuHide()}>
-					{/* <MenuItem> */}
-						{/* Update */}
-						<ModalUpdateRecord {...this.props}/>
+					{/* <MenuItem onClick={() => this.handleMenuHide()}> */}
+					<MenuItem onClick={() => this.onBtnUpdateClick(this.props.index)}>
+						Update
 					</MenuItem>
 					<MenuItem onClick={() => this.handleMenuCloseDelete({record: this.props.item, userId: this.props.userId})}>
 						Delete

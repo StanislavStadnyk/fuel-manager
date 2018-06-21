@@ -138,7 +138,8 @@ class ModalAddRecord extends Component {
 		return (
 			<div>
 				<Button variant="fab"
-						color="secondary" 
+						color="secondary"
+						className="btn-add-record"
 						onClick={this.handleModalOpen}>
 					<AddIcon />
 				</Button>

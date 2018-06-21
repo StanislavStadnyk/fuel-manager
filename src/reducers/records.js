@@ -11,6 +11,8 @@ const initialState = {
 }
 
 function records(state = initialState, action) {
+    let recordId;
+    let newDataRecords = {};
     switch (action.type) {
         // FAIL
         case RECORDS_FAIL :
@@ -33,14 +35,15 @@ function records(state = initialState, action) {
             };
 
         // UPDATE_RECORD
-        // case UPDATE_RECORD :
-        //     console.log('UPDATE_RECORD', action);
-        //     let index = state.dataRecords.findIndex(i => i.id === action.payload.id);
-        // return {
-        //     ...state,
-        //     data: [...state.data.slice(0, index), action.payload, ...state.data.slice(index + 1)],
-        //     selectedDirectory: +action.payload.id
-        // };
+        case UPDATE_RECORD :
+            recordId = action.props;
+            
+            state.dataRecords[recordId] = action.payload;
+            newDataRecords = state.dataRecords
+        return {
+            ...state,
+            dataRecords: newDataRecords
+        };
 
         // GET_ALL_RECORDS
         case GET_ALL_RECORDS :

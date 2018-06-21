@@ -160,7 +160,8 @@ export const updateRecordAction = (props) => {
 								type: props.type,
 								cost: props.cost
 							}
-						});
+						},
+						props.recordId);
 	}
 }
 
