@@ -3,6 +3,11 @@ import React, { Component, PropTypes } from 'react';
 
 // import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import MomentLocaleUtils, {
+	formatDate,
+	parseDate
+  } from "react-day-picker/moment";
+  
 import 'react-day-picker/lib/style.css';
 
 
@@ -46,28 +51,44 @@ class ModalAddRecord extends Component {
 			volumeInputValue: '',
 			costInputValue: '',
 
-			typeSelectValue: '',
+			typeSelectValue: 'A-98',
 
-			isTypeInputValid: true,
-			isOdometerInputValid: true,
-			isDateInputValid: true,
-			isVolumeInputValid: true,
+			isTypeInputNotValid: false,
+			isOdometerInputNotValid: false,
+			isDateInputNotValid: false,
+			isVolumeInputNotValid: false,
 
 			placeholderOdometer: 'Odometer'
 		};
+	}
+
+	handleInputChange = (e) => {
+		console.log(parseDate(e.target.value));
+
+		// https://codesandbox.io/s/k922yozr2v
+		
+		// this.setState({
+		// 	isInvalid: !parseDate(e.target.value)
+		// }); 
 	}
 
 	handleDayChange = (dateInputValue) => {
 		this.setState({
 			dateInputValue: dateInputValue
 		});
+
+		//console.log(this.state.dateInputValue);
+
+		// this.state.dateInputValue === ""
+		// 	? console.log('empty')
+		//  	: console.log('full')
 	}
 
 	close = () => {
 		this.setState({ 
 			showModal: false,
-			isInputValid: true,
-			isTextareaValid: true
+			isInputNotValid: false,
+			isTextareaNotValid: false
 		});
 	}
 
@@ -93,8 +114,17 @@ class ModalAddRecord extends Component {
 
 	odometerInputValue = (evt) => {
 		this.setState({ 
-			odometerInputValue: evt.target.value
+			odometerInputValue: evt.target.value,
+			isOdometerInputNotValid: true
 		});
+
+		evt.target.value === ""
+			? this.setState({ 
+				isOdometerInputNotValid: true
+			})
+			: this.setState({ 
+				isOdometerInputNotValid: false
+			})
 	}
 
 	typeInputValue = (evt) => {
@@ -132,7 +162,9 @@ class ModalAddRecord extends Component {
 				odometerInputValue,
 				typeSelectValue,
 				volumeInputValue,
-				costInputValue 
+				costInputValue,
+
+				isOdometerInputNotValid
 			} = this.state;
 
 		return (
@@ -157,14 +189,18 @@ class ModalAddRecord extends Component {
 								<div className="icon-holder no-label"><DateRangeIcon /></div>
 							</Grid>
 							<Grid item xs={10}>
-								<DayPickerInput 
-									value={dateInputValue}
-									onDayChange={this.handleDayChange}
-									dayPickerProps={{ 
-										selectedDays: dateInputValue,
-										disabledDays: {after: new Date()}
-									}}
-								/>
+								<FormControl className="form-control">
+									<InputLabel className="form-control-date">Date:</InputLabel>
+									<DayPickerInput
+										value={dateInputValue}
+										onDayChange={this.handleDayChange}
+										dayPickerProps={{ 
+											selectedDays: dateInputValue,
+											disabledDays: {after: new Date()}
+										}}
+										inputProps={{ onChange: this.handleInputChange }}
+									/>
+								</FormControl>
 							</Grid>
 							
 							{/* Odometer */}
@@ -175,6 +211,7 @@ class ModalAddRecord extends Component {
 								<FormControl className="form-control">
 									<InputLabel htmlFor="label-odometer">Odometer:</InputLabel>
 									<Input id="label-odometer"
+										   error={isOdometerInputNotValid}
 										   onChange={this.odometerInputValue} />
 								</FormControl>
 							</Grid>

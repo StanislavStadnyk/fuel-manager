@@ -5,6 +5,10 @@ const customTheme = createMuiTheme({
 	  	// Tell Material-UI what the font-size on the html element is.
 		fontSize: 16,
 	},
+	// palette: {
+	// 	primary: { main: $white }, // Purple and green play nicely together.
+	// 	secondary: { main: '#11cb5f' }, // This is just green.A700 as hex.
+	// },
 	overrides: {
 		// Name of the component ⚛️ / style shee
 		// MuiButton: {
