@@ -14,6 +14,8 @@ export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const CREATE_USER = "CREATE_USER";
 export const USER_FAIL = "USER_FAIL";
 
+export const DATE_FORMAT = "DD/MM/YYYY";
+
 
 
 

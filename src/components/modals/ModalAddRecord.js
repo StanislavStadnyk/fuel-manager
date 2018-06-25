@@ -1,12 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { DATE_FORMAT } from '../../constants';
 // import { Button, Modal, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 
 // import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import MomentLocaleUtils, {
-	formatDate,
-	parseDate
-  } from "react-day-picker/moment";
+import { formatDate, parseDate } from "react-day-picker/moment";
   
 import 'react-day-picker/lib/style.css';
 
@@ -57,31 +55,46 @@ class ModalAddRecord extends Component {
 			isOdometerInputNotValid: false,
 			isDateInputNotValid: false,
 			isVolumeInputNotValid: false,
-
-			placeholderOdometer: 'Odometer'
+			
+			disableAddNewRecord: true
 		};
 	}
 
-	handleInputChange = (e) => {
-		console.log(parseDate(e.target.value));
-
-		// https://codesandbox.io/s/k922yozr2v
-		
-		// this.setState({
-		// 	isInvalid: !parseDate(e.target.value)
-		// }); 
+	handleDayChange = (dateInputValue) => {
+		if (!parseDate(dateInputValue)) {
+			this.setState({
+				isDateInputNotValid: true,
+				dateInputValue: ""
+			}, () => this.validation());
+		} else {
+			this.setState({
+				isDateInputNotValid: false,
+				dateInputValue: dateInputValue
+			}, () => this.validation());
+		}
 	}
 
-	handleDayChange = (dateInputValue) => {
-		this.setState({
-			dateInputValue: dateInputValue
-		});
+	validation = () => {
+		const { odometerInputValue,
+			volumeInputValue,
+			costInputValue,
+			dateInputValue
+			  } = this.state;
 
-		//console.log(this.state.dateInputValue);
-
-		// this.state.dateInputValue === ""
-		// 	? console.log('empty')
-		//  	: console.log('full')
+		console.log( 
+			odometerInputValue,
+			volumeInputValue,
+			costInputValue, dateInputValue)
+			  
+		if (odometerInputValue && volumeInputValue && costInputValue && dateInputValue) {
+			this.setState({
+				disableAddNewRecord: false
+			})
+		} else {
+			this.setState({
+				disableAddNewRecord: true
+			})
+		}
 	}
 
 	close = () => {
@@ -97,7 +110,6 @@ class ModalAddRecord extends Component {
 	}
 
 	addNewRecord = (date, odometer, type, volume, cost) => {
-		console.log('addNewRecord', this.props)
 		const { ApiServiceActionCreators: { createRecordAction},
 				authorization: { userId }
 			  } = this.props;
@@ -113,18 +125,31 @@ class ModalAddRecord extends Component {
 	}
 
 	odometerInputValue = (evt) => {
-		this.setState({ 
-			odometerInputValue: evt.target.value,
-			isOdometerInputNotValid: true
-		});
+		if (!evt.target.value) {
+			this.setState({ 
+				isOdometerInputNotValid: true,
+				odometerInputValue: "",
+			}, () => this.validation())
+		} else {
+			this.setState({ 
+				isOdometerInputNotValid: false,
+				odometerInputValue: evt.target.value,
+			}, () => this.validation())
+		}
+	}
 
-		evt.target.value === ""
-			? this.setState({ 
-				isOdometerInputNotValid: true
-			})
-			: this.setState({ 
-				isOdometerInputNotValid: false
-			})
+	volumeInputValue = (evt) => {
+		if (!evt.target.value) {
+			this.setState({ 
+				isVolumeInputNotValid: true,
+				volumeInputValue: "",
+			}, () => this.validation())
+		} else {
+			this.setState({ 
+				isVolumeInputNotValid: false,
+				volumeInputValue: evt.target.value,
+			}, () => this.validation())
+		}
 	}
 
 	typeInputValue = (evt) => {
@@ -133,16 +158,18 @@ class ModalAddRecord extends Component {
 		});
 	}
 
-	volumeInputValue = (evt) => {
-		this.setState({ 
-			volumeInputValue: evt.target.value
-		});
-	}
-
 	costInputValue = (evt) => {
-		this.setState({ 
-			costInputValue: evt.target.value
-		});
+		if (!evt.target.value) {
+			this.setState({ 
+				isCostInputNotValid: true,
+				costInputValue: "",
+			}, () => this.validation())
+		} else {
+			this.setState({ 
+				isCostInputNotValid: false,
+				costInputValue: evt.target.value,
+			}, () => this.validation())
+		}
 	}
 
 	handleModalOpen = () => {
@@ -164,7 +191,12 @@ class ModalAddRecord extends Component {
 				volumeInputValue,
 				costInputValue,
 
-				isOdometerInputNotValid
+				isDateInputNotValid,
+				isOdometerInputNotValid,
+				isVolumeInputNotValid,
+				isCostInputNotValid,
+
+				disableAddNewRecord
 			} = this.state;
 
 		return (
@@ -189,16 +221,19 @@ class ModalAddRecord extends Component {
 								<div className="icon-holder no-label"><DateRangeIcon /></div>
 							</Grid>
 							<Grid item xs={10}>
-								<FormControl className="form-control">
+								<FormControl className={isDateInputNotValid ? "form-control error" : "form-control"}>
 									<InputLabel className="form-control-date">Date:</InputLabel>
 									<DayPickerInput
+										formatDate={formatDate}
+										format={DATE_FORMAT}
+										parseDate={parseDate}
 										value={dateInputValue}
 										onDayChange={this.handleDayChange}
+										placeholder={DATE_FORMAT}
 										dayPickerProps={{ 
 											selectedDays: dateInputValue,
 											disabledDays: {after: new Date()}
 										}}
-										inputProps={{ onChange: this.handleInputChange }}
 									/>
 								</FormControl>
 							</Grid>
@@ -224,6 +259,7 @@ class ModalAddRecord extends Component {
 								<FormControl className="form-control">
 									<InputLabel htmlFor="label-volume">Volume:</InputLabel>
 									<Input id="label-volume"
+										   error={isVolumeInputNotValid}
 										   onChange={this.volumeInputValue} />
 								</FormControl>
 							</Grid>
@@ -254,6 +290,7 @@ class ModalAddRecord extends Component {
 								<FormControl className="form-control">
 									<InputLabel htmlFor="label-cost">Cost:</InputLabel>
 									<Input id="label-cost"
+										   error={isCostInputNotValid}
 										   onChange={this.costInputValue} />
 								</FormControl>
 							</Grid>
@@ -267,7 +304,8 @@ class ModalAddRecord extends Component {
 							<ClearIcon />
 						</Button>
 						<Button variant="fab"
-								color="secondary" 
+								color="secondary"
+								disabled={disableAddNewRecord}
 								onClick={() => {
 									this.addNewRecord(
 										dateInputValue.toJSON(),

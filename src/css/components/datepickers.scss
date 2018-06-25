@@ -51,6 +51,17 @@
         }
     }
 
+    // .DayPickerInput-OverlayWrapper {
+    //     margin-left: 5px;
+    // }
+
+    // .DayPickerInput-Overlay {
+    //     margin-top: -1px;
+    //     right: 0;
+    //     left: -46px;        
+    //     max-width: 216px;
+    // }
+
     .DayPicker-Month {
         margin-left: 0.35rem;
         margin-right: 0.35rem;
@@ -61,5 +72,16 @@
     .DayPicker-WeekNumber {
         padding: 0.25rem;
         line-height: 1.25rem;
+    }
+}
+
+.form-control {
+    &.error {
+        .DayPickerInput {
+            &:after {
+                transform: scaleX(1);
+                border-bottom-color: #f44336;
+            }
+        }
     }
 }
