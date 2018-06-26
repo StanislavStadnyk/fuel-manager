@@ -24,6 +24,24 @@ const customTheme = createMuiTheme({
 		// 	// boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .30)',
 		//   },
 		// },
+		MuiButton: {
+			raisedPrimary: {
+				backgroundColor: "#2196f3",
+				fontWeight: "normal"
+			}
+		},
+		MuiFormLabel: {
+			error: {
+				color: "rgba(0, 0, 0, 0.54)"
+			}
+		},
+		MuiFormHelperText: {
+			root: {
+				position: "absolute",
+				bottom: "-15px",
+				fontSize: "0.75rem"
+			}
+		},
 		MuiAppBar: {
 			root: {
 				boxShadow: "none"

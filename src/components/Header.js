@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+
+// Contants
 import { SUB_PATH } from '../constants';
 
+// Icons
+import * as FontAwesome from 'react-icons/lib/fa';
+
+// Mui
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -38,21 +43,22 @@ class Header extends Component {
                         {auth
                             ? <IconButton color="inherit" 
                                         aria-label="Menu"
-                                        onClick={this.toggleDrawer('menuLeft', true)}>
+                                        onClick={this.toggleDrawer("menuLeft", true)}>
                                 <MenuIcon />
                             </IconButton>
                             : null
                         }
 
                         {/* Logo */}
-                        <Typography variant="title" color="inherit">
+                        <Typography className="logo"
+                                    variant="title">
                             <Link to={`${SUB_PATH}/`}>Fuel Manager</Link>
                         </Typography>
 
                         {/* Btns */}
                         {auth
-                            ? <Link to={`${SUB_PATH}/logout`}>Logout</Link>
-                            : <Link to={`${SUB_PATH}/login`}>Register/Login</Link>
+                            ? <Link to={`${SUB_PATH}/logout`}><FontAwesome.FaSignOut /></Link>
+                            : null//<Link to={`${SUB_PATH}/login`}>Register/Login</Link>
                         }
                     </Toolbar>
                 </AppBar>

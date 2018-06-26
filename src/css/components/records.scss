@@ -1,0 +1,28 @@
+.records {
+    &-list {
+        margin: 10px 0;
+        position: relative;
+    }
+
+    &-btn-menu {
+        position: absolute !important;
+        right: 0;
+        top: 50%;
+        margin-top: -24px !important;
+    }
+
+    &-holder {
+        padding: 10px;
+        background: $white;
+        border-radius: 2px;
+    }
+
+    &-frame {
+        display: flex;
+        align-items: center;
+
+        > div {
+            padding-right: 10px;
+        }
+    }
+}

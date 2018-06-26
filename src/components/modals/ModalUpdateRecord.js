@@ -1,8 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { DATE_FORMAT } from '../../constants';
 // import { Button, Modal, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 
 // import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+import { formatDate, parseDate } from "react-day-picker/moment";
 import 'react-day-picker/lib/style.css';
 
 
@@ -31,53 +33,62 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
-import AddIcon from '@material-ui/icons/Add';
 
 class ModalUpdateRecord extends Component {
 	constructor(props) {
 		super(props);
 
-		console.log('ModalUpdateRecord', props)
+		//console.log('ModalUpdateRecord', props)
 		
 		this.state = { 
-			//showModal: false,
-
-			//typeInputValue: props.item.value.type,
 			odometerInputValue: props.item.value.odometer,
 			dateInputValue: new Date(props.item.value.date),
 			volumeInputValue: props.item.value.volume,
 			costInputValue: props.item.value.volume,
-
 			typeSelectValue: props.item.value.type,
 
-			isTypeInputValid: true,
-			isOdometerInputValid: true,
-			isDateInputValid: true,
-			isVolumeInputValid: true,
-
-			placeholderOdometer: 'Odometer'
+			isDateInputNotValid: false,
+			isOdometerInputNotValid: false,
+			isVolumeInputNotValid: false,
+			isCostInputNotValid: false,
+			
+			disableUpdateRecord: true
 		};
 	}
 
-	handleDayChange = (dateInputValue) => {
-		this.setState({
-			dateInputValue: dateInputValue
-		});
+	validationBtn = () => {
+		const { odometerInputValue,
+				volumeInputValue,
+				costInputValue,
+				dateInputValue
+			  } = this.state;
+			  
+		if (odometerInputValue && volumeInputValue && costInputValue && dateInputValue) {
+			this.setState({
+				disableUpdateRecord: false
+			})
+		} else {
+			this.setState({
+				disableUpdateRecord: true
+			})
+		}
 	}
 
-	// close = () => {
-	// 	this.setState({ 
-	// 		showModal: false,
-	// 		isInputValid: true,
-	// 		isTextareaValid: true
-	// 	});
-	// }
+	validationField = (evt, isFieldNotValid, fieldValue ) => {
+		if (evt.target.value && !isNaN(evt.target.value)) {
+			this.setState({ 
+				[isFieldNotValid]: false,
+				[fieldValue]: evt.target.value,
+			}, () => this.validationBtn());
+		} else {
+			this.setState({ 
+				[isFieldNotValid]: true,
+				[fieldValue]: "",
+			}, () => this.validationBtn());
+		}
+	}
 
-	// open = () => {
-	// 	this.setState({ showModal: true });
-	// }
-
-	updateRecord = (date, odometer, type, volume, cost) => {
+	updateRecord = (date, odometer, volume, type, cost) => {
 		console.log('updateRecord', this.props)
 			  
 		this.props.updateRecordAction({
@@ -91,23 +102,35 @@ class ModalUpdateRecord extends Component {
 		});
 	}
 
+	handleDayChange = (dateInputValue) => {
+		if (!parseDate(dateInputValue)) {
+			this.setState({
+				isDateInputNotValid: true,
+				dateInputValue: ""
+			}, () => this.validationBtn());
+		} else {
+			this.setState({
+				isDateInputNotValid: false,
+				dateInputValue: dateInputValue
+			}, () => this.validationBtn());
+		}
+	}
+
 	odometerInputValue = (evt) => {
-		this.setState({ 
-			odometerInputValue: evt.target.value
-		});
+		this.validationField(evt, "isOdometerInputNotValid", "odometerInputValue");
 	}
 
 	volumeInputValue = (evt) => {
-		this.setState({ 
-			volumeInputValue: evt.target.value
-		});
+		this.validationField(evt, "isVolumeInputNotValid", "volumeInputValue");
 	}
 
 	costInputValue = (evt) => {
-		this.setState({ 
-			costInputValue: evt.target.value
-		});
+		this.validationField(evt, "isCostInputNotValid", "costInputValue");
 	}
+
+	typeSelectValue = event => {
+		this.setState({ [event.target.name]: event.target.value });
+	};
 
 	// handleModalOpen = () => {
 	// 	this.setState({ showModal: true });
@@ -118,16 +141,19 @@ class ModalUpdateRecord extends Component {
 		this.props.onModalClose();
 	};
 
-	handleSelectChange = event => {
-		this.setState({ [event.target.name]: event.target.value });
-	};
-
 	render() {
 		const { dateInputValue,
 				odometerInputValue,
 				typeSelectValue,
 				volumeInputValue,
-				costInputValue 
+				costInputValue,
+				
+				isDateInputNotValid,
+				isOdometerInputNotValid,
+				isVolumeInputNotValid,
+				isCostInputNotValid,
+
+				disableUpdateRecord
 			} = this.state;
 
 		return (
@@ -135,28 +161,32 @@ class ModalUpdateRecord extends Component {
 				{/* <span onClick={this.handleModalOpen}>
 					Update
 				</span> */}
-				<Dialog
-					className="modal-update-record"
-					open={this.props.showModal}
-					onClose={this.handleModalClose}
-					aria-labelledby={this.props.id}
-				>
+				<Dialog className="modal-update-record"
+						open={this.props.showModal}
+						onClose={this.handleModalClose}
+						aria-labelledby={this.props.id}>
 					<DialogTitle id={this.props.id}>Update record</DialogTitle>
 					<DialogContent>
 						<Grid container spacing={24}>
 							{/* Date */}
 							<Grid item xs={2}>
-								<div className="icon-holder no-label"><DateRangeIcon /></div>
+								<div className="icon-holder"><DateRangeIcon /></div>
 							</Grid>
 							<Grid item xs={10}>
-								<DayPickerInput 
-									value={dateInputValue}
-									onDayChange={this.handleDayChange}
-									dayPickerProps={{ 
-										selectedDays: dateInputValue,
-										disabledDays: {after: new Date()}
-									}}
-								/>
+								<FormControl className={isDateInputNotValid ? "form-control error" : "form-control"}>
+									<InputLabel className="form-control-date">Date</InputLabel>
+									<DayPickerInput formatDate={formatDate}
+													format={DATE_FORMAT}
+													parseDate={parseDate}
+													value={dateInputValue}
+													onDayChange={this.handleDayChange}
+													placeholder={DATE_FORMAT}
+													dayPickerProps={{ 
+														selectedDays: dateInputValue,
+														disabledDays: {after: new Date()}
+													}}/>
+									{isDateInputNotValid ? <FormHelperText>Empty or incorrect format</FormHelperText> : null}
+								</FormControl>
 							</Grid>
 							
 							{/* Odometer */}
@@ -164,11 +194,13 @@ class ModalUpdateRecord extends Component {
 								<div className="icon-holder"><SwapCallsIcon /></div>
 							</Grid>
 							<Grid item xs={10}>
-								<FormControl className="form-control">
-									<InputLabel htmlFor="label-odometer">Odometer:</InputLabel>
+								<FormControl className="form-control" 
+											 error={isOdometerInputNotValid}>
+									<InputLabel htmlFor="label-odometer">Odometer</InputLabel>
 									<Input id="label-odometer"
 										   value={odometerInputValue}
 										   onChange={this.odometerInputValue} />
+									{isOdometerInputNotValid ? <FormHelperText>Only numbers</FormHelperText> : null}
 								</FormControl>
 							</Grid>
 
@@ -177,23 +209,24 @@ class ModalUpdateRecord extends Component {
 								<div className="icon-holder"><LocalGasStationIcon /></div>
 							</Grid>
 							<Grid item xs={5}>
-								<FormControl className="form-control">
-									<InputLabel htmlFor="label-volume">Volume:</InputLabel>
+								<FormControl className="form-control"
+											 error={isVolumeInputNotValid}>
+									<InputLabel htmlFor="label-volume">Volume</InputLabel>
 									<Input id="label-volume"
 										   value={volumeInputValue}
 										   onChange={this.volumeInputValue} />
+									{isVolumeInputNotValid ? <FormHelperText>Only numbers</FormHelperText> : null}
 								</FormControl>
 							</Grid>
 							<Grid item xs={5}>
 								<FormControl className="form-control">
 									<InputLabel htmlFor="label-type">Type</InputLabel>
-									<Select value={typeSelectValue}
-											onChange={this.handleSelectChange}
+									<Select	value={typeSelectValue}
+											onChange={this.typeSelectValue}
 											inputProps={{
 												name: 'typeSelectValue',
 												id: 'label-type',
-											}}
-									>
+											}}>
 										<MenuItem value="A-98">A-98</MenuItem>
 										<MenuItem value="A-95">A-95</MenuItem>
 										<MenuItem value="A-92">A-92</MenuItem>
@@ -208,11 +241,13 @@ class ModalUpdateRecord extends Component {
 								<div className="icon-holder"><AttachMoneyIcon /></div>
 							</Grid>
 							<Grid item xs={10}>
-								<FormControl className="form-control">
-									<InputLabel htmlFor="label-cost">Cost:</InputLabel>
+								<FormControl className="form-control"
+											 error={isCostInputNotValid}>
+									<InputLabel htmlFor="label-cost">Cost</InputLabel>
 									<Input id="label-cost"
 										   value={costInputValue}
 										   onChange={this.costInputValue} />
+									{isCostInputNotValid ? <FormHelperText>Only numbers</FormHelperText> : null}
 								</FormControl>
 							</Grid>
 						</Grid>
@@ -226,12 +261,13 @@ class ModalUpdateRecord extends Component {
 						</Button>
 						<Button variant="fab"
 								color="secondary" 
+								disabled={disableUpdateRecord}
 								onClick={() => {
 									this.updateRecord(
 										dateInputValue.toJSON(),
 										+odometerInputValue,
-										typeSelectValue,
 										+volumeInputValue,
+										typeSelectValue,
 										costInputValue,
 									);
 								}}

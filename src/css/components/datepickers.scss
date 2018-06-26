@@ -51,9 +51,9 @@
         }
     }
 
-    // .DayPickerInput-OverlayWrapper {
-    //     margin-left: 5px;
-    // }
+    .DayPickerInput-OverlayWrapper {
+        margin-top: -28px;
+    }
 
     // .DayPickerInput-Overlay {
     //     margin-top: -1px;
@@ -82,6 +82,11 @@
                 transform: scaleX(1);
                 border-bottom-color: #f44336;
             }
+        }
+
+        > p,
+        > .form-control-date {
+            color: #f44336
         }
     }
 }

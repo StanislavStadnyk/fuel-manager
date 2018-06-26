@@ -7,3 +7,9 @@
 .header-holder {
     justify-content: space-between;
 }
+
+.logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Panel, Button } from 'react-bootstrap';
-import * as FontAwesome from 'react-icons/lib/fa'
-
 import { ModalAddRecord, ModalUpdateRecord } from './modals/index';
 import moment from 'moment';
 import { sortObjectByParam } from '../utils/index';
@@ -11,11 +8,15 @@ import { sortObjectByParam } from '../utils/index';
 import * as ApiServiceActionCreators from '../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
 
-// Mui
+// Mui icons
+import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+
+// Mui items
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+
 
 class Records extends Component {
 	constructor(props) {
@@ -67,60 +68,48 @@ class Records extends Component {
 
 			let date = moment(item.value.date).format('DD.MM.YYYY')
 			return (
-				<li	key={index}>
-					<Panel bsStyle="primary">
-						<Panel.Body>
-							<p>
-								date: {date} <br/>
-								odometer: {item.value.odometer} <br/>
-								volume: {item.value.volume} <br/>
-								type: {item.value.type} <br/>
-								cost: {item.value.cost} <br/>
-							</p>
-							
-							<MenuCustom item={item}
-										index={index}
-										userId={userId} 
-										deleteRecordAction={deleteRecordAction}
-										onBtnUpdateClick={this.handleModalOpen}/>
+				<div className="records-list"
+				     key={index}>
+					<div className="records-holder">
+						<div className="records-frame">
+							<div>
+								<LocalGasStationIcon /> <br/>
+								{item.value.type}
+							</div>
+							<div>
+								{date} <br/>
+								{item.value.cost} Hrn/L <br/>
+							</div>
+							<div>
+								{item.value.odometer} Km <br/>
+								{item.value.volume} L<br/>
+							</div>
+						</div>
+					
+					
+						<MenuCustom item={item}
+									index={index}
+									userId={userId} 
+									deleteRecordAction={deleteRecordAction}
+									onBtnUpdateClick={this.handleModalOpen}/>
+					</div>
 
-							{this.state.modalId === index 
-								? <ModalUpdateRecord onModalClose={this.handleModalClose} 
-													 showModal={this.state.showModal}
-													 updateRecordAction={updateRecordAction}
-													 item={item}
-													 userId={userId}/>
-								: null
-							}
-						</Panel.Body>
-					</Panel>
-				</li>
+					{this.state.modalId === index 
+						? <ModalUpdateRecord onModalClose={this.handleModalClose} 
+												showModal={this.state.showModal}
+												updateRecordAction={updateRecordAction}
+												item={item}
+												userId={userId}/>
+						: null
+					}
+						
+				</div>
 			)
 		})
 
-		// let recordsList = Object.keys(dataRecords).map((item, index) => {
-		// 	let date = moment(dataRecords[item].date).format('DD.MM.YYYY')
-		// 	return (
-		// 			<li	key={index}>
-		// 				<Panel bsStyle="primary">
-		// 					<Panel.Body>
-		// 						date: {date} <br/>
-		// 						odometer: {dataRecords[item].odometer} <br/>
-		// 						volume: {dataRecords[item].volume} <br/>
-		// 						type: {dataRecords[item].type} <br/>
-								
-		// 					</Panel.Body>
-		// 				</Panel>
-		// 			</li>
-		// 		)
-		// 	}
-		// );
-		
 		return (
             <div>
-                <ul className="list-unstyled">
-                    {recordsList}
-                </ul>
+                {recordsList}
 
                 <ModalAddRecord {...this.props}/>
 			</div>
@@ -178,12 +167,11 @@ class MenuCustom extends Component {
 
 		return (
 			<div>
-				<IconButton
-					aria-label="More"
-					aria-owns={anchorEl ? `long-menu-${this.props.item.id}` : null}
-					aria-haspopup="true"
-					onClick={this.handleMenuClick}
-				>
+				<IconButton className="records-btn-menu"
+							aria-label="More"
+							aria-owns={anchorEl ? `long-menu-${this.props.item.id}` : null}
+							aria-haspopup="true"
+							onClick={this.handleMenuClick}>
 					<MoreVertIcon />
 				</IconButton>
 				<Menu

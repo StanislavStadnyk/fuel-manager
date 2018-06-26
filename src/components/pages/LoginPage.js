@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
 
 // Actions
 import { connect } from 'react-redux';
@@ -9,11 +8,11 @@ import { bindActionCreators } from 'redux';
 
 // Mui
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
+// import Divider from '@material-ui/core/Divider';
+// import Input from '@material-ui/core/Input';
+// import InputLabel from '@material-ui/core/InputLabel';
+// import FormHelperText from '@material-ui/core/FormHelperText';
+// import FormControl from '@material-ui/core/FormControl';
 import Snackbar from '@material-ui/core/Snackbar';
 
 // Firebase
@@ -184,9 +183,10 @@ class LoginPage extends Component {
         }
 
         return(
-            <div>
+            <div className="login-page">
                 <Button color="primary" 
-                        variant="outlined"
+                        variant="raised"
+                        size="large"
                         onClick={() => { this.authWithFacebook() }}>
                     Login with Facebook
                 </Button>
@@ -195,8 +195,8 @@ class LoginPage extends Component {
                         onClick={() => { this.authWithGoogle() }}>
                     Login with Google
                 </Button> */}
-                <Divider/>
-                {/* <form onSubmit={(event) => { this.authWithEmailPassword(event)}}
+                {/*<Divider/>
+                 <form onSubmit={(event) => { this.authWithEmailPassword(event)}}
                       ref={(form) => { this.loginForm = form }}>
 
                         <h5>Note</h5>

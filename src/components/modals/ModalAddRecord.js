@@ -43,48 +43,27 @@ class ModalAddRecord extends Component {
 		this.state = { 
 			showModal: false,
 
-			typeInputValue: '',
 			odometerInputValue: '',
 			dateInputValue: new Date(),
 			volumeInputValue: '',
 			costInputValue: '',
-
 			typeSelectValue: 'A-98',
 
-			isTypeInputNotValid: false,
-			isOdometerInputNotValid: false,
 			isDateInputNotValid: false,
+			isOdometerInputNotValid: false,
 			isVolumeInputNotValid: false,
+			isCostInputNotValid: false,
 			
 			disableAddNewRecord: true
 		};
 	}
 
-	handleDayChange = (dateInputValue) => {
-		if (!parseDate(dateInputValue)) {
-			this.setState({
-				isDateInputNotValid: true,
-				dateInputValue: ""
-			}, () => this.validation());
-		} else {
-			this.setState({
-				isDateInputNotValid: false,
-				dateInputValue: dateInputValue
-			}, () => this.validation());
-		}
-	}
-
-	validation = () => {
+	validationBtn = () => {
 		const { odometerInputValue,
-			volumeInputValue,
-			costInputValue,
-			dateInputValue
+				volumeInputValue,
+				costInputValue,
+				dateInputValue
 			  } = this.state;
-
-		console.log( 
-			odometerInputValue,
-			volumeInputValue,
-			costInputValue, dateInputValue)
 			  
 		if (odometerInputValue && volumeInputValue && costInputValue && dateInputValue) {
 			this.setState({
@@ -97,19 +76,21 @@ class ModalAddRecord extends Component {
 		}
 	}
 
-	close = () => {
-		this.setState({ 
-			showModal: false,
-			isInputNotValid: false,
-			isTextareaNotValid: false
-		});
+	validationField = (evt, isFieldNotValid, fieldValue ) => {
+		if (evt.target.value && !isNaN(evt.target.value)) {
+			this.setState({ 
+				[isFieldNotValid]: false,
+				[fieldValue]: evt.target.value,
+			}, () => this.validationBtn());
+		} else {
+			this.setState({ 
+				[isFieldNotValid]: true,
+				[fieldValue]: "",
+			}, () => this.validationBtn());
+		}
 	}
 
-	open = () => {
-		this.setState({ showModal: true });
-	}
-
-	addNewRecord = (date, odometer, type, volume, cost) => {
+	addNewRecord = (date, odometer, volume, type, cost) => {
 		const { ApiServiceActionCreators: { createRecordAction},
 				authorization: { userId }
 			  } = this.props;
@@ -122,66 +103,66 @@ class ModalAddRecord extends Component {
 			"type": type,
 			"cost": cost,
 		});
-	}
 
-	odometerInputValue = (evt) => {
-		if (!evt.target.value) {
-			this.setState({ 
-				isOdometerInputNotValid: true,
-				odometerInputValue: "",
-			}, () => this.validation())
-		} else {
-			this.setState({ 
-				isOdometerInputNotValid: false,
-				odometerInputValue: evt.target.value,
-			}, () => this.validation())
-		}
-	}
-
-	volumeInputValue = (evt) => {
-		if (!evt.target.value) {
-			this.setState({ 
-				isVolumeInputNotValid: true,
-				volumeInputValue: "",
-			}, () => this.validation())
-		} else {
-			this.setState({ 
-				isVolumeInputNotValid: false,
-				volumeInputValue: evt.target.value,
-			}, () => this.validation())
-		}
-	}
-
-	typeInputValue = (evt) => {
-		this.setState({ 
-			typeInputValue: evt.target.value
+		this.setState({
+			showModal: false,
+			disableAddNewRecord: true
 		});
 	}
 
-	costInputValue = (evt) => {
-		if (!evt.target.value) {
-			this.setState({ 
-				isCostInputNotValid: true,
-				costInputValue: "",
-			}, () => this.validation())
+	handleDayChange = (dateInputValue) => {
+		if (!parseDate(dateInputValue)) {
+			this.setState({
+				isDateInputNotValid: true,
+				dateInputValue: ""
+			}, () => this.validationBtn());
 		} else {
-			this.setState({ 
-				isCostInputNotValid: false,
-				costInputValue: evt.target.value,
-			}, () => this.validation())
+			this.setState({
+				isDateInputNotValid: false,
+				dateInputValue: dateInputValue
+			}, () => this.validationBtn());
 		}
 	}
 
+	odometerInputValue = (evt) => {
+		this.validationField(evt, "isOdometerInputNotValid", "odometerInputValue");
+	}
+
+	volumeInputValue = (evt) => {
+		this.validationField(evt, "isVolumeInputNotValid", "volumeInputValue");
+	}
+
+	costInputValue = (evt) => {
+		this.validationField(evt, "isCostInputNotValid", "costInputValue");
+	}
+
+	typeSelectValue = event => {
+		this.setState({ [event.target.name]: event.target.value });
+	};
+
 	handleModalOpen = () => {
-		this.setState({ showModal: true });
+		this.setState({
+			showModal: true,
+		});
 	};
 	
 	handleModalClose = () => {
-		this.setState({ showModal: false });
-	};
+		this.setState({
+			showModal: false,
 
-	handleSelectChange = event => {
-		this.setState({ [event.target.name]: event.target.value });
+			odometerInputValue: '',
+			dateInputValue: new Date(),
+			volumeInputValue: '',
+			costInputValue: '',
+			typeSelectValue: 'A-98',
+
+			isDateInputNotValid: false,
+			isOdometerInputNotValid: false,
+			isVolumeInputNotValid: false,
+			isCostInputNotValid: false,
+
+			disableAddNewRecord: true
+		});
 	};
 
 	render() {
@@ -207,34 +188,31 @@ class ModalAddRecord extends Component {
 						onClick={this.handleModalOpen}>
 					<AddIcon />
 				</Button>
-				<Dialog
-					className="modal-add-record"
-					open={this.state.showModal}
-					onClose={this.handleModalClose}
-					aria-labelledby="form-dialog-title"
-				>
+				<Dialog className="modal-add-record"
+						open={this.state.showModal}
+						onClose={this.handleModalClose}
+						aria-labelledby="form-dialog-title">
 					<DialogTitle id="form-dialog-title">Add new record</DialogTitle>
 					<DialogContent>
 						<Grid container spacing={24}>
 							{/* Date */}
 							<Grid item xs={2}>
-								<div className="icon-holder no-label"><DateRangeIcon /></div>
+								<div className="icon-holder"><DateRangeIcon /></div>
 							</Grid>
 							<Grid item xs={10}>
 								<FormControl className={isDateInputNotValid ? "form-control error" : "form-control"}>
-									<InputLabel className="form-control-date">Date:</InputLabel>
-									<DayPickerInput
-										formatDate={formatDate}
-										format={DATE_FORMAT}
-										parseDate={parseDate}
-										value={dateInputValue}
-										onDayChange={this.handleDayChange}
-										placeholder={DATE_FORMAT}
-										dayPickerProps={{ 
-											selectedDays: dateInputValue,
-											disabledDays: {after: new Date()}
-										}}
-									/>
+									<InputLabel className="form-control-date">Date</InputLabel>
+									<DayPickerInput formatDate={formatDate}
+													format={DATE_FORMAT}
+													parseDate={parseDate}
+													value={dateInputValue}
+													onDayChange={this.handleDayChange}
+													placeholder={DATE_FORMAT}
+													dayPickerProps={{ 
+														selectedDays: dateInputValue,
+														disabledDays: {after: new Date()}
+													}}/>
+									{isDateInputNotValid ? <FormHelperText>Empty or incorrect format</FormHelperText> : null}
 								</FormControl>
 							</Grid>
 							
@@ -243,11 +221,13 @@ class ModalAddRecord extends Component {
 								<div className="icon-holder"><SwapCallsIcon /></div>
 							</Grid>
 							<Grid item xs={10}>
-								<FormControl className="form-control">
-									<InputLabel htmlFor="label-odometer">Odometer:</InputLabel>
+								<FormControl className="form-control" 
+											 error={isOdometerInputNotValid}>
+									<InputLabel htmlFor="label-odometer">Odometer</InputLabel>
 									<Input id="label-odometer"
-										   error={isOdometerInputNotValid}
+										   value={odometerInputValue}
 										   onChange={this.odometerInputValue} />
+									{isOdometerInputNotValid ? <FormHelperText>Only numbers</FormHelperText> : null}
 								</FormControl>
 							</Grid>
 
@@ -256,23 +236,24 @@ class ModalAddRecord extends Component {
 								<div className="icon-holder"><LocalGasStationIcon /></div>
 							</Grid>
 							<Grid item xs={5}>
-								<FormControl className="form-control">
-									<InputLabel htmlFor="label-volume">Volume:</InputLabel>
+								<FormControl className="form-control"
+											 error={isVolumeInputNotValid}>
+									<InputLabel htmlFor="label-volume">Volume</InputLabel>
 									<Input id="label-volume"
-										   error={isVolumeInputNotValid}
+										   value={volumeInputValue}
 										   onChange={this.volumeInputValue} />
+									{isVolumeInputNotValid ? <FormHelperText>Only numbers</FormHelperText> : null}
 								</FormControl>
 							</Grid>
 							<Grid item xs={5}>
 								<FormControl className="form-control">
 									<InputLabel htmlFor="label-type">Type</InputLabel>
 									<Select	value={typeSelectValue}
-											onChange={this.handleSelectChange}
+											onChange={this.typeSelectValue}
 											inputProps={{
 												name: 'typeSelectValue',
 												id: 'label-type',
-											}}
-									>
+											}}>
 										<MenuItem value="A-98">A-98</MenuItem>
 										<MenuItem value="A-95">A-95</MenuItem>
 										<MenuItem value="A-92">A-92</MenuItem>
@@ -287,11 +268,13 @@ class ModalAddRecord extends Component {
 								<div className="icon-holder"><AttachMoneyIcon /></div>
 							</Grid>
 							<Grid item xs={10}>
-								<FormControl className="form-control">
-									<InputLabel htmlFor="label-cost">Cost:</InputLabel>
+								<FormControl className="form-control"
+											 error={isCostInputNotValid}>
+									<InputLabel htmlFor="label-cost">Cost</InputLabel>
 									<Input id="label-cost"
-										   error={isCostInputNotValid}
+										   value={costInputValue}
 										   onChange={this.costInputValue} />
+									{isCostInputNotValid ? <FormHelperText>Only numbers</FormHelperText> : null}
 								</FormControl>
 							</Grid>
 						</Grid>
@@ -310,12 +293,11 @@ class ModalAddRecord extends Component {
 									this.addNewRecord(
 										dateInputValue.toJSON(),
 										+odometerInputValue,
-										typeSelectValue,
 										+volumeInputValue,
+										typeSelectValue,
 										costInputValue,
 									);
-								}}
-						>
+								}}>
 							<DoneIcon />
 						</Button>
 					</DialogActions>
