@@ -47,8 +47,7 @@ class Records extends Component {
 	handleModalClose = () => {
 		//console.log('onModalClose');
 		this.setState({ 
-			showModal: false ,
-			modalId: null
+			showModal: false
 		});
 	};
 
@@ -63,26 +62,48 @@ class Records extends Component {
 
 		let arrRecords = sortObjectByParam(dataRecords, 'odometer');
 
-		let recordsList = arrRecords.map((item, index) => {
-			//console.log(item);
+		// adding of a difference property for each record
+		for (let i = 0; i < arrRecords.length; i++) {
+			let current = arrRecords[i];
+			let prev;
+			let difference = 0;
 
+			if (i < arrRecords.length-1) {
+				prev = arrRecords[i+1];
+				difference = current.value.odometer - prev.value.odometer;
+			}
+
+			arrRecords[i]["value"]["difference"] = difference;
+		}
+
+		let recordsList = arrRecords.map((item, index) => {
 			let date = moment(item.value.date).format('DD.MM.YYYY')
+			
 			return (
-				<div className="records-list"
+				<div className="records-item"
 				     key={index}>
 					<div className="records-holder">
 						<div className="records-frame">
-							<div>
-								<LocalGasStationIcon /> <br/>
+							<div className="records-col-1">
+								<LocalGasStationIcon className="records-icon-station" /> <br/>
 								{item.value.type}
 							</div>
-							<div>
-								{date} <br/>
-								{item.value.cost} Hrn/L <br/>
+							<div className="records-col-2">
+								<strong>{date}</strong> <br/>
+								<span className="records-sub-text">{item.value.cost} Hrn/L </span><br/>
+								
+								<span className="records-sub-text">
+									{item.value.difference === 0 
+										? ((item.value.cost*item.value.volume)/item.value.odometer).toFixed(2)
+										: ((item.value.cost*item.value.volume)/item.value.difference).toFixed(2) 
+									}
+									&nbsp;Hrn/Km
+								</span>
 							</div>
-							<div>
-								{item.value.odometer} Km <br/>
-								{item.value.volume} L<br/>
+							<div className="records-col-3">
+								{item.value.odometer} <span className="records-sub-text">(+{item.value.difference})</span> Km <br/>
+								<span className="records-sub-text">{item.value.cost*item.value.volume} Hrn <br/>
+								{item.value.volume} L<br/></span>
 							</div>
 						</div>
 					
@@ -96,10 +117,10 @@ class Records extends Component {
 
 					{this.state.modalId === index 
 						? <ModalUpdateRecord onModalClose={this.handleModalClose} 
-												showModal={this.state.showModal}
-												updateRecordAction={updateRecordAction}
-												item={item}
-												userId={userId}/>
+											 showModal={this.state.showModal}
+											 updateRecordAction={updateRecordAction}
+											 item={item}
+											 userId={userId}/>
 						: null
 					}
 						
@@ -109,7 +130,9 @@ class Records extends Component {
 
 		return (
             <div>
-                {recordsList}
+				<div className="records-list">
+					{recordsList}
+				</div>
 
                 <ModalAddRecord {...this.props}/>
 			</div>

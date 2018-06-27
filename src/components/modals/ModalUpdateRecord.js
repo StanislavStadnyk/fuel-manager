@@ -100,6 +100,8 @@ class ModalUpdateRecord extends Component {
 			"type": type,
 			"cost": cost,
 		});
+
+		this.handleModalClose();
 	}
 
 	handleDayChange = (dateInputValue) => {

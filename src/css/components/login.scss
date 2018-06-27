@@ -1,5 +1,26 @@
-.login-page {
-    height: calc(100vh - 56px);
-    padding: 50px 0;
-    text-align: center;
+.login {
+    &-page {
+        height: calc(100vh - 56px);
+        padding: 50px 24px;
+        text-align: center;
+        color: $white;
+
+        h1 {
+            font-family: $second-font-family;
+            margin-bottom: 1.5rem;
+    
+            strong {
+                font-size: 2.75rem;
+            }
+        }
+    }
+    
+    &-divider {
+        width: 60%;
+        margin: 0 auto;
+        height: 1px;
+        max-width: 480px;
+        background: $secondary;
+        margin-bottom: 2rem;
+    }
 }

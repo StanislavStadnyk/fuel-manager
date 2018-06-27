@@ -11,6 +11,18 @@ const data = [
       {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
 ];
 
+const customizedLabel = (props) => {
+    const { x, y, value } = props;
+      
+    return (
+      <g>
+        <text x={x} y={y-10} fill="#fff" textAnchor="middle" dominantBaseline="middle">
+          {value}
+        </text>
+      </g>
+    );
+};
+
 class ChartLine extends Component {
 	render () {
         let chartStyle = {
@@ -21,8 +33,8 @@ class ChartLine extends Component {
             <div style={chartStyle}>
                 <ResponsiveContainer>
                     <AreaChart data={data}
-                               margin={{top: 10, right: 20, left: 20, bottom: 10}}>
-                        <CartesianGrid strokeDasharray="3 3"/>
+                               margin={{top: 20, right: 20, left: 20, bottom: 10}}>
+                        {/* <CartesianGrid strokeDasharray="3 3"/> */}
                         {/* <XAxis dataKey="name"/>
                         <YAxis/> */}
                         <Tooltip/>
@@ -31,7 +43,7 @@ class ChartLine extends Component {
                         <Area type="linear" 
                               dataKey="pv" 
                               stroke="#8884d8">
-                            <LabelList dataKey="pv" position="top" />
+                            <LabelList dataKey="pv" position="top" content={customizedLabel} />
                         </Area>
                     </AreaChart>
                 </ResponsiveContainer>

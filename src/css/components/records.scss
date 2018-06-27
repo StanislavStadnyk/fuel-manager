@@ -1,28 +1,66 @@
 .records {
     &-list {
+        padding: 0 0 50px;
+    }
+
+    &-item {
         margin: 10px 0;
         position: relative;
     }
 
     &-btn-menu {
         position: absolute !important;
-        right: 0;
+        right: 2px;
         top: 50%;
-        margin-top: -24px !important;
+        margin-top: -17px !important;
+        color: $white !important;
+        width: 34px !important;
+        height: 34px !important;
     }
 
     &-holder {
-        padding: 10px;
-        background: $white;
+        background: $grey;
         border-radius: 2px;
+        color: $white;
     }
 
     &-frame {
         display: flex;
-        align-items: center;
+        width: calc(100% - 38px);
+        padding: 15px 10px;
+        border-right: 1px solid $black;
 
         > div {
             padding-right: 10px;
+
+            &:last-child {
+                padding-right: 0;
+            }
         }
+    }
+
+    &-col-1 {
+        width: 20%;
+        text-align: center;
+        align-self: center;
+    }
+
+    &-col-2 {
+        width: 40%;
+    }
+
+    &-col-3 {
+        text-align: right;
+        width: 40%;
+    }
+
+    &-icon-station {
+        color: $primary;
+        margin-left: 3px;
+    }
+
+    &-sub-text {
+        color: $light-grey;
+        font-size: 0.85rem;
     }
 }

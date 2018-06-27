@@ -6,9 +6,10 @@ import * as ApiServiceActionCreators from '../../redux/actions/apiService';
 import * as AuthorizationActionCreators from '../../redux/actions/authorization';
 import { bindActionCreators } from 'redux';
 
-// Mui
+// Mui components
 import Button from '@material-ui/core/Button';
-// import Divider from '@material-ui/core/Divider';
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
 // import Input from '@material-ui/core/Input';
 // import InputLabel from '@material-ui/core/InputLabel';
 // import FormHelperText from '@material-ui/core/FormHelperText';
@@ -184,6 +185,12 @@ class LoginPage extends Component {
 
         return(
             <div className="login-page">
+                <h1>
+                    Welcome to <br/> <strong>Fuel Manager</strong>
+                </h1>
+
+                <div className="login-divider"></div>
+                
                 <Button color="primary" 
                         variant="raised"
                         size="large"
@@ -227,7 +234,7 @@ class LoginPage extends Component {
                     Bottom-Center
                 </Button> */}
 
-                <br/>
+                {/* <br/>
 
                 <Snackbar
                     anchorOrigin={{ vertical, horizontal }}
@@ -237,7 +244,7 @@ class LoginPage extends Component {
                         'aria-describedby': 'message-id',
                     }}
                     message={<span id="message-id">Please check Login or Password</span>}
-                />
+                /> */}
             </div>
         )
     }

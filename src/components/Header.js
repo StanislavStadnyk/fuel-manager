@@ -7,13 +7,15 @@ import { SUB_PATH } from '../constants';
 // Icons
 import * as FontAwesome from 'react-icons/lib/fa';
 
-// Mui
+// Mui icons
+import MenuIcon from '@material-ui/icons/Menu';
+
+// Mui components
 import AppBar from '@material-ui/core/AppBar';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 
 class Header extends Component {
     constructor(props) {
@@ -36,32 +38,57 @@ class Header extends Component {
 
 		return (
             <div>
-                <AppBar position="fixed"
+                {/* <AppBar position="fixed"
                         id="header">
                     <Toolbar className="header-holder">
-                        {/* Nav btn */}
+                        
                         {auth
                             ? <IconButton color="inherit" 
-                                        aria-label="Menu"
-                                        onClick={this.toggleDrawer("menuLeft", true)}>
+                                          aria-label="Menu"
+                                          onClick={this.toggleDrawer("menuLeft", true)}>
                                 <MenuIcon />
                             </IconButton>
                             : null
                         }
 
-                        {/* Logo */}
+                        
                         <Typography className="logo"
                                     variant="title">
                             <Link to={`${SUB_PATH}/`}>Fuel Manager</Link>
                         </Typography>
 
-                        {/* Btns */}
+                        
                         {auth
                             ? <Link to={`${SUB_PATH}/logout`}><FontAwesome.FaSignOut /></Link>
                             : null//<Link to={`${SUB_PATH}/login`}>Register/Login</Link>
                         }
                     </Toolbar>
-                </AppBar>
+                </AppBar> */}
+                
+                {auth
+                    ? <AppBar position="fixed"
+                            id="header">
+                        <Toolbar className="header-holder">
+                            {/* Nav btn */}
+                            <IconButton color="inherit" 
+                                        aria-label="Menu"
+                                        onClick={this.toggleDrawer("menuLeft", true)}>
+                            <MenuIcon />
+                        </IconButton>
+
+
+                            {/* Logo */}
+                            <Typography className="logo"
+                                        variant="title">
+                                <Link to={`${SUB_PATH}/`}>Fuel Manager</Link>
+                            </Typography>
+
+                            {/* Btns */}
+                            <Link to={`${SUB_PATH}/logout`}><FontAwesome.FaSignOut /></Link>
+                        </Toolbar>
+                    </AppBar>
+                    : null
+                }
 
                 {/* Sidenav */}
                 <Drawer open={this.state.menuLeft} 

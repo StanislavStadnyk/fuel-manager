@@ -36,7 +36,7 @@ class HomePage extends Component {
 		  data: [],
 		  typeInputValue: '',
 		  distanceInputValue: '',
-		  activeTab: 1,
+		  activeTab: 0,
 
 		  open: true,
 		};
