@@ -23,11 +23,35 @@ const customizedLabel = (props) => {
     );
 };
 
+const customizedMaxLabel = (props) => {
+    const { x, y, width } = props.viewBox;
+
+    console.log(props)
+      
+    return (
+      <g>
+        <text x={width/2} y={y+5} fill="#fff">
+            Max price
+        </text>
+      </g>
+    );
+};
+
 class ChartLine extends Component {
+    // componentDidMount() {
+	// 	const { ApiServiceActionCreators: { getAllRecordsAction },
+	// 			authorization: { userId }
+	// 		  } = this.props;
+	// 	console.log('getAllRecordsAction', this.props);
+	// 	getAllRecordsAction(userId);
+	// }
+
 	render () {
         let chartStyle = {
             height: '300px'
         }
+
+        console.log('ChartLine', this.props);
 
         return (
             <div style={chartStyle}>
@@ -39,7 +63,7 @@ class ChartLine extends Component {
                         <YAxis/> */}
                         <Tooltip/>
                         {/* <Legend /> */}
-                        <ReferenceLine y={9800} label="Max price" stroke="red"/>
+                        <ReferenceLine y={9800} xAxisId="center" label={customizedMaxLabel} stroke="red"/>
                         <Area type="linear" 
                               dataKey="pv" 
                               stroke="#8884d8">

@@ -91,7 +91,7 @@ class HomePage extends Component {
 				{activeTab === 0 && <TabContainer>
 										<div className="grid-container">
 											Main
-											<ChartLine/>
+											<ChartLine {...this.props}/>
 										</div>
 									</TabContainer>}
 				{activeTab === 1 && <TabContainer>
