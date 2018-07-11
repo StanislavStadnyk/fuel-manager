@@ -7,7 +7,6 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { formatDate, parseDate } from "react-day-picker/moment";
 import 'react-day-picker/lib/style.css';
 
-
 import Button from '@material-ui/core/Button';
 
 import Dialog from '@material-ui/core/Dialog';
@@ -44,7 +43,7 @@ class ModalUpdateRecord extends Component {
 			odometerInputValue: props.item.value.odometer,
 			dateInputValue: new Date(props.item.value.date),
 			volumeInputValue: props.item.value.volume,
-			costInputValue: props.item.value.volume,
+			costInputValue: props.item.value.cost,
 			typeSelectValue: props.item.value.type,
 
 			isDateInputNotValid: false,
@@ -141,6 +140,19 @@ class ModalUpdateRecord extends Component {
 	handleModalClose = () => {
 		//this.setState({ showModal: false });
 		this.props.onModalClose();
+
+		this.setState({
+			odometerInputValue: this.props.item.value.odometer,
+			dateInputValue: new Date(this.props.item.value.date),
+			volumeInputValue: this.props.item.value.volume,
+			costInputValue: this.props.item.value.cost,
+			typeSelectValue: this.props.item.value.type,
+
+			isDateInputNotValid: false,
+			isOdometerInputNotValid: false,
+			isVolumeInputNotValid: false,
+			isCostInputNotValid: false,
+		})
 	};
 
 	render() {

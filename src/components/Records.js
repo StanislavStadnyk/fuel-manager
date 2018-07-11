@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { ModalAddRecord, ModalUpdateRecord } from './modals/index';
+// Utils
 import moment from 'moment';
-import { sortObjectByParam } from '../utils/index';
+import { sortObjectByParam, odometerDifference} from '../utils/index';
 
+// Actions
 import * as ApiServiceActionCreators from '../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
 
+// Custom components
+import RecordsMenu from './RecordsMenu';
+import { ModalAddRecord, ModalUpdateRecord } from './modals/index';
+
 // Mui icons
 import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-
-// Mui items
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-
 
 class Records extends Component {
 	constructor(props) {
@@ -32,12 +30,10 @@ class Records extends Component {
 		const { ApiServiceActionCreators: { getAllRecordsAction },
 				authorization: { userId }
 			  } = this.props;
-		console.log('getAllRecordsAction', this.props);
 		getAllRecordsAction(userId);
 	}
 
 	handleModalOpen = (index) => {
-		//console.log('onUpdateClick', index);
 		this.setState({ 
 			showModal: true,
 			modalId: index
@@ -45,7 +41,6 @@ class Records extends Component {
 	};
 
 	handleModalClose = () => {
-		//console.log('onModalClose');
 		this.setState({ 
 			showModal: false
 		});
@@ -63,18 +58,7 @@ class Records extends Component {
 		let arrRecords = sortObjectByParam(dataRecords, 'odometer');
 
 		// adding of a difference property for each record
-		for (let i = 0; i < arrRecords.length; i++) {
-			let current = arrRecords[i];
-			let prev;
-			let difference = 0;
-
-			if (i < arrRecords.length-1) {
-				prev = arrRecords[i+1];
-				difference = current.value.odometer - prev.value.odometer;
-			}
-
-			arrRecords[i]["value"]["difference"] = difference;
-		}
+		arrRecords = odometerDifference(arrRecords)
 
 		let recordsList = arrRecords.map((item, index) => {
 			let date = moment(item.value.date).format('DD.MM.YYYY')
@@ -107,8 +91,7 @@ class Records extends Component {
 							</div>
 						</div>
 					
-					
-						<MenuCustom item={item}
+						<RecordsMenu item={item}
 									index={index}
 									userId={userId} 
 									deleteRecordAction={deleteRecordAction}
@@ -123,7 +106,6 @@ class Records extends Component {
 											 userId={userId}/>
 						: null
 					}
-						
 				</div>
 			)
 		})
@@ -137,83 +119,6 @@ class Records extends Component {
                 <ModalAddRecord {...this.props}/>
 			</div>
 		);
-	}
-}
-
-class MenuCustom extends Component {
-	constructor(props) {
-		super(props)
-
-		this.state = {
-			anchorEl: null,
-			// menuHidden: 'visible',
-			showModal: false
-		};
-	}
-
-	handleMenuClick = event => {
-		this.setState({ 
-			anchorEl: event.currentTarget,
-			// menuHidden: 'visible'
-		});
-	};
-	
-	handleMenuClose = () => {
-		this.setState({ 
-			anchorEl: null,
-			// menuHidden: 'visible'
-		});
-	};
-
-	handleMenuCloseDelete = (obj) => {
-		this.setState({ anchorEl: null });
-		this.props.deleteRecordAction(obj);
-		console.log('obj', obj);
-	};
-
-	// handleMenuCloseUpdate = (obj) => {
-	// 	this.setState({ anchorEl: null });
-	// 	console.log('obj', obj);
-	// };
-
-	// handleMenuHide() {
-	// 	this.setState({ menuHidden: 'hidden'})
-	// }
-
-	onBtnUpdateClick = (index) => {
-		this.setState({ anchorEl: null });
-		this.props.onBtnUpdateClick(index);
-	};
-
-	render() {
-		const { anchorEl, menuHidden } = this.state;
-
-		return (
-			<div>
-				<IconButton className="records-btn-menu"
-							aria-label="More"
-							aria-owns={anchorEl ? `long-menu-${this.props.item.id}` : null}
-							aria-haspopup="true"
-							onClick={this.handleMenuClick}>
-					<MoreVertIcon />
-				</IconButton>
-				<Menu
-					//style={{ visibility: menuHidden}}
-					id={`long-menu-${this.props.item.id}`}
-					anchorEl={anchorEl}
-					open={Boolean(anchorEl)}
-					onClose={this.handleMenuClose}
-				>
-					{/* <MenuItem onClick={() => this.handleMenuHide()}> */}
-					<MenuItem onClick={() => this.onBtnUpdateClick(this.props.index)}>
-						Update
-					</MenuItem>
-					<MenuItem onClick={() => this.handleMenuCloseDelete({record: this.props.item, userId: this.props.userId})}>
-						Delete
-					</MenuItem>
-				</Menu>
-			</div>
-		)
 	}
 }
 

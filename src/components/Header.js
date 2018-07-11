@@ -78,10 +78,9 @@ class Header extends Component {
 
 
                             {/* Logo */}
-                            <Typography className="logo"
-                                        variant="title">
+                            <h2 className="logo">
                                 <Link to={`${SUB_PATH}/`}>Fuel Manager</Link>
-                            </Typography>
+                            </h2>
 
                             {/* Btns */}
                             <Link to={`${SUB_PATH}/logout`}><FontAwesome.FaSignOut /></Link>

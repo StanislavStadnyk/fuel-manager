@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 
 // Content
 import Records from '../Records';
-import { ChartLine } from '../charts/index';
+import MainData from '../MainData';
 
 // Material
 import AppBar from '@material-ui/core/AppBar';
@@ -18,6 +18,7 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+
 
 function TabContainer(props) {
 	return (
@@ -58,7 +59,7 @@ class HomePage extends Component {
 
 	render() {
 		const { records } = this.props;
-		const { activeTab } = this.state;		
+		const { activeTab } = this.state;	
 
 		return (
             <div>
@@ -83,15 +84,15 @@ class HomePage extends Component {
 				<AppBar position="static">
 					<Tabs value={activeTab} 
 						  onChange={this.handleTabChange}>
-						<Tab label="Item One" />
+						<Tab label="Main" />
 						<Tab label="Records" />
 					</Tabs>
 				</AppBar>
 
 				{activeTab === 0 && <TabContainer>
 										<div className="grid-container">
-											Main
-											<ChartLine {...this.props}/>
+											<MainData />
+											{/* <ChartLine/> */}
 										</div>
 									</TabContainer>}
 				{activeTab === 1 && <TabContainer>

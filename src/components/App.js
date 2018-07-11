@@ -162,6 +162,17 @@ class App extends Component {
 	}
 }
 
+const PrivateRoute = ({ component: Component, auth, ...rest }) => {
+	return(<Route
+		{...rest}
+		render={props =>  
+			auth
+				? <Component {...props} />
+				: <Redirect to={`${SUB_PATH}/login`} />
+		}
+	/>
+)};
+
 function mapStateToProps(state) {
 	return {
 		records: state.recordsState,
@@ -176,16 +187,5 @@ function mapDispatchToProps(dispatch) {
 		AuthorizationActionCreators: bindActionCreators(AuthorizationActionCreators, dispatch),
 	};
 }
-
-const PrivateRoute = ({ component: Component, auth, ...rest }) => {
-	return(<Route
-		{...rest}
-		render={props =>  
-			auth
-				? <Component {...props} />
-				: <Redirect to={`${SUB_PATH}/login`} />
-		}
-	/>
-)};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
