@@ -53,7 +53,8 @@ class ChartLine extends Component {
         let chartStyle = {
             height: '140px',
             background: '#424242',
-            fontSize: "10px"
+            fontSize: '10px',
+            margin: '0 -12px'
         }
 
         // const { records: { dataRecords } } = this.props;
@@ -110,7 +111,7 @@ class ChartLine extends Component {
                 <div style={chartStyle}>
                     <ResponsiveContainer>
                         <AreaChart data={this.props.data}
-                                   margin={{top: 20, right: 2, left: 2, bottom: 0}}>
+                                   margin={{top: 20, right: 14, left: 14, bottom: 0}}>
                             {/* <CartesianGrid strokeDasharray="3 3"/> */}
                             {/* <XAxis dataKey="name"/>
                             <YAxis/> */}
