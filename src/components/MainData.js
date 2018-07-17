@@ -66,9 +66,20 @@ class MainData extends Component {
 
         return (
             <div>
+                {/* <div className="main-box">
+                    <div className="heading">
+                        <h2>AVG. Fuel costs</h2>
+                        <span className="avg">
+                            <strong>{avgCost/100 || ""}</strong>
+                            <span>Hrn/Km</span>
+                            <LocalGasStationIcon />
+                        </span>
+                    </div>
+                </div> */}
+
                 <div className="main-box">
                     <div className="heading">
-                        <h2>Travel costs</h2>
+                        <h2>AVG. Travel costs</h2>
                         <span className="avg">
                             <strong>{avgCost/100 || ""}</strong>
                             <span>Hrn/Km</span>
