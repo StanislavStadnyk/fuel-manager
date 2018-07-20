@@ -1,9 +1,18 @@
+html {
+    height: 100%;
+}
+
 body {
     margin: 0;
     padding: 0;
+    height: 100%;
     font-family: sans-serif;
-    background: $black !important;
+    //background: $black !important;
     //overflow-y: auto !important;
+}
+
+#root {
+    height: 100%;
 }
 
 a, 
@@ -20,6 +29,16 @@ button {
 
 .app-wrapper {
     padding-top: 56px;
+    background: $black;
+    max-width: 640px;
+    margin: 0 auto;
+    min-height: 100%;
+
+    &:after {
+        clear: both;
+        content: "";
+        display: block;
+    }
 }
 
 .mb-15 {

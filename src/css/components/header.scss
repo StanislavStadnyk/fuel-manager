@@ -1,4 +1,8 @@
 #header {
+    transform: translateX(-50%);
+    left: 50%;
+    max-width: 640px;
+    
     a {
         color: $white;
     }
