@@ -76,6 +76,7 @@ class MainData extends Component {
         let arrRecords = [];
         
         arrRecords = this.transformData(dataRecords);
+        // arrRecords = [];
 
         if (loading) {
             return <Spinner/>
