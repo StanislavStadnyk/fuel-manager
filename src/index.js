@@ -8,7 +8,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger'
 
 import './css/styles/index.css';
-import App from './components/App';
+import App from './containers/App';
 import reducers from './redux/reducers';
 
 import createHistory from 'history/createBrowserHistory'

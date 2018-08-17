@@ -12,11 +12,11 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 
 // Components
-import Header from './Header';
-import Spinner from './Spinner';
+import Header from '../components/Header';
+import Spinner from '../components/Spinner';
 
-// Mui
-import Snackbar from '@material-ui/core/Snackbar';
+// Mui components
+// import Snackbar from '@material-ui/core/Snackbar';
 
 // Routers
 import { HomePage, 
@@ -24,7 +24,7 @@ import { HomePage,
 		 LogoutPage, 
 		 ProfilePage, 
 		 StationsPage, 
-		 Error404 } from '../components/pages/index';
+		 Error404 } from '../routes/index';
 
 // Constants
 import { SUB_PATH } from '../constants';
@@ -33,7 +33,7 @@ import { SUB_PATH } from '../constants';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 // Firebase
-import { appFire } from './Firebase';
+import { appFire } from '../firebase';
 
 class App extends Component {
 	constructor(props){
@@ -94,7 +94,6 @@ class App extends Component {
 
 		const { authorization: { authenticated }, 
 				users: { newUserId }, 
-				records 
 			  } = this.props;
 
 		if (newUserId) {
@@ -167,7 +166,6 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => {
 
 function mapStateToProps(state) {
 	return {
-		records: state.recordsState,
 		users: state.usersState,
 		authorization: state.authorizationState,
 	};

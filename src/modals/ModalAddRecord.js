@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
 // Constants
-import { DATE_FORMAT } from '../../constants';
+import { DATE_FORMAT } from '../constants';
 
 // Day picker
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import { formatDate, parseDate } from "react-day-picker/moment";
+import { formatDate, parseDate } from 'react-day-picker/moment';
 import 'react-day-picker/lib/style.css';
 
 // Mui components
@@ -29,24 +29,27 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import DoneIcon from '@material-ui/icons/Done';
 import ClearIcon from '@material-ui/icons/Clear';
+import AddIcon from '@material-ui/icons/Add';
 
-class ModalUpdateRecord extends Component {
+class ModalAddRecord extends Component {
 	constructor(props) {
 		super(props);
 		
 		this.state = { 
-			odometerInputValue: props.item.value.odometer,
-			dateInputValue: new Date(props.item.value.date),
-			volumeInputValue: props.item.value.volume,
-			costInputValue: props.item.value.cost,
-			typeSelectValue: props.item.value.type,
+			showModal: false,
+
+			odometerInputValue: '',
+			dateInputValue: new Date(),
+			volumeInputValue: '',
+			costInputValue: '',
+			typeSelectValue: 'A-98',
 
 			isDateInputNotValid: false,
 			isOdometerInputNotValid: false,
 			isVolumeInputNotValid: false,
 			isCostInputNotValid: false,
 			
-			disableUpdateRecord: true
+			disableAddNewRecord: true
 		};
 	}
 
@@ -59,11 +62,11 @@ class ModalUpdateRecord extends Component {
 			  
 		if (odometerInputValue && volumeInputValue && costInputValue && dateInputValue) {
 			this.setState({
-				disableUpdateRecord: false
+				disableAddNewRecord: false
 			})
 		} else {
 			this.setState({
-				disableUpdateRecord: true
+				disableAddNewRecord: true
 			})
 		}
 	}
@@ -82,10 +85,13 @@ class ModalUpdateRecord extends Component {
 		}
 	}
 
-	updateRecord = (date, odometer, volume, type, cost) => {
-		this.props.updateRecordAction({
-			"recordId": this.props.item.id,
-			"userId": this.props.userId,
+	addNewRecord = (date, odometer, volume, type, cost) => {
+		const { ApiServiceActionCreators: { createRecordAction},
+				authorization: { userId }
+			  } = this.props;
+			  
+		createRecordAction({
+			"userId": userId,
 			"date": date,
 			"odometer": odometer,
 			"volume": volume,
@@ -93,7 +99,10 @@ class ModalUpdateRecord extends Component {
 			"cost": cost,
 		});
 
-		this.handleModalClose();
+		this.setState({
+			showModal: false,
+			disableAddNewRecord: true
+		});
 	}
 
 	handleDayChange = (dateInputValue) => {
@@ -126,21 +135,29 @@ class ModalUpdateRecord extends Component {
 		this.setState({ [event.target.name]: event.target.value });
 	};
 
-	handleModalClose = () => {
-		this.props.onModalClose();
-
+	handleModalOpen = () => {
 		this.setState({
-			odometerInputValue: this.props.item.value.odometer,
-			dateInputValue: new Date(this.props.item.value.date),
-			volumeInputValue: this.props.item.value.volume,
-			costInputValue: this.props.item.value.cost,
-			typeSelectValue: this.props.item.value.type,
+			showModal: true,
+		});
+	};
+	
+	handleModalClose = () => {
+		this.setState({
+			showModal: false,
+
+			odometerInputValue: '',
+			dateInputValue: new Date(),
+			volumeInputValue: '',
+			costInputValue: '',
+			typeSelectValue: 'A-98',
 
 			isDateInputNotValid: false,
 			isOdometerInputNotValid: false,
 			isVolumeInputNotValid: false,
 			isCostInputNotValid: false,
-		})
+
+			disableAddNewRecord: true
+		});
 	};
 
 	render() {
@@ -149,22 +166,28 @@ class ModalUpdateRecord extends Component {
 				typeSelectValue,
 				volumeInputValue,
 				costInputValue,
-				
+
 				isDateInputNotValid,
 				isOdometerInputNotValid,
 				isVolumeInputNotValid,
 				isCostInputNotValid,
 
-				disableUpdateRecord
+				disableAddNewRecord
 			} = this.state;
 
 		return (
 			<div>
-				<Dialog className="modal-update-record"
-						open={this.props.showModal}
+				<Button variant="fab"
+						color="secondary"
+						className="btn-add-record"
+						onClick={this.handleModalOpen}>
+					<AddIcon />
+				</Button>
+				<Dialog className="modal-add-record"
+						open={this.state.showModal}
 						onClose={this.handleModalClose}
-						aria-labelledby={this.props.id}>
-					<DialogTitle id={this.props.id}>Update record</DialogTitle>
+						aria-labelledby="form-dialog-title">
+					<DialogTitle id="form-dialog-title">Add new record</DialogTitle>
 					<DialogContent>
 						<Grid container spacing={24}>
 							{/* Date */}
@@ -259,18 +282,17 @@ class ModalUpdateRecord extends Component {
 							<ClearIcon />
 						</Button>
 						<Button variant="fab"
-								color="secondary" 
-								disabled={disableUpdateRecord}
+								color="secondary"
+								disabled={disableAddNewRecord}
 								onClick={() => {
-									this.updateRecord(
+									this.addNewRecord(
 										dateInputValue.toJSON(),
 										+odometerInputValue,
 										+volumeInputValue,
 										typeSelectValue,
 										costInputValue,
 									);
-								}}
-						>
+								}}>
 							<DoneIcon />
 						</Button>
 					</DialogActions>
@@ -280,4 +302,4 @@ class ModalUpdateRecord extends Component {
 	}
 };
 
-export default ModalUpdateRecord;
+export default ModalAddRecord;

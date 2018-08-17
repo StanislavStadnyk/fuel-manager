@@ -13,14 +13,14 @@ import { bindActionCreators } from 'redux';
 import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
 
 // Custom components
-import NoData from './NoData';
-import Spinner from './Spinner';
+import NoData from '../components/NoData';
+import Spinner from '../components/Spinner';
 
 // Modals
-import { ModalAddRecord } from './modals/index';
+import { ModalAddRecord } from '../modals/index';
 
 // Charts
-import { ChartLine } from './charts/index';
+import { ChartLine } from '../charts/index';
 
 // Constants
 import { DATE_FORMAT } from '../constants';

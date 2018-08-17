@@ -2,25 +2,19 @@ import React, { Component } from 'react';
 
 // Actions
 import { connect } from 'react-redux';
-import * as ApiServiceActionCreators from '../../redux/actions/apiService';
-import * as AuthorizationActionCreators from '../../redux/actions/authorization';
+import * as ApiServiceActionCreators from '../redux/actions/apiService';
+import * as AuthorizationActionCreators from '../redux/actions/authorization';
 import { bindActionCreators } from 'redux';
 
 // Mui components
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-// import Input from '@material-ui/core/Input';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import FormHelperText from '@material-ui/core/FormHelperText';
-// import FormControl from '@material-ui/core/FormControl';
-import Snackbar from '@material-ui/core/Snackbar';
+// import Snackbar from '@material-ui/core/Snackbar';
 
 // Firebase
-import { appFire, facebookProvider } from '../Firebase';
+import { appFire, facebookProvider } from '../firebase';
 
 // Contsants
-import { SUB_PATH } from '../../constants';
+import { SUB_PATH } from '../constants';
 
 // Routing
 import { Redirect } from 'react-router-dom';
@@ -30,9 +24,9 @@ class LoginPage extends Component {
 		super(props);
         
         this.state = {
-            open: false,
-            vertical: null,
-            horizontal: null,
+            //open: false,
+            //vertical: null,
+            //horizontal: null,
 
             redirect: false,
         }
@@ -54,7 +48,7 @@ class LoginPage extends Component {
                 } else {
                     const { users: { dataUsers } } = this.props;
                     
-                    console.log('dataUser', dataUsers);
+                    // console.log('dataUser', dataUsers);
                     
                     for (let prop in dataUsers) {
                         if (dataUsers[prop]["email"] === result.user.email) {
@@ -86,7 +80,7 @@ class LoginPage extends Component {
                 }
             })
             .catch(error => {
-                console.log('signInWithPopup(provider)', error);
+                console.log('signInWithPopupError', error);
             })
     }
 
@@ -104,7 +98,7 @@ class LoginPage extends Component {
     };
 
     render() {
-        const { vertical, horizontal, open } = this.state;
+        //const { vertical, horizontal, open } = this.state;
 
         if (this.props.authorization.authenticated) {
             return <Redirect to={`${SUB_PATH}/`} />

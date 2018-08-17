@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Actions
-import * as ApiServiceActionCreators from '../../redux/actions/apiService';
+import * as ApiServiceActionCreators from '../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
 
 // Custom components
-import Records from '../Records';
-import MainData from '../MainData';
+import Records from '../containers/Records';
+import MainData from '../containers/MainData';
 
 // Mui components
 import AppBar from '@material-ui/core/AppBar';

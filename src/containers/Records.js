@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 
 // Utils
 import moment from 'moment';
-import { sortObjectByParam, odometerDifference} from '../utils';
+import { sortObjectByParam, odometerDifference} from '../utils/index';
 
 // Actions
 import * as ApiServiceActionCreators from '../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
 
 // Custom components
-import RecordsMenu from './RecordsMenu';
-import NoData from './NoData';
+import RecordsMenu from '../components/RecordsMenu';
+import NoData from '../components/NoData';
 
 // Modals
-import { ModalAddRecord, ModalUpdateRecord } from './modals';
+import { ModalAddRecord, ModalUpdateRecord } from '../modals/index';
 
 // Mui icons
 import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';

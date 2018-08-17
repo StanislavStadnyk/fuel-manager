@@ -2,20 +2,20 @@ import React, { Component } from 'react';
 
 // Actions
 import { connect } from 'react-redux';
-import * as AuthorizationActionCreators from '../../redux/actions/authorization';
+import * as AuthorizationActionCreators from '../redux/actions/authorization';
 import { bindActionCreators } from 'redux';
 
 // Firebase
-import { appFire } from '../Firebase';
+import { appFire } from '../firebase';
 
 // Constants
-import { SUB_PATH } from '../../constants';
+import { SUB_PATH } from '../constants';
 
 // Routing
 import { Redirect } from 'react-router-dom';
 
 // Custom components 
-import Spinner from '../Spinner';
+import Spinner from '../components/Spinner';
 
 class LogoutPage extends Component {
     componentWillMount = () => {

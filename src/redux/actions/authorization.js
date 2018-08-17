@@ -5,7 +5,6 @@ import {
 
 // UserLoginAction
 export const userLoginAction = (props) => {
-    console.log('userLoginAction', props);
     return {
         type: USER_LOGIN,
         authenticated: true,

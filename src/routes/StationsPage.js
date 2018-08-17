@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import * as ApiServiceActionCreators from '../../redux/actions/apiService';
+import * as ApiServiceActionCreators from '../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
 
-class ProfilePage extends Component {
+class StationsPage extends Component {
 	render() {
 		return (
             <div className="container">
-                Profile PAGE              
+                Stations PAGE              
             </div>
 		);
 	}
@@ -26,4 +26,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
+export default connect(mapStateToProps, mapDispatchToProps)(StationsPage);
