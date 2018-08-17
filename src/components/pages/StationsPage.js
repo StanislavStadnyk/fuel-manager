@@ -16,7 +16,7 @@ class StationsPage extends Component {
 
 function mapStateToProps(state) {
 	return {
-		notices: state.noticesState
+		// notices: state.noticesState
 	};
 }
 

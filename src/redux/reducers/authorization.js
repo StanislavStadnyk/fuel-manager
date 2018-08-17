@@ -1,7 +1,7 @@
 import {
     USER_LOGIN,
     USER_LOGOUT
-} from '../constants';
+} from '../../constants';
 
 const initialState = {
     userId: null,

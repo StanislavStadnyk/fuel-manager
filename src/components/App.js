@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import * as ApiServiceActionCreators from '../redux/actions/apiService';
 import * as AuthorizationActionCreators from '../redux/actions/authorization';
 
-import * as DirectoriesActionCreators from '../redux/actions/directories';
-import * as NoticesActionCreators from '../redux/actions/notices';
 import { bindActionCreators } from 'redux';
 
 // Routing
@@ -20,7 +18,7 @@ import Spinner from './Spinner';
 // Mui
 import Snackbar from '@material-ui/core/Snackbar';
 
-// Pages
+// Routers
 import { HomePage, 
 		 LoginPage, 
 		 LogoutPage, 
@@ -47,8 +45,6 @@ class App extends Component {
 	}
 	
 	componentWillMount = () => {
-		// console.log('App componentWillMount', this.props)
-
 		const { AuthorizationActionCreators: { userLoginAction, userLogoutAction },
 				ApiServiceActionCreators: { getAllUsersAction},
 			  } = this.props;
@@ -59,8 +55,6 @@ class App extends Component {
 		this.removeAuthListener = appFire.auth().onAuthStateChanged((user) => {
 			const { users: { dataUsers } } = this.props;
                     
-			// console.log('dataUser removeAuthListener', dataUsers);
-			// console.log('removeAuthListener', user)
 			if (user) {
 				for (let prop in dataUsers) {
 					if (dataUsers[prop]["email"] === user.email) {
@@ -96,7 +90,6 @@ class App extends Component {
     // };
 
 	render() {
-		//const { directories } = this.props;
 		console.log('App render', this.props);
 
 		const { authorization: { authenticated }, 
@@ -105,7 +98,6 @@ class App extends Component {
 			  } = this.props;
 
 		if (newUserId) {
-			// debugger;
 			window.location.reload();
 		}
 

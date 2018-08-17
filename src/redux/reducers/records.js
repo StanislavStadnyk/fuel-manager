@@ -3,10 +3,11 @@ import {
     RECORDS_FAIL,
     CREATE_RECORD,
     UPDATE_RECORD
-} from '../constants';
+} from '../../constants';
 
 const initialState = {
     error: {},
+    loading: true,
     dataRecords: {}
 }
 
@@ -49,7 +50,8 @@ function records(state = initialState, action) {
         case GET_ALL_RECORDS :
             return {
                 ...state, 
-                dataRecords: action.payload
+                dataRecords: action.payload,
+                loading: false
             };
 
         default:

@@ -17,7 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
 
 // Firebase
-import { appFire, facebookProvider, googleProvider } from '../Firebase';
+import { appFire, facebookProvider } from '../Firebase';
 
 // Contsants
 import { SUB_PATH } from '../../constants';
@@ -86,86 +86,14 @@ class LoginPage extends Component {
                 }
             })
             .catch(error => {
-                // console.log('signInWithPopup(provider)', error);
-
-                //let credential = appFire.auth.GoogleAuthProvidercredential(
-                //    googleUser.getAuthResponse().id_token);
-      
-
-                const email = error.email;
-                appFire.auth().fetchSignInMethodsForEmail(email)
-                    .then(() => {
-                        //console.log('fetchProvidersForEmail', providers)
-                        //console.log('googleProvider', googleProvider)
-
-                        // appFire.auth().signInWithPopup(googleProvider)
-                        //     .catch(error => {
-                        //         console.log('pendingCredCred', error)
-                        //     }
-                        // )
-                        
-                        //googleProvider.addScope('profile');
-                        //googleProvider.addScope('email');
-                        appFire.auth().signInWithRedirect(googleProvider)
-                        // this.setState({
-                        //     redirect: true
-                        // }) 
-                        // appFire.auth().getRedirectResult().then(function(result) {
-                        //         // console.log(result);
-                        //         //alert(result);
-                        //         if (result.credential) {
-                        //             //debugger;
-                        //            // This gives you a Google Access Token.
-                        //            <Redirect to={`${SUB_PATH}/`} />
-                                   
-                                
-                        //         }
-                                
-                        //      })
-                        
-                        
-
-                        // appFire.auth().signInWithRedirect(googleProvider);
-                        // appFire.auth().getRedirectResult().then(function(result) {
-                        //     if (result.credential) {
-                        //       // This gives you a Google Access Token. You can use it to access the Google API.
-                        //       var token = result.credential.accessToken;
-                        //       console.log(result)
-                        //     }
-                        //     // The signed-in user info.
-                        //   })
-
-                        //    appFire.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(token))
-                        //     .then(user => {
-                        //         debugger;
-                        //         // You can now link the pending credential from the first
-                        //         // error.
-                        //         user.linkWithCredential(error.credential)
-                        //     })
-                        
-                    })
-                
+                console.log('signInWithPopup(provider)', error);
             })
-    }
-
-    // GOOGLE
-    authWithGoogle = () => {
-        this.apiAuth(googleProvider);
     }
 
     // FACEBOOK
     authWithFacebook = () => {
         this.apiAuth(facebookProvider);
     }
-
-    // authWithEmailPassword = (event) => {
-    //     event.preventDefault();
-    //     console.log('authWithEmailPassword');
-    //     console.table([{
-    //         email: this.emailInput.value,
-    //         password: this.passwordlInput.value
-    //     }])
-    // }
 
     handleClick = state => () => {
         this.setState({ open: true, ...state });
@@ -177,7 +105,6 @@ class LoginPage extends Component {
 
     render() {
         const { vertical, horizontal, open } = this.state;
-        // console.log('LoginPageProps', this.props)
 
         if (this.props.authorization.authenticated) {
             return <Redirect to={`${SUB_PATH}/`} />
@@ -197,37 +124,7 @@ class LoginPage extends Component {
                         onClick={() => { this.authWithFacebook() }}>
                     Login with Facebook
                 </Button>
-                {/* <Button color="secondary"
-                        variant="outlined"
-                        onClick={() => { this.authWithGoogle() }}>
-                    Login with Google
-                </Button> */}
-                {/*<Divider/>
-                 <form onSubmit={(event) => { this.authWithEmailPassword(event)}}
-                      ref={(form) => { this.loginForm = form }}>
-
-                        <h5>Note</h5>
-                        If you don't have facebook account
-
-                        <FormControl>
-                            <InputLabel htmlFor="label-login-email">Email:</InputLabel>
-                            <input id="label-login-email"
-                                   type="email"
-                                   ref={(input) => { this.emailInput = input}}/>
-                        </FormControl>
-
-                        <br/>
-
-                        <FormControl>
-                            <InputLabel htmlFor="label-login-password">Password:</InputLabel>
-                            <input id="label-login-password"
-                                   type="password"
-                                   ref={(input) => { this.passwordlInput = input}}/>
-                        </FormControl>
-
-                        <input type="submit" value="Log in"/>
-                </form>
-
+                {/* 
                 <br/>
 
                 <Button onClick={this.handleClick({ vertical: 'bottom', horizontal: 'center' })}>

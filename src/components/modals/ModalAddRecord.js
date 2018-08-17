@@ -1,30 +1,25 @@
 import React, { Component } from 'react';
-import { DATE_FORMAT } from '../../constants';
-// import { Button, Modal, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 
-// import moment from 'moment';
+// Constants
+import { DATE_FORMAT } from '../../constants';
+
+// Day picker
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { formatDate, parseDate } from "react-day-picker/moment";
-  
 import 'react-day-picker/lib/style.css';
 
-
+// Mui components
 import Button from '@material-ui/core/Button';
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import Grid from '@material-ui/core/Grid';
 
 // Mui icons

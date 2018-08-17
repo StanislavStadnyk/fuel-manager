@@ -1,24 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+// Actions
 import * as ApiServiceActionCreators from '../../redux/actions/apiService';
 import { bindActionCreators } from 'redux';
 
-// Content
+// Custom components
 import Records from '../Records';
 import MainData from '../MainData';
 
-// Material
+// Mui components
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-
-import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-
 
 function TabContainer(props) {
 	return (
@@ -26,7 +22,7 @@ function TabContainer(props) {
 			{props.children}
 		</Typography>
 	);
-  }
+}
   
 // start HomePage
 class HomePage extends Component {

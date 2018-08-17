@@ -14,7 +14,7 @@ import { SUB_PATH } from '../../constants';
 // Routing
 import { Redirect } from 'react-router-dom';
 
-// Components 
+// Custom components 
 import Spinner from '../Spinner';
 
 class LogoutPage extends Component {

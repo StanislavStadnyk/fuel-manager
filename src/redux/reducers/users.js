@@ -2,7 +2,7 @@ import {
     GET_ALL_USERS,
     USER_FAIL,
     CREATE_USER,
-} from '../constants';
+} from '../../constants';
 
 const initialState = {
     error: {},

@@ -14,7 +14,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AppBar from '@material-ui/core/AppBar';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 
 class Header extends Component {
@@ -38,33 +37,6 @@ class Header extends Component {
 
 		return (
             <div>
-                {/* <AppBar position="fixed"
-                        id="header">
-                    <Toolbar className="header-holder">
-                        
-                        {auth
-                            ? <IconButton color="inherit" 
-                                          aria-label="Menu"
-                                          onClick={this.toggleDrawer("menuLeft", true)}>
-                                <MenuIcon />
-                            </IconButton>
-                            : null
-                        }
-
-                        
-                        <Typography className="logo"
-                                    variant="title">
-                            <Link to={`${SUB_PATH}/`}>Fuel Manager</Link>
-                        </Typography>
-
-                        
-                        {auth
-                            ? <Link to={`${SUB_PATH}/logout`}><FontAwesome.FaSignOut /></Link>
-                            : null//<Link to={`${SUB_PATH}/login`}>Register/Login</Link>
-                        }
-                    </Toolbar>
-                </AppBar> */}
-                
                 {auth
                     ? <AppBar position="fixed"
                             id="header">
@@ -106,7 +78,7 @@ class Header extends Component {
                 </Drawer>
             </div>
 		);
-  }
+    }
 }
 
 export default Header;

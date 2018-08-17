@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 // Utils
 import moment from 'moment';
-import { sortObjectByParam, odometerDifference} from '../utils/index';
+import { sortObjectByParam, odometerDifference} from '../utils';
 
 // Actions
 import * as ApiServiceActionCreators from '../redux/actions/apiService';
@@ -11,7 +11,10 @@ import { bindActionCreators } from 'redux';
 
 // Custom components
 import RecordsMenu from './RecordsMenu';
-import { ModalAddRecord, ModalUpdateRecord } from './modals/index';
+import NoData from './NoData';
+
+// Modals
+import { ModalAddRecord, ModalUpdateRecord } from './modals';
 
 // Mui icons
 import LocalGasStationIcon from '@material-ui/icons/LocalGasStation';
@@ -112,9 +115,12 @@ class Records extends Component {
 
 		return (
             <div>
-				<div className="records-list">
-					{recordsList}
-				</div>
+				{arrRecords.length 
+					? <div className="records-list">
+						{recordsList}
+					</div>
+					: <NoData/>
+				}
 
                 <ModalAddRecord {...this.props}/>
 			</div>
@@ -126,9 +132,6 @@ function mapStateToProps(state) {
 	return {
 		records: state.recordsState,
 		authorization: state.authorizationState,
-		
-		notices: state.noticesState,
-		directories: state.directoriesState
 	};
 }
 

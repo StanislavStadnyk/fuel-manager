@@ -67,6 +67,15 @@ const customTheme = createMuiTheme({
 			action: {
 				minWidth: 0
 			}
+		},
+		MuiTab: {
+			textColorInherit: {
+				opacity: 1
+			},
+			labelContainer: {
+				paddingLeft: '20px',
+				paddingRight: '20px'
+			}
 		}
 	},
 });

@@ -7,7 +7,7 @@ body {
     padding: 0;
     height: 100%;
     font-family: sans-serif;
-    //background: $black !important;
+    background: $black !important;
     //overflow-y: auto !important;
 }
 
@@ -79,4 +79,66 @@ button {
         color: $primary;
         text-transform: uppercase;
     }
+
+    .last-refueling {
+        padding: 10px 0 0;
+
+        p {
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.2rem;
+        }
+    }
+}
+
+.fuel-columns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+
+    .result,
+    .number,
+    .title {
+        display: block;
+    }
+
+    .title {
+        padding-bottom: 10px;
+    }
+
+    .number {
+        width: 80px;
+        height: 80px;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .result {
+        color: $light-grey;
+        padding-top: 10px;
+        font-size: 0.85rem;
+    }
+
+    .avg-col {
+        .number {
+            background: $secondary;
+        }
+    }
+
+    .last-col {
+        .number {
+            background: $primary;
+        }
+    }
+
+    .text-col {
+        padding: 0 10px;
+    }
+}
+
+.text-grey {
+    color: $light-grey;
 }
