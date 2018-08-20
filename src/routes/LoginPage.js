@@ -40,7 +40,7 @@ class LoginPage extends Component {
         getAllUsersAction();
         let userId;
 
-        appFire.auth().signInWithPopup(provider)
+        appFire.auth().signInWithRedirect(provider)
             .then((result, error) => {
                 if (error) {
                     // alert(1);
