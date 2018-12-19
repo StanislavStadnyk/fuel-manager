@@ -1,66 +1,66 @@
 .records {
-    &-list {
-        padding: 0 0 50px;
-    }
+  &-list {
+    padding: 0 0 50px;
+  }
 
-    &-item {
-        margin: 12px 0;
-        position: relative;
-    }
+  &-item {
+    margin: 12px 0;
+    position: relative;
+  }
 
-    &-btn-menu {
-        position: absolute !important;
-        right: 2px;
-        top: 50%;
-        margin-top: -17px !important;
-        color: $white !important;
-        width: 30px !important;
-        height: 30px !important;
-    }
+  &-btn-menu {
+    position: absolute !important;
+    right: 2px;
+    top: 50%;
+    margin-top: -17px !important;
+    color: $white !important;
+    width: 30px !important;
+    height: 30px !important;
+  }
 
-    &-holder {
-        background: $grey;
-        border-radius: 2px;
-        color: $white;
-    }
+  &-holder {
+    background: $grey;
+    border-radius: 2px;
+    color: $white;
+  }
 
-    &-frame {
-        display: flex;
-        width: calc(100% - 34px);
-        padding: 12px 7px;
-        border-right: 1px solid $black;
+  &-frame {
+    display: flex;
+    width: calc(100% - 34px);
+    padding: 12px 7px;
+    border-right: 1px solid $black;
 
-        > div {
-            padding-right: 5px;
-            font-size: 0.85rem;
-            line-height: 1.4rem;
+    > div {
+      padding-right: 5px;
+      font-size: 0.85rem;
+      line-height: 1.4rem;
 
-            &:first-child {
-                width: 20%;
-                text-align: center;
-                align-self: center;
-                font-size: 0.8rem;
-            }
-
-            &:last-child {
-                padding-right: 0;
-                text-align: right;
-                width: 45%;
-            }
-        }
-    }
-
-    &-col-2 {
-        width: 35%;
-    }
-
-    &-icon-station {
-        color: $primary;
-        margin-left: 3px;
-    }
-
-    &-sub-text {
-        color: $light-grey;
+      &:first-child {
+        width: 20%;
+        text-align: center;
+        align-self: center;
         font-size: 0.8rem;
+      }
+
+      &:last-child {
+        padding-right: 0;
+        text-align: right;
+        width: 45%;
+      }
     }
+  }
+
+  &-col-2 {
+    width: 35%;
+  }
+
+  &-icon-station {
+    color: $primary;
+    margin-left: 3px;
+  }
+
+  &-sub-text {
+    color: $light-grey;
+    font-size: 0.8rem;
+  }
 }

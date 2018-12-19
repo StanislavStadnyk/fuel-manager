@@ -1,43 +1,45 @@
-import React, { Component } from 'react';
-import { Button, Modal, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import React, { Component } from 'react'
+import { Button, Modal, Tooltip, OverlayTrigger } from 'react-bootstrap'
 
 const tooltipSave = (
 	<Tooltip id="tooltip">Confirmation</Tooltip>
-);
+)
 const tooltipCancel = (
 	<Tooltip id="tooltip">Cancel</Tooltip>
-);
+)
 
 class ModalConfirmation extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 		
 		this.state = { 
 			showModal: false,
-		};
+		}
 	}
 
 	close = () => {
-		this.setState({ showModal: false });
+		this.setState({ showModal: false })
 	}
 
 	open = () => {
-		this.setState({ showModal: true });
+		this.setState({ showModal: true })
 	}
 
 	render() {
-		const { modalFunction, 
-				modalBtnStyle, 
-				modalBtnNoStyle, 
-			    modalBtnIcon, 
-			    modalTooltip, 
-			    modalText
-			  } = this.props;
+		const {
+      modalFunction, 
+      modalBtnStyle, 
+      modalBtnNoStyle, 
+      modalBtnIcon, 
+      modalTooltip, 
+      modalText
+    } = this.props
 		
 		return (
 			<div style={{display: "inline-block"}}>
-				<OverlayTrigger placement="top" 
-								overlay={modalTooltip}>
+				<OverlayTrigger
+          placement="top" 
+					overlay={modalTooltip}>
 					<Button bsSize="xsmall"
 							bsStyle={modalBtnStyle}
 							className={modalBtnNoStyle}
@@ -67,8 +69,8 @@ class ModalConfirmation extends Component {
 					</Modal.Footer>
 				</Modal>
 			</div>
-		);
+		)
 	}
-};
+}
 
-export default ModalConfirmation;
+export default ModalConfirmation

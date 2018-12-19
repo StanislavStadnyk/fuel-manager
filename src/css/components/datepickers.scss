@@ -1,92 +1,92 @@
 .DayPickerInput {
-    display: block !important;
-    position: relative;
-    margin-top: 16px;
-    font-size: 1.1428571428571428rem;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    line-height: 1.1875em;
-    color: rgba(0, 0, 0, 0.87);
+  display: block !important;
+  position: relative;
+  margin-top: 16px;
+  font-size: 1.1428571428571428rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  line-height: 1.1875em;
+  color: rgba(0, 0, 0, 0.87);
 
-    &:before {
-        left: 0;
-        color: transparent;
-        right: 0;
-        bottom: 0;
-        content: "need text here to prevent subpixel zoom issue";
-        position: absolute;
-        transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.42);
-        pointer-events: none;
+  &:before {
+    left: 0;
+    color: transparent;
+    right: 0;
+    bottom: 0;
+    content: "need text here to prevent subpixel zoom issue";
+    position: absolute;
+    transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+    pointer-events: none;
+  }
+
+  &:after {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: "";
+    position: absolute;
+    transform: scaleX(0);
+    transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+    border-bottom: 2px solid #303f9f;
+    pointer-events: none;
+  }
+
+  > input {
+    width: 100%;
+    font: inherit;
+    color: currentColor;
+    border: 0;
+    margin: 0;
+    padding: 6px 0 7px;
+    display: block;
+    min-width: 0;
+    flex-grow: 1;
+    box-sizing: content-box;
+    background: none;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus {
+      outline: none;
     }
+  }
 
-    &:after {
-        left: 0;
-        right: 0;
-        bottom: 0;
-        content: "";
-        position: absolute;
-        transform: scaleX(0);
-        transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
-        border-bottom: 2px solid #303f9f;
-        pointer-events: none;
-    }
+  .DayPickerInput-OverlayWrapper {
+    margin-top: -28px;
+  }
 
-    > input {
-        width: 100%;
-        font: inherit;
-        color: currentColor;
-        border: 0;
-        margin: 0;
-        padding: 6px 0 7px;
-        display: block;
-        min-width: 0;
-        flex-grow: 1;
-        box-sizing: content-box;
-        background: none;
-        vertical-align: middle;
-        -webkit-tap-highlight-color: transparent;
+  // .DayPickerInput-Overlay {
+  //   margin-top: -1px;
+  //   right: 0;
+  //   left: -46px;    
+  //   max-width: 216px;
+  // }
 
-        &:focus {
-            outline: none;
-        }
-    }
+  .DayPicker-Month {
+    margin-left: 0.35rem;
+    margin-right: 0.35rem;
+    font-size: 12px;
+  }
 
-    .DayPickerInput-OverlayWrapper {
-        margin-top: -28px;
-    }
-
-    // .DayPickerInput-Overlay {
-    //     margin-top: -1px;
-    //     right: 0;
-    //     left: -46px;        
-    //     max-width: 216px;
-    // }
-
-    .DayPicker-Month {
-        margin-left: 0.35rem;
-        margin-right: 0.35rem;
-        font-size: 12px;
-    }
-
-    .DayPicker-Day, 
-    .DayPicker-WeekNumber {
-        padding: 0.25rem;
-        line-height: 1.25rem;
-    }
+  .DayPicker-Day, 
+  .DayPicker-WeekNumber {
+    padding: 0.25rem;
+    line-height: 1.25rem;
+  }
 }
 
 .form-control {
-    &.error {
-        .DayPickerInput {
-            &:after {
-                transform: scaleX(1);
-                border-bottom-color: #f44336;
-            }
-        }
-
-        > p,
-        > .form-control-date {
-            color: #f44336
-        }
+  &.error {
+    .DayPickerInput {
+      &:after {
+        transform: scaleX(1);
+        border-bottom-color: #f44336;
+      }
     }
+
+  > p,
+    > .form-control-date {
+      color: #f44336
+    }
+  }
 }

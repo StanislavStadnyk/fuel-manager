@@ -1,158 +1,160 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 // Actions
-import { connect } from 'react-redux';
-import * as ApiServiceActionCreators from '../redux/actions/apiService';
-import * as AuthorizationActionCreators from '../redux/actions/authorization';
-import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux'
+import * as ApiServiceActionCreators from '../redux/actions/apiService'
+import * as AuthorizationActionCreators from '../redux/actions/authorization'
+import { bindActionCreators } from 'redux'
 
 // Mui components
-import Button from '@material-ui/core/Button';
-// import Snackbar from '@material-ui/core/Snackbar';
+import Button from '@material-ui/core/Button'
+// import Snackbar from '@material-ui/core/Snackbar'
 
 // Firebase
-import { appFire, facebookProvider } from '../firebase';
+import { appFire, facebookProvider } from '../firebase'
 
 // Contsants
-import { SUB_PATH } from '../constants';
+import { SUB_PATH } from '../constants'
 
 // Routing
-import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
 
 class LoginPage extends Component {
-    constructor(props) {
-		super(props);
-        
-        this.state = {
-            //open: false,
-            //vertical: null,
-            //horizontal: null,
+  constructor(props) {
+  super(props)
+    this.state = {
+      //open: false,
+      //vertical: null,
+      //horizontal: null,
 
-            redirect: false,
-        }
+      redirect: false
     }
+  }
 
-    apiAuth = (provider) => {
-        const { AuthorizationActionCreators: { userLoginAction }, 
-                ApiServiceActionCreators: { createUserAction, getAllUsersAction} 
-              } = this.props;
+  apiAuth = provider => {
+    const {
+      AuthorizationActionCreators: { userLoginAction }, 
+      ApiServiceActionCreators: { createUserAction, getAllUsersAction} 
+    } = this.props
 
-        getAllUsersAction();
-        let userId;
+    getAllUsersAction()
+    let userId
 
-        appFire.auth().signInWithRedirect(provider)
-            .then((result, error) => {
-                if (error) {
-                    // alert(1);
-                    // this.handleClick({ vertical: 'bottom', horizontal: 'center' });
-                } else {
-                    const { users: { dataUsers } } = this.props;
-                    
-                    // console.log('dataUser', dataUsers);
-                    
-                    for (let prop in dataUsers) {
-                        if (dataUsers[prop]["email"] === result.user.email) {
-                            userId = prop;
-                        }
-                    }
+    appFire.auth().signInWithRedirect(provider)
+        .then((result, error) => {
+          if (error) {
+              // alert(1)
+              // this.handleClick({ vertical: 'bottom', horizontal: 'center' })
+          } else {
+            const { users: { dataUsers } } = this.props
+            
+            // console.log('dataUser', dataUsers)
+            
+            for (let prop in dataUsers) {
+              if (dataUsers[prop]["email"] === result.user.email) {
+                  userId = prop
+              }
+            }
 
-                    if (userId) {
-                        // Login
-                        // console.log('user exists', userId);
-                        userLoginAction({ userId: userId, data: result.user});
+            if (userId) {
+              // Login
+              // console.log('user exists', userId)
+              userLoginAction({ userId: userId, data: result.user})
 
-                        // this.setState({
-                        //     redirect: true
-                        // })  
-                    }
+              // this.setState({
+              //     redirect: true
+              // })  
+            }
 
-                    else {
-                        // Create and login
-                        // console.log('user has been created');
-                        createUserAction(result.user);
-                        userLoginAction({ userId: userId, data: result.user});
-                        //getAllUsersAction();
-                        
-                        // this.setState({
-                        //     redirect: true
-                        // })  
-                    }
-                }
-            })
-            .catch(error => {
-                console.log('signInWithPopupError', error);
-            })
-    }
-
-    // FACEBOOK
-    authWithFacebook = () => {
-        this.apiAuth(facebookProvider);
-    }
-
-    handleClick = state => () => {
-        this.setState({ open: true, ...state });
-      };
-    
-    handleClose = () => {
-        this.setState({ open: false });
-    };
-
-    render() {
-        //const { vertical, horizontal, open } = this.state;
-
-        if (this.props.authorization.authenticated) {
-            return <Redirect to={`${SUB_PATH}/`} />
-        }
-
-        return(
-            <div className="login-page">
-                <h1>
-                    Welcome to <br/> <strong>Fuel Manager</strong>
-                </h1>
-
-                <div className="login-divider"></div>
+            else {
+                // Create and login
+                // console.log('user has been created')
+                createUserAction(result.user)
+                userLoginAction({ userId: userId, data: result.user})
+                //getAllUsersAction()
                 
-                <Button color="primary" 
-                        variant="raised"
-                        size="large"
-                        onClick={() => { this.authWithFacebook() }}>
-                    Login with Facebook
-                </Button>
-                {/* 
-                <br/>
+                // this.setState({
+                //     redirect: true
+                // })  
+            }
+          }
+        })
+        .catch(error => {
+            console.log('signInWithPopupError', error)
+        })
+  }
 
-                <Button onClick={this.handleClick({ vertical: 'bottom', horizontal: 'center' })}>
-                    Bottom-Center
-                </Button> */}
+  // FACEBOOK
+  authWithFacebook = () => {
+      this.apiAuth(facebookProvider)
+  }
 
-                {/* <br/>
-
-                <Snackbar
-                    anchorOrigin={{ vertical, horizontal }}
-                    open={open}
-                    onClose={this.handleClose}
-                    ContentProps={{
-                        'aria-describedby': 'message-id',
-                    }}
-                    message={<span id="message-id">Please check Login or Password</span>}
-                /> */}
-            </div>
-        )
+  handleClick = state => () => {
+      this.setState({ open: true, ...state })
     }
+  
+  handleClose = () => {
+      this.setState({ open: false })
+  }
+
+  render() {
+    //const { vertical, horizontal, open } = this.state
+
+    if (this.props.authorization.authenticated) {
+        return <Redirect to={`${SUB_PATH}/`} />
+    }
+
+    return(
+      <div className="login-page">
+        <h1>
+            Welcome to <br/> <strong>Fuel Manager</strong>
+        </h1>
+
+        <div className="login-divider"></div>
+        
+        <Button
+          color="primary" 
+          variant="raised"
+          size="large"
+          onClick={() => { this.authWithFacebook() }}
+        >
+            Login with Facebook
+        </Button>
+        {/* 
+        <br/>
+
+        <Button onClick={this.handleClick({ vertical: 'bottom', horizontal: 'center' })}>
+            Bottom-Center
+        </Button> */}
+
+        {/* <br/>
+
+        <Snackbar
+            anchorOrigin={{ vertical, horizontal }}
+            open={open}
+            onClose={this.handleClose}
+            ContentProps={{
+                'aria-describedby': 'message-id',
+            }}
+            message={<span id="message-id">Please check Login or Password</span>}
+        /> */}
+      </div>
+    )
+  }
 }
 
 function mapStateToProps(state) {
 	return {
-        authorization: state.authorizationState,
-        users: state.usersState,
-	};
+    authorization: state.authorizationState,
+    users: state.usersState
+	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-        ApiServiceActionCreators: bindActionCreators(ApiServiceActionCreators, dispatch),
-		AuthorizationActionCreators: bindActionCreators(AuthorizationActionCreators, dispatch),
-	};
+    ApiServiceActionCreators: bindActionCreators(ApiServiceActionCreators, dispatch),
+		AuthorizationActionCreators: bindActionCreators(AuthorizationActionCreators, dispatch)
+	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)

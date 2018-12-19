@@ -1,15 +1,15 @@
 .modal-update-record,
 .modal-add-record {
-    .form-control,
-    input {
-        width: 100%;
-    }
+  .form-control,
+  input {
+    width: 100%;
+  }
 
-    .icon-holder {
-        margin-top: 22px;
+  .icon-holder {
+    margin-top: 22px;
 
-        &.no-label {
-            margin-top: 2px;
-        }
+    &.no-label {
+      margin-top: 2px;
     }
+  }
 }

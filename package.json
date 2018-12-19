@@ -22,7 +22,6 @@
     "react-autocomplete": "^1.7.2",
     "react-bootstrap": "^0.32.1",
     "react-day-picker": "^7.1.9",
-    "react-dnd": "^2.5.4",
     "react-dnd-html5-backend": "^2.5.4",
     "react-dom": "16.3.0",
     "react-icons": "^2.2.7",

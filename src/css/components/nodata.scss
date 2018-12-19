@@ -1,11 +1,11 @@
 .no-data {
-    display: flex;
-    height: calc(100vh - 104px);
-    justify-content: center;
-    align-items: center;
-    color: $grey2;
+  display: flex;
+  height: calc(100vh - 104px);
+  justify-content: center;
+  align-items: center;
+  color: $grey2;
 
-    p {
-        margin: 0;
-    }
+  p {
+    margin: 0;
+  }
 }
