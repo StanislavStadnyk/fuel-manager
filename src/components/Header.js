@@ -36,7 +36,7 @@ class Header extends Component {
     const { auth } = this.props
 
     return (
-      <div>
+      <div className='main-header'>
         {auth
           ? <AppBar 
               position='fixed'

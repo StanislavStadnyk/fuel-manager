@@ -19,7 +19,7 @@ import Snackbar from '@material-ui/core/Snackbar'
 
 function TabContainer(props) {
 	return (
-		<Typography component="div">
+		<Typography component='div'>
 			{props.children}
 		</Typography>
 	)
@@ -34,7 +34,7 @@ class HomePage extends Component {
 		  data: [],
 		  typeInputValue: '',
 		  distanceInputValue: '',
-		  activeTab: 2,
+		  activeTab: 0,
 
 		  open: true
 		}
@@ -59,7 +59,7 @@ class HomePage extends Component {
 		const { activeTab } = this.state	
 
 		return (
-      <div>
+      <div className='d-flex fd-column w-100'>
 				{
 					records.error.isError
 						? <Snackbar
@@ -73,37 +73,51 @@ class HomePage extends Component {
                 ContentProps={{
                   'aria-describedby': 'message-error-request',
                 }}
-                message={<span id="message-error-request">{records.error.request}</span>}
+                message={<span id='message-error-request'>{records.error.request}</span>}
 							/>
 						: null
 				}
 
-				<AppBar position="static">
+				<AppBar position='static'>
 					<Tabs
               value={activeTab} 
 						  onChange={this.handleTabChange}>
-						<Tab label="Main" />
-						<Tab label="Records" />
-            <Tab label="Details" />
+						<Tab label='Main' />
+						<Tab label='Records' />
+            <Tab label='Details' />
 					</Tabs>
 				</AppBar>
 
-				{activeTab === 0 && <TabContainer>
-                              <div className="grid-container">
-                                <MainData />
-                                {/* <ChartLine/> */}
-                              </div>
-                            </TabContainer>}
-				{activeTab === 1 && <TabContainer>
-                              <div className="grid-container">
-                                <Records/>
-                              </div>
-                            </TabContainer>}
-        {activeTab === 2 && <TabContainer>
-                              <div className="grid-container">
-                                <Details />
-                              </div>
-                            </TabContainer>}
+				{activeTab === 0 && 
+					<div className='f-auto'>
+						<TabContainer>
+							<div className='grid-container'>
+								<MainData />
+								{/* <ChartLine/> */}
+							</div>
+						</TabContainer>
+					</div>
+				}
+
+				{activeTab === 1 && 
+					<div className='f-auto'>
+						<TabContainer>
+							<div className='grid-container'>
+								<Records/>
+							</div>
+						</TabContainer>
+					</div>
+				}
+
+				{activeTab === 2 && 
+					<div className='f-auto'>
+						<TabContainer>
+							<div className='grid-container'>
+								<Details />
+							</div>
+						</TabContainer>
+					</div>
+				}
       </div>
 		)
 	}

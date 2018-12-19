@@ -32,13 +32,7 @@ button {
   background: $black;
   max-width: 640px;
   margin: 0 auto;
-  min-height: 100%;
-
-  &:after {
-    clear: both;
-    content: "";
-    display: block;
-  }
+  height: 100%;
 }
 
 .mb-15 {

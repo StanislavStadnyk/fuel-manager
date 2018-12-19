@@ -182,7 +182,7 @@ class MainData extends Component {
               </p>
               <p>
                 {lastVolume}L <span className='text-grey'>by </span>
-                {lastCost}Hrn/L <span className='text-grey'> - {lastVolume * lastCost}Hrn</span>
+                {lastCost}Hrn/L <span className='text-grey'> - {(lastVolume * lastCost).toFixed(2)}Hrn</span>
               </p>
             </div>
         </div>

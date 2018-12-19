@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react'
 
 // Actions
@@ -25,7 +26,8 @@ import {
   LogoutPage, 
   ProfilePage, 
   StationsPage, 
-  Error404 } from '../routes/index'
+  Error404
+} from '../routes/index'
 
 // Constants
 import { SUB_PATH } from '../constants'
@@ -37,53 +39,53 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { appFire } from '../firebase';
 
 class App extends Component {
-	constructor(props){
-		super(props)
+  constructor(props){
+    super(props)
 
-		this.state = {
-			loading: true
-		}
-	}
-	
-	componentDidMount = () => {
-		const { 
+    this.state = {
+      loading: true
+    }
+  }
+  
+  componentDidMount = () => {
+    const { 
       AuthorizationActionCreators: { userLoginAction, userLogoutAction },
-			ApiServiceActionCreators: { getAllUsersAction}
-		} = this.props
+      ApiServiceActionCreators: { getAllUsersAction}
+    } = this.props
 
-		getAllUsersAction()
-		let userId
+    getAllUsersAction()
+    let userId
 
-		this.removeAuthListener = appFire.auth().onAuthStateChanged((user) => {
-			const { users: { dataUsers } } = this.props
+    this.removeAuthListener = appFire.auth().onAuthStateChanged((user) => {
+      const { users: { dataUsers } } = this.props
                     
-			if (user) {
-				for (let prop in dataUsers) {
-					if (dataUsers[prop]['email'] === user.email) {
-						userId = prop;
-					}
-				}
+      if (user) {
+        for (let prop in dataUsers) {
+          if (dataUsers[prop]['email'] === user.email) {
+            userId = prop;
+          }
+        }
 
-				userLoginAction({ userId: userId, data: user})
+        userLoginAction({ userId: userId, data: user})
 
-				this.setState({
-					loading: false
-				})
-			} else {
-				userLogoutAction();
+        this.setState({
+          loading: false
+        })
+      } else {
+        userLogoutAction();
 
-				this.setState({
-					loading: false
-				})
-			}
-		})
-	}
+        this.setState({
+          loading: false
+        })
+      }
+    })
+  }
 
-	componentWillUnmount = () => {
-		this.removeAuthListener()
-	}
+  componentWillUnmount = () => {
+    this.removeAuthListener()
+  }
 
-	// handleSnackClick = state => () => {
+  // handleSnackClick = state => () => {
     //     this.setState({ open: true, ...state });
     //   };
     
@@ -91,33 +93,33 @@ class App extends Component {
     //     this.setState({ open: false });
     // };
 
-	render() {
-		console.log('App render', this.props);
+  render() {
+    console.log('App render', this.props);
 
-		const { 
+    const { 
       authorization: { authenticated }, 
-			users: { newUserId }
-		} = this.props
+      users: { newUserId }
+    } = this.props
 
-		if (newUserId) {
-			window.location.reload();
-		}
+    if (newUserId) {
+      window.location.reload();
+    }
 
-		if (!this.state.loading) {
-			return <Spinner />
-		}
-		
-		return (
-			<ConnectedRouter history={this.props.history}>
-				<div className='app-wrapper'>
-					<CssBaseline />
-					<Header auth={ authenticated }/>
+    if (this.state.loading) {
+      return <Spinner />
+    }
+    
+    return (
+      <ConnectedRouter history={this.props.history}>
+        <div className='app-wrapper'>
+          <CssBaseline />
+          <Header auth={ authenticated } />
 
-					<Switch>
-						<Route path={`${SUB_PATH}/login`} component={LoginPage}/>
-						<Route path={`${SUB_PATH}/logout`} component={LogoutPage}/>
-						
-						<PrivateRoute
+          <Switch>
+            <Route path={`${SUB_PATH}/login`} component={LoginPage} />
+            <Route path={`${SUB_PATH}/logout`} component={LogoutPage} />
+            
+            <PrivateRoute
               exact 
               auth={ authenticated } 
               path={`${SUB_PATH}/`} 
@@ -134,55 +136,55 @@ class App extends Component {
               auth={ authenticated } 
               path='*' 
               component={Error404}/>
-					</Switch>
+          </Switch>
 
-					{/* {
-						records.error.isError
-							? <AppBar position='static' 
-									style={{ padding: 20, marginBottom: 20 }}>
-								<h4>{records.error.request}</h4>
-							</AppBar>
-							: null
-					}
+          {/* {
+            records.error.isError
+              ? <AppBar position='static' 
+                  style={{ padding: 20, marginBottom: 20 }}>
+                <h4>{records.error.request}</h4>
+              </AppBar>
+              : null
+          }
 
-					<Snackbar
-						anchorOrigin={{ vertical, horizontal }}
-						open={open}
-						onClose={this.handleClose}
-						ContentProps={{
-							'aria-describedby': 'message-id',
-						}}
-						message={<span id='message-id'>Please check Login or Password</span>}
-					/> */}
-				</div>
-		  </ConnectedRouter>
-		)
-	}
+          <Snackbar
+            anchorOrigin={{ vertical, horizontal }}
+            open={open}
+            onClose={this.handleClose}
+            ContentProps={{
+              'aria-describedby': 'message-id',
+            }}
+            message={<span id='message-id'>Please check Login or Password</span>}
+          /> */}
+        </div>
+      </ConnectedRouter>
+    )
+  }
 }
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => {
-	return(<Route
-		{...rest}
-		render={props =>  
-			auth
-				? <Component {...props} />
-				: <Redirect to={`${SUB_PATH}/login`} />
-		}
-	/>
+  return(<Route
+    {...rest}
+    render={props =>  
+      auth
+        ? <Component {...props} />
+        : <Redirect to={`${SUB_PATH}/login`} />
+    }
+  />
 )}
 
 function mapStateToProps(state) {
-	return {
-		users: state.usersState,
-		authorization: state.authorizationState
-	}
+  return {
+    users: state.usersState,
+    authorization: state.authorizationState
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-	return {
-		ApiServiceActionCreators: bindActionCreators(ApiServiceActionCreators, dispatch),
-		AuthorizationActionCreators: bindActionCreators(AuthorizationActionCreators, dispatch)
-	}
+  return {
+    ApiServiceActionCreators: bindActionCreators(ApiServiceActionCreators, dispatch),
+    AuthorizationActionCreators: bindActionCreators(AuthorizationActionCreators, dispatch)
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

@@ -51,7 +51,7 @@ class LoginPage extends Component {
             // console.log('dataUser', dataUsers)
             
             for (let prop in dataUsers) {
-              if (dataUsers[prop]["email"] === result.user.email) {
+              if (dataUsers[prop]['email'] === result.user.email) {
                   userId = prop
               }
             }
@@ -105,17 +105,17 @@ class LoginPage extends Component {
     }
 
     return(
-      <div className="login-page">
+      <div className='login-page'>
         <h1>
             Welcome to <br/> <strong>Fuel Manager</strong>
         </h1>
 
-        <div className="login-divider"></div>
+        <div className='login-divider'></div>
         
         <Button
-          color="primary" 
-          variant="raised"
-          size="large"
+          color='primary' 
+          variant='raised'
+          size='large'
           onClick={() => { this.authWithFacebook() }}
         >
             Login with Facebook
@@ -136,7 +136,7 @@ class LoginPage extends Component {
             ContentProps={{
                 'aria-describedby': 'message-id',
             }}
-            message={<span id="message-id">Please check Login or Password</span>}
+            message={<span id='message-id'>Please check Login or Password</span>}
         /> */}
       </div>
     )

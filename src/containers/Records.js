@@ -70,20 +70,20 @@ class Records extends Component {
 			
     return (
       <div 
-        className="records-item"
+        className='records-item'
         key={index}
       >
-        <div className="records-holder">
-          <div className="records-frame">
-            <div className="records-col-1">
-              <LocalGasStationIcon className="records-icon-station" /> <br/>
+        <div className='records-holder'>
+          <div className='records-frame'>
+            <div className='records-col-1'>
+              <LocalGasStationIcon className='records-icon-station' /> <br/>
               {item.value.type}
             </div>
-            <div className="records-col-2">
+            <div className='records-col-2'>
               <strong>{date}</strong> <br/>
-              <span className="records-sub-text">{item.value.cost} Hrn/L </span><br/>
+              <span className='records-sub-text'>{item.value.cost} Hrn/L </span><br/>
               
-              <span className="records-sub-text">
+              <span className='records-sub-text'>
                 {item.value.difference === 0 
                   ? ((item.value.cost*item.value.volume)/item.value.odometer).toFixed(2)
                   : ((item.value.cost*item.value.volume)/item.value.difference).toFixed(2) 
@@ -91,9 +91,9 @@ class Records extends Component {
                 &nbsp;Hrn/Km
               </span>
             </div>
-            <div className="records-col-3">
-              {item.value.odometer} <span className="records-sub-text">(+{item.value.difference})</span> Km <br/>
-              <span className="records-sub-text">{item.value.cost*item.value.volume} Hrn <br/>
+            <div className='records-col-3'>
+              {item.value.odometer} <span className='records-sub-text'>(+{item.value.difference})</span> Km <br/>
+              <span className='records-sub-text'>{(item.value.cost * item.value.volume).toFixed(2)} Hrn <br/>
               {item.value.volume} L<br/></span>
             </div>
           </div>
@@ -124,7 +124,7 @@ class Records extends Component {
 	  return (
       <div>
         {arrRecords.length 
-          ? <div className="records-list">
+          ? <div className='records-list'>
               {recordsList}
             </div>
           : <NoData/>
